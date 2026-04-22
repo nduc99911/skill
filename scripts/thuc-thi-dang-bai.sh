@@ -172,6 +172,13 @@ generate_storytelling(){
   [ -z "${seed_topic// }" ] && seed_topic="$notes"
   [ -z "${seed_topic// }" ] && seed_topic="Cân bằng cuộc sống và bình yên tâm trí"
 
+  # System-wide constraints for all pages
+  local constraints="BẮT BUỘC: 
+  1. Chỉ sử dụng tiếng Việt 100%, tuyệt đối không dùng tiếng Anh. 
+  2. Không sử dụng dấu asterisk (*) để nhấn mạnh hay liệt kê. 
+  3. Không chèn các đề mục thừa như 'CTA', 'Chuyển đổi', 'Gợi ý', 'Tóm lại', 'Quote hay'. 
+  4. Viết liền mạch, tự nhiên như người thật chia sẻ, không phân tách khung sườn máy móc."
+
   if [ "$mode" = "ENGAGE" ]; then
     log "--- Đang thực hiện Research chủ đề đời sống cho ENGAGE: $seed_topic ---"
     local research_nuggets
@@ -182,6 +189,7 @@ generate_storytelling(){
 Chủ đề: $seed_topic. 
 Dữ liệu: $research_nuggets. 
 Style: Chân thành, tâm sự, 'mình/bạn', đời thường. 
+$constraints
 KHÔNG được nhắc đến từ 'sách', 'đọc', 'tác giả' hay bất kỳ việc bán hàng nào. 
 Mục tiêu: Người đọc thấy mình trong đó, muốn comment chia sẻ hoặc share bài về tường. 
 Kết bài: Câu hỏi mở cực 'chạm'."
@@ -194,9 +202,13 @@ Kết bài: Câu hỏi mở cực 'chạm'."
     log "--- Viết bài $mode cho $page_name ---"
     local prompt
     if [ "$mode" = "AFF" ]; then
-      prompt="Viết bài Facebook AFF cho page '$page_name', 350-550 chữ. Sách: $seed_topic. Dữ liệu: $research_nuggets. Cấu trúc: Hook -> Struggle -> Encounter -> Transformation -> Recommendation -> CTA (link ở cmt)."
+      prompt="Viết bài Facebook AFF cho page '$page_name', 350-550 chữ. Sách: $seed_topic. Dữ liệu: $research_nuggets. Cấu trúc: Hook -> Struggle -> Encounter -> Transformation -> Recommendation. 
+      $constraints
+      Lưu ý: Link mua hàng sẽ được nhắc khéo ở comment, không cần CTA lộ liễu trong bài."
     else
-      prompt="Viết bài Facebook VIRAL cho page '$page_name'. Sách: $seed_topic. Dữ liệu: $research_nuggets. KHÔNG bán hàng, chỉ chia sẻ cảm xúc và bài học từ sách để tăng share/save."
+      prompt="Viết bài Facebook VIRAL cho page '$page_name'. Sách: $seed_topic. Dữ liệu: $research_nuggets. 
+      $constraints
+      KHÔNG bán hàng, chỉ chia sẻ cảm xúc và bài học từ sách để tăng share/save."
     fi
     cf_llm "You are a professional storytelling copywriter." "$prompt"
   fi
