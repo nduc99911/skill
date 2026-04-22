@@ -1,0 +1,32 @@
+{
+  "history": [
+    {
+      "page_id": "1135415682984698",
+      "product_id": "BK105",
+      "post_type": "direct_sell",
+      "posted_at": "2026-04-20T15:02:11+07:00",
+      "caption_fingerprint": "bk105-triet-ly-nguoi-xua-direct-1"
+    },
+    {
+      "page_id": "1099385626592219",
+      "product_id": "BK105",
+      "post_type": "direct_sell",
+      "posted_at": "2026-04-20T15:04:30+07:00",
+      "caption_fingerprint": "bk105-triet-ly-co-nhan-direct-1"
+    },
+    {
+      "page_id": "1077631882095947",
+      "product_id": "BK106",
+      "post_type": "direct_sell",
+      "posted_at": "2026-04-19T20:27:14+07:00",
+      "caption_fingerprint": "bk106-tu-sach-direct-1"
+    },
+    {
+      "page_id": "1124935547358731",
+      "product_id": "BK106",
+      "post_type": "direct_sell",
+      "posted_at": "2026-04-19T20:27:17+07:00",
+      "caption_fingerprint": "bk106-tram-doc-direct-1"
+    }
+  ]
+}
