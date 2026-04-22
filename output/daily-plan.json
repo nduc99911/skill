@@ -1,156 +1,325 @@
 {
-  "generated_at": "2026-04-22T22:56:49.317115",
+  "generated_at": "2026-04-22T23:04:13.361266+07:00",
+  "timezone": "Asia/Ho_Chi_Minh",
+  "schedule_day_mode": "tomorrow_all_today_slots_passed",
   "publish_mode": false,
-  "date": "2026-04-22",
+  "date": "2026-04-23",
+  "errors": [],
   "posts": [
     {
       "page_id": "1135415682984698",
       "page_name": "Triết lý người xưa",
       "post_type": "soft_content",
-      "product_id": "BK114",
-      "product_title": "Đi Tìm Lẽ Sống",
-      "scheduled_time": "2026-04-22 08:30",
-      "caption": "Có những cuốn sách không đọc để biết thêm, mà đọc để hiểu mình hơn.\n\nĐi Tìm Lẽ Sống là kiểu sách như vậy: nhẹ nhàng nhưng đủ sâu để mình dừng lại, nhìn lại cách sống và cách đối xử với chính mình.\n\nNếu dạo này bạn muốn chậm lại một chút để sắp xếp lại tâm trí, có thể tham khảo cuốn này.\n\nTham khảo tại đây: https://shopee.vn/product/BK114\n#trietlysong #cophuong #baihoccuocsong\nlink affiliate",
-      "affiliate_link": "https://shopee.vn/product/BK114",
+      "product_id": "BK102",
+      "product_title": "Đắc Nhân Tâm",
+      "scheduled_time": "2026-04-23 08:30",
+      "caption": "Nếu bạn muốn một cuốn sách dễ đọc nhưng áp dụng được ngay vào đời sống, Đắc Nhân Tâm là lựa chọn đáng tiền.\n\nNội dung rõ, không dài dòng, phù hợp đọc mỗi ngày 15-20 phút.\n\nXem chi tiết: https://shopee.vn/product/BK102\n#trietlysong #cophuong #baihoccuocsong\nlink affiliate",
+      "affiliate_link": "https://shopee.vn/product/BK102",
       "status": "ready_to_publish",
       "meta": {
-        "caption_fingerprint": "d70f42fe9b2deb72",
-        "publish_mode": false
+        "caption_fingerprint": "238b670ba5521490",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 1,
+          "soft_ratio": 0.0,
+          "direct_ratio": 1.0,
+          "weights": {
+            "soft_content": 2.2,
+            "direct_sell": 0.0,
+            "listicle": 0.7
+          },
+          "slot_index": 0
+        },
+        "caption_similarity": {
+          "max_similarity": 0.0,
+          "threshold": 0.75,
+          "template_count": 5
+        }
       }
     },
     {
       "page_id": "1135415682984698",
       "page_name": "Triết lý người xưa",
-      "post_type": "direct_sell",
-      "product_id": "BK105",
-      "product_title": "Muôn Kiếp Nhân Sinh",
-      "scheduled_time": "2026-04-22 20:00",
-      "caption": "Nếu bạn đang tìm một cuốn sách vừa dễ đọc vừa có giá trị áp dụng ngay, Muôn Kiếp Nhân Sinh là lựa chọn rất đáng cân nhắc.\n\nNội dung thực tế, rõ ràng, đọc xong có thể áp dụng từng ý nhỏ vào cuộc sống hằng ngày.\n\nMình để link tham khảo bên dưới cho bạn nào cần.\n\nTham khảo tại đây: https://shopee.vn/product/BK105\n#trietlysong #cophuong #baihoccuocsong\nlink affiliate",
-      "affiliate_link": "https://shopee.vn/product/BK105",
+      "post_type": "soft_content",
+      "product_id": "BK115",
+      "product_title": "Khéo Ăn Nói Sẽ Có Được Thiên Hạ",
+      "scheduled_time": "2026-04-23 20:00",
+      "caption": "Có những ngày lòng nặng mà không gọi tên được. Những lúc như vậy, Khéo Ăn Nói Sẽ Có Được Thiên Hạ thường giúp mình bình tâm lại và nhìn mọi thứ rõ hơn.\n\nNếu bạn cũng đang cần một khoảng lặng, có thể xem thử.\nhttps://shopee.vn/product/BK115\n#trietlysong #cophuong #baihoccuocsong\nlink affiliate",
+      "affiliate_link": "https://shopee.vn/product/BK115",
       "status": "ready_to_publish",
       "meta": {
-        "caption_fingerprint": "b5aebebac02be44a",
-        "publish_mode": false
+        "caption_fingerprint": "a3852f2ecf43c34e",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 0,
+          "soft_ratio": 0.5,
+          "direct_ratio": 0.5,
+          "weights": {
+            "soft_content": 1.2,
+            "direct_sell": 1.0,
+            "listicle": 0.7
+          },
+          "slot_index": 1
+        },
+        "caption_similarity": {
+          "max_similarity": 0.2987,
+          "threshold": 0.75,
+          "template_count": 5
+        }
       }
     },
     {
       "page_id": "1099385626592219",
       "page_name": "Triết Lý Cổ Nhân",
-      "post_type": "soft_content",
-      "product_id": "BK114",
-      "product_title": "Đi Tìm Lẽ Sống",
-      "scheduled_time": "2026-04-22 09:00",
-      "caption": "Có những cuốn sách không đọc để biết thêm, mà đọc để hiểu mình hơn.\n\nĐi Tìm Lẽ Sống là kiểu sách như vậy: nhẹ nhàng nhưng đủ sâu để mình dừng lại, nhìn lại cách sống và cách đối xử với chính mình.\n\nNếu dạo này bạn muốn chậm lại một chút để sắp xếp lại tâm trí, có thể tham khảo cuốn này.\n\nTham khảo tại đây: https://shopee.vn/product/BK114\n#trietlyconhan #nhansinh #songsang\nlink affiliate",
-      "affiliate_link": "https://shopee.vn/product/BK114",
-      "status": "ready_to_publish",
-      "meta": {
-        "caption_fingerprint": "d1563c5340cb3588",
-        "publish_mode": false
-      }
-    },
-    {
-      "page_id": "1099385626592219",
-      "page_name": "Triết Lý Cổ Nhân",
-      "post_type": "direct_sell",
-      "product_id": "BK117",
-      "product_title": "Sức Mạnh Của Hiện Tại",
-      "scheduled_time": "2026-04-22 19:45",
-      "caption": "Nếu bạn đang tìm một cuốn sách vừa dễ đọc vừa có giá trị áp dụng ngay, Sức Mạnh Của Hiện Tại là lựa chọn rất đáng cân nhắc.\n\nNội dung thực tế, rõ ràng, đọc xong có thể áp dụng từng ý nhỏ vào cuộc sống hằng ngày.\n\nMình để link tham khảo bên dưới cho bạn nào cần.\n\nTham khảo tại đây: https://shopee.vn/product/BK117\n#trietlyconhan #nhansinh #songsang\nlink affiliate",
-      "affiliate_link": "https://shopee.vn/product/BK117",
-      "status": "ready_to_publish",
-      "meta": {
-        "caption_fingerprint": "6a9755ae0e3b0a31",
-        "publish_mode": false
-      }
-    },
-    {
-      "page_id": "1077631882095947",
-      "page_name": "Tủ Sách Thay Đổi Tư Duy",
-      "post_type": "soft_content",
-      "product_id": "BK107",
-      "product_title": "Càng Kỷ Luật Càng Tự Do",
-      "scheduled_time": "2026-04-22 08:45",
-      "caption": "Có những cuốn sách không đọc để biết thêm, mà đọc để hiểu mình hơn.\n\nCàng Kỷ Luật Càng Tự Do là kiểu sách như vậy: nhẹ nhàng nhưng đủ sâu để mình dừng lại, nhìn lại cách sống và cách đối xử với chính mình.\n\nNếu dạo này bạn muốn chậm lại một chút để sắp xếp lại tâm trí, có thể tham khảo cuốn này.\n\nTham khảo tại đây: https://shopee.vn/product/BK107\n#thaydoituduy #phattrienbanthan #docsachmoingay\nlink affiliate",
-      "affiliate_link": "https://shopee.vn/product/BK107",
-      "status": "ready_to_publish",
-      "meta": {
-        "caption_fingerprint": "1e86577ec0031486",
-        "publish_mode": false
-      }
-    },
-    {
-      "page_id": "1077631882095947",
-      "page_name": "Tủ Sách Thay Đổi Tư Duy",
-      "post_type": "direct_sell",
-      "product_id": "BK102",
-      "product_title": "Đắc Nhân Tâm",
-      "scheduled_time": "2026-04-22 20:15",
-      "caption": "Nếu bạn đang tìm một cuốn sách vừa dễ đọc vừa có giá trị áp dụng ngay, Đắc Nhân Tâm là lựa chọn rất đáng cân nhắc.\n\nNội dung thực tế, rõ ràng, đọc xong có thể áp dụng từng ý nhỏ vào cuộc sống hằng ngày.\n\nMình để link tham khảo bên dưới cho bạn nào cần.\n\nTham khảo tại đây: https://shopee.vn/product/BK102\n#thaydoituduy #phattrienbanthan #docsachmoingay\nlink affiliate",
-      "affiliate_link": "https://shopee.vn/product/BK102",
-      "status": "ready_to_publish",
-      "meta": {
-        "caption_fingerprint": "8a32ce4464f4f0e4",
-        "publish_mode": false
-      }
-    },
-    {
-      "page_id": "1124935547358731",
-      "page_name": "Trạm Đọc Chữa Lành",
-      "post_type": "soft_content",
-      "product_id": "BK101",
-      "product_title": "Hiểu Về Trái Tim",
-      "scheduled_time": "2026-04-22 10:15",
-      "caption": "Có những cuốn sách không đọc để biết thêm, mà đọc để hiểu mình hơn.\n\nHiểu Về Trái Tim là kiểu sách như vậy: nhẹ nhàng nhưng đủ sâu để mình dừng lại, nhìn lại cách sống và cách đối xử với chính mình.\n\nNếu dạo này bạn muốn chậm lại một chút để sắp xếp lại tâm trí, có thể tham khảo cuốn này.\n\nTham khảo tại đây: https://shopee.vn/product/BK101\n#chualanh #tamyen #tramdoc\nlink affiliate",
-      "affiliate_link": "https://shopee.vn/product/BK101",
-      "status": "ready_to_publish",
-      "meta": {
-        "caption_fingerprint": "593cd5f2c0d814e2",
-        "publish_mode": false
-      }
-    },
-    {
-      "page_id": "1124935547358731",
-      "page_name": "Trạm Đọc Chữa Lành",
-      "post_type": "direct_sell",
-      "product_id": "BK106",
-      "product_title": "Không Diệt Không Sinh Đừng Sợ Hãi",
-      "scheduled_time": "2026-04-22 21:00",
-      "caption": "Nếu bạn đang tìm một cuốn sách vừa dễ đọc vừa có giá trị áp dụng ngay, Không Diệt Không Sinh Đừng Sợ Hãi là lựa chọn rất đáng cân nhắc.\n\nNội dung thực tế, rõ ràng, đọc xong có thể áp dụng từng ý nhỏ vào cuộc sống hằng ngày.\n\nMình để link tham khảo bên dưới cho bạn nào cần.\n\nTham khảo tại đây: https://shopee.vn/product/BK106\n#chualanh #tamyen #tramdoc\nlink affiliate",
-      "affiliate_link": "https://shopee.vn/product/BK106",
-      "status": "ready_to_publish",
-      "meta": {
-        "caption_fingerprint": "a11e8948b40e53f3",
-        "publish_mode": false
-      }
-    },
-    {
-      "page_id": "1124354747418012",
-      "page_name": "Sự Thật Là",
       "post_type": "soft_content",
       "product_id": "BK111",
       "product_title": "Dám Bị Ghét",
-      "scheduled_time": "2026-04-22 14:00",
-      "caption": "Có những cuốn sách không đọc để biết thêm, mà đọc để hiểu mình hơn.\n\nDám Bị Ghét là kiểu sách như vậy: nhẹ nhàng nhưng đủ sâu để mình dừng lại, nhìn lại cách sống và cách đối xử với chính mình.\n\nNếu dạo này bạn muốn chậm lại một chút để sắp xếp lại tâm trí, có thể tham khảo cuốn này.\n\nTham khảo tại đây: https://shopee.vn/product/BK111\n#suthatla #gocnhinthucte #tamlyhoc\nlink affiliate",
+      "scheduled_time": "2026-04-23 09:00",
+      "caption": "Không phải cuốn nào cũng khiến mình dừng lại để suy nghĩ, nhưng Dám Bị Ghét làm được điều đó.\n\nĐọc xong thấy cách mình đối diện cảm xúc cũng khác đi một chút.\n\nTham khảo: https://shopee.vn/product/BK111\n#trietlyconhan #nhansinh #songsang\nlink affiliate",
       "affiliate_link": "https://shopee.vn/product/BK111",
       "status": "ready_to_publish",
       "meta": {
-        "caption_fingerprint": "244db7588f5322f1",
-        "publish_mode": false
+        "caption_fingerprint": "5084e94d0d1d8c82",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 1,
+          "soft_ratio": 0.0,
+          "direct_ratio": 1.0,
+          "weights": {
+            "soft_content": 2.2,
+            "direct_sell": 0.0
+          },
+          "slot_index": 0
+        },
+        "caption_similarity": {
+          "max_similarity": 0.2777,
+          "threshold": 0.75,
+          "template_count": 5
+        }
+      }
+    },
+    {
+      "page_id": "1099385626592219",
+      "page_name": "Triết Lý Cổ Nhân",
+      "post_type": "soft_content",
+      "product_id": "BK101",
+      "product_title": "Hiểu Về Trái Tim",
+      "scheduled_time": "2026-04-23 19:45",
+      "caption": "Gợi ý nhanh cho bạn đang muốn đọc để nâng chất lượng sống:\n1) Hiểu Về Trái Tim\n2) Một cuốn cùng chủ đề\n3) Một cuốn giúp áp dụng thực tế\n\nBắt đầu từ cuốn số 1 tại đây: https://shopee.vn/product/BK101\n#trietlyconhan #nhansinh #songsang\nlink affiliate",
+      "affiliate_link": "https://shopee.vn/product/BK101",
+      "status": "ready_to_publish",
+      "meta": {
+        "caption_fingerprint": "b3a539887b350cad",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 0,
+          "soft_ratio": 0.5,
+          "direct_ratio": 0.5,
+          "weights": {
+            "soft_content": 1.2,
+            "direct_sell": 1.0
+          },
+          "slot_index": 1
+        },
+        "caption_similarity": {
+          "max_similarity": 0.2798,
+          "threshold": 0.75,
+          "template_count": 5
+        }
+      }
+    },
+    {
+      "page_id": "1077631882095947",
+      "page_name": "Tủ Sách Thay Đổi Tư Duy",
+      "post_type": "direct_sell",
+      "product_id": "BK118",
+      "product_title": "Đừng Lựa Chọn An Nhàn Khi Còn Trẻ",
+      "scheduled_time": "2026-04-23 08:45",
+      "caption": "Đôi khi thứ mình cần không phải thêm một lời khuyên, mà là một cuốn sách đủ sâu để nhìn lại chính mình.\n\nĐừng Lựa Chọn An Nhàn Khi Còn Trẻ là cuốn như vậy: đọc chậm, ngẫm kỹ, rồi tự thấy nhẹ hơn.\n\nBạn có thể tham khảo tại đây: https://shopee.vn/product/BK118\n#thaydoituduy #phattrienbanthan #docsachmoingay\nlink affiliate",
+      "affiliate_link": "https://shopee.vn/product/BK118",
+      "status": "ready_to_publish",
+      "meta": {
+        "caption_fingerprint": "cee53ea6dd7ebfe6",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 1,
+          "soft_ratio": 0.0,
+          "direct_ratio": 1.0,
+          "weights": {
+            "soft_content": 2.2,
+            "direct_sell": 1.0,
+            "listicle": 0.7
+          },
+          "slot_index": 0
+        },
+        "caption_similarity": {
+          "max_similarity": 0.2463,
+          "threshold": 0.75,
+          "template_count": 5
+        }
+      }
+    },
+    {
+      "page_id": "1077631882095947",
+      "page_name": "Tủ Sách Thay Đổi Tư Duy",
+      "post_type": "soft_content",
+      "product_id": "BK112",
+      "product_title": "Atomic Habits",
+      "scheduled_time": "2026-04-23 20:15",
+      "caption": "Gợi ý nhanh cho bạn đang muốn đọc để nâng chất lượng sống:\n1) Atomic Habits\n2) Một cuốn cùng chủ đề\n3) Một cuốn giúp áp dụng thực tế\n\nBắt đầu từ cuốn số 1 tại đây: https://shopee.vn/product/BK112\n#thaydoituduy #phattrienbanthan #docsachmoingay\nlink affiliate",
+      "affiliate_link": "https://shopee.vn/product/BK112",
+      "status": "ready_to_publish",
+      "meta": {
+        "caption_fingerprint": "4944706e10606516",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 2,
+          "soft_ratio": 0.0,
+          "direct_ratio": 1.0,
+          "weights": {
+            "soft_content": 2.2,
+            "direct_sell": 0.0,
+            "listicle": 0.7
+          },
+          "slot_index": 1
+        },
+        "caption_similarity": {
+          "max_similarity": 0.7538,
+          "threshold": 0.75,
+          "fallback": true,
+          "template_count": 5
+        }
+      }
+    },
+    {
+      "page_id": "1124935547358731",
+      "page_name": "Trạm Đọc Chữa Lành",
+      "post_type": "soft_content",
+      "product_id": "BK113",
+      "product_title": "Quẳng Gánh Lo Đi Và Vui Sống",
+      "scheduled_time": "2026-04-23 10:15",
+      "caption": "Gợi ý nhanh cho bạn đang muốn đọc để nâng chất lượng sống:\n1) Quẳng Gánh Lo Đi Và Vui Sống\n2) Một cuốn cùng chủ đề\n3) Một cuốn giúp áp dụng thực tế\n\nBắt đầu từ cuốn số 1 tại đây: https://shopee.vn/product/BK113\n#chualanh #tamyen #tramdoc\nlink affiliate",
+      "affiliate_link": "https://shopee.vn/product/BK113",
+      "status": "ready_to_publish",
+      "meta": {
+        "caption_fingerprint": "165482d9b1d4ff06",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 1,
+          "soft_ratio": 0.0,
+          "direct_ratio": 1.0,
+          "weights": {
+            "soft_content": 2.2,
+            "direct_sell": 0.0
+          },
+          "slot_index": 0
+        },
+        "caption_similarity": {
+          "max_similarity": 0.7482,
+          "threshold": 0.75,
+          "template_count": 5
+        }
+      }
+    },
+    {
+      "page_id": "1124935547358731",
+      "page_name": "Trạm Đọc Chữa Lành",
+      "post_type": "direct_sell",
+      "product_id": "BK111",
+      "product_title": "Dám Bị Ghét",
+      "scheduled_time": "2026-04-23 21:00",
+      "caption": "Nhiều bạn hỏi nên bắt đầu từ cuốn nào để vừa dễ đọc vừa có giá trị thực tế. Gợi ý hôm nay là Dám Bị Ghét.\n\nĐây là cuốn mình thấy hợp để đọc và áp dụng ngay.\n\nLink tham khảo: https://shopee.vn/product/BK111\n#chualanh #tamyen #tramdoc\nlink affiliate",
+      "affiliate_link": "https://shopee.vn/product/BK111",
+      "status": "ready_to_publish",
+      "meta": {
+        "caption_fingerprint": "b36e5dd444e64343",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 0,
+          "soft_ratio": 0.5,
+          "direct_ratio": 0.5,
+          "weights": {
+            "soft_content": 1.2,
+            "direct_sell": 1.0
+          },
+          "slot_index": 1
+        },
+        "caption_similarity": {
+          "max_similarity": 0.3616,
+          "threshold": 0.75,
+          "template_count": 5
+        }
       }
     },
     {
       "page_id": "1124354747418012",
       "page_name": "Sự Thật Là",
       "post_type": "direct_sell",
+      "product_id": "BK107",
+      "product_title": "Càng Kỷ Luật Càng Tự Do",
+      "scheduled_time": "2026-04-23 14:00",
+      "caption": "Một cuốn sách tốt là cuốn khiến mình hành động ngay sau khi đọc. Càng Kỷ Luật Càng Tự Do là kiểu sách như vậy.\n\nNếu bạn đang cân nhắc mua, mình để link ở đây:\nhttps://shopee.vn/product/BK107\n#suthatla #gocnhinthucte #tamlyhoc\nlink affiliate",
+      "affiliate_link": "https://shopee.vn/product/BK107",
+      "status": "ready_to_publish",
+      "meta": {
+        "caption_fingerprint": "76ae03e47ea8b6b3",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 0,
+          "soft_ratio": 0.0,
+          "direct_ratio": 0.0,
+          "weights": {
+            "soft_content": 2.2,
+            "direct_sell": 2.2
+          },
+          "slot_index": 0
+        },
+        "caption_similarity": {
+          "max_similarity": 0.2675,
+          "threshold": 0.75,
+          "template_count": 5
+        }
+      }
+    },
+    {
+      "page_id": "1124354747418012",
+      "page_name": "Sự Thật Là",
+      "post_type": "soft_content",
       "product_id": "BK101",
       "product_title": "Hiểu Về Trái Tim",
-      "scheduled_time": "2026-04-22 20:30",
-      "caption": "Nếu bạn đang tìm một cuốn sách vừa dễ đọc vừa có giá trị áp dụng ngay, Hiểu Về Trái Tim là lựa chọn rất đáng cân nhắc.\n\nNội dung thực tế, rõ ràng, đọc xong có thể áp dụng từng ý nhỏ vào cuộc sống hằng ngày.\n\nMình để link tham khảo bên dưới cho bạn nào cần.\n\nTham khảo tại đây: https://shopee.vn/product/BK101\n#suthatla #gocnhinthucte #tamlyhoc\nlink affiliate",
+      "scheduled_time": "2026-04-23 20:30",
+      "caption": "Đôi khi thứ mình cần không phải thêm một lời khuyên, mà là một cuốn sách đủ sâu để nhìn lại chính mình.\n\nHiểu Về Trái Tim là cuốn như vậy: đọc chậm, ngẫm kỹ, rồi tự thấy nhẹ hơn.\n\nBạn có thể tham khảo tại đây: https://shopee.vn/product/BK101\n#suthatla #gocnhinthucte #tamlyhoc\nlink affiliate",
       "affiliate_link": "https://shopee.vn/product/BK101",
       "status": "ready_to_publish",
       "meta": {
-        "caption_fingerprint": "864f9e92e3518efc",
-        "publish_mode": false
+        "caption_fingerprint": "db15012b5518ce0f",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 1,
+          "soft_ratio": 0.0,
+          "direct_ratio": 1.0,
+          "weights": {
+            "soft_content": 2.2,
+            "direct_sell": 0.0
+          },
+          "slot_index": 1
+        },
+        "caption_similarity": {
+          "max_similarity": 0.7584,
+          "threshold": 0.75,
+          "fallback": true,
+          "template_count": 5
+        }
       }
     }
   ]
