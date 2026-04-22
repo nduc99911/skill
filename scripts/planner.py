@@ -7,6 +7,7 @@ import re
 from collections import Counter
 from datetime import datetime, timedelta
 from difflib import SequenceMatcher
+from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
 
 ROOT = "/root/.openclaw/workspace"
@@ -15,7 +16,7 @@ CONFIG_PATH = os.path.join(ROOT, "config/pages.json")
 HISTORY_PATH = os.path.join(ROOT, "state/posting-history.json")
 OUTPUT_PATH = os.path.join(ROOT, "output/daily-plan.json")
 
-SHOPEE_PATTERN = re.compile(r"^https?://([a-z0-9-]+\.)?shopee\.vn/(product|[A-Za-z0-9_./?=&%-]+)", re.IGNORECASE)
+DEFAULT_SHOPEE_PATTERN = re.compile(r"^https?://([a-z0-9-]+\.)?shopee\.vn/(product|[A-Za-z0-9_./?=&%-]+)", re.IGNORECASE)
 
 
 def fingerprint_text(text: str) -> str:
@@ -35,14 +36,38 @@ def caption_similarity(a: str, b: str) -> float:
     return 0.6 * seq + 0.4 * jaccard
 
 
-def validate_affiliate_link(link: str) -> tuple[bool, str]:
+def validate_affiliate_link(link: str, rules: dict) -> tuple[bool, str]:
     if not link or not link.strip():
         return False, "empty_link"
+
     link = link.strip()
-    if "shopee.vn" not in link:
+    try:
+        parsed = urlparse(link)
+    except Exception:
+        return False, "malformed_url"
+
+    if parsed.scheme not in ("http", "https"):
+        return False, "invalid_scheme"
+
+    host = (parsed.hostname or "").lower()
+    if not host.endswith("shopee.vn"):
         return False, "invalid_domain"
-    if not SHOPEE_PATTERN.match(link):
+
+    raw_pattern = rules.get("affiliate_link_pattern", "")
+    pattern = re.compile(raw_pattern, re.IGNORECASE) if raw_pattern else DEFAULT_SHOPEE_PATTERN
+    if not pattern.match(link):
         return False, "invalid_pattern"
+
+    required_subdomains = rules.get("affiliate_required_subdomains", [])
+    if required_subdomains:
+        # host parts before base domain, e.g. s.shopee.vn => ["s"]
+        pre = host[:-len("shopee.vn")].strip(".")
+        parts = pre.split(".") if pre else []
+        if not any(req.lower() in parts for req in required_subdomains if req.lower() != "shopee"):
+            # allow root shopee.vn only when explicitly permitted via "shopee"
+            if not ("shopee" in [r.lower() for r in required_subdomains] and host == "shopee.vn"):
+                return False, "missing_required_affiliate_subdomain"
+
     return True, "ok"
 
 
@@ -53,6 +78,11 @@ def load_data():
     with open(HISTORY_PATH, "r", encoding="utf-8") as f:
         history_data = json.load(f)
 
+    history_data.setdefault("history", [])
+    history_data.setdefault("draft_history", [])
+
+    rules = config.get("global_rules", {})
+
     products = []
     errors = []
     with open(DATA_PATH, "r", encoding="utf-8") as f:
@@ -60,7 +90,7 @@ def load_data():
         for row in reader:
             if row.get("status") != "active":
                 continue
-            ok, reason = validate_affiliate_link(row.get("affiliate_link", ""))
+            ok, reason = validate_affiliate_link(row.get("affiliate_link", ""), rules)
             if not ok:
                 errors.append({
                     "product_id": row.get("product_id"),
@@ -97,14 +127,44 @@ def get_posted_products(history_data: dict, page_id: str, days: int, now_tz: dat
 def recent_post_types(history_data: dict, page_id: str, now_tz: datetime, lookback_days: int = 30) -> list[str]:
     cutoff = now_tz - timedelta(days=lookback_days)
     rows = []
+
     for entry in history_data.get("history", []):
         if entry.get("page_id") != page_id:
             continue
         dt = parse_history_time(entry.get("posted_at", ""), now_tz.tzinfo)
         if dt and dt > cutoff:
             rows.append((dt, entry.get("post_type", "soft_content")))
+
+    for entry in history_data.get("draft_history", []):
+        if entry.get("page_id") != page_id:
+            continue
+        dt = parse_history_time(entry.get("planned_at", ""), now_tz.tzinfo)
+        if dt and dt > cutoff:
+            rows.append((dt, entry.get("post_type", "soft_content")))
+
     rows.sort(key=lambda x: x[0])
     return [t for _, t in rows]
+
+
+def recent_caption_candidates(history_data: dict, page_id: str, now_tz: datetime, lookback_days: int = 30) -> list[str]:
+    cutoff = now_tz - timedelta(days=lookback_days)
+    caps = []
+
+    for entry in history_data.get("history", []):
+        if entry.get("page_id") != page_id:
+            continue
+        dt = parse_history_time(entry.get("posted_at", ""), now_tz.tzinfo)
+        if dt and dt > cutoff and entry.get("caption"):
+            caps.append(entry.get("caption"))
+
+    for entry in history_data.get("draft_history", []):
+        if entry.get("page_id") != page_id:
+            continue
+        dt = parse_history_time(entry.get("planned_at", ""), now_tz.tzinfo)
+        if dt and dt > cutoff and entry.get("caption"):
+            caps.append(entry.get("caption"))
+
+    return caps
 
 
 def choose_post_type(page_cfg: dict, history_types: list[str], slot_index: int, global_rules: dict) -> tuple[str, dict]:
@@ -237,6 +297,35 @@ def pick_caption(post_type: str, title: str, link: str, hashtags: str, page_name
     return best, {"max_similarity": round(best_mx, 4), "threshold": threshold, "fallback": True, "template_count": len(templates)}
 
 
+def append_draft_history(history_data: dict, plan_posts: list[dict], now_tz: datetime):
+    drafts = history_data.setdefault("draft_history", [])
+    new_rows = []
+    for p in plan_posts:
+        row = {
+            "page_id": p["page_id"],
+            "product_id": p["product_id"],
+            "post_type": p["post_type"],
+            "planned_at": now_tz.isoformat(),
+            "scheduled_time": p["scheduled_time"],
+            "caption_fingerprint": p.get("meta", {}).get("caption_fingerprint"),
+            "caption": p.get("caption", "")
+        }
+        new_rows.append(row)
+    drafts.extend(new_rows)
+
+    # Keep only recent draft history (45 days)
+    cutoff = now_tz - timedelta(days=45)
+    kept = []
+    for d in drafts:
+        dt = parse_history_time(d.get("planned_at", ""), now_tz.tzinfo)
+        if dt and dt > cutoff:
+            kept.append(d)
+    history_data["draft_history"] = kept
+
+    with open(HISTORY_PATH, "w", encoding="utf-8") as f:
+        json.dump(history_data, f, indent=2, ensure_ascii=False)
+
+
 def generate_plan():
     config, products, history_data, product_errors = load_data()
     tz_name = config.get("global_rules", {}).get("timezone", "Asia/Ho_Chi_Minh")
@@ -270,10 +359,10 @@ def generate_plan():
         "posts": []
     }
 
-    existing_captions = []
+    existing_captions_global = []
     existing_fingerprints = set(
         h.get("caption_fingerprint")
-        for h in history_data.get("history", [])
+        for h in (history_data.get("history", []) + history_data.get("draft_history", []))
         if h.get("caption_fingerprint")
     )
 
@@ -282,6 +371,7 @@ def generate_plan():
         cooldown = int(page.get("cooldown_days_same_product", rules.get("cooldown_days_same_product", 14)))
         blocked = get_posted_products(history_data, page_id, cooldown, now_tz)
         hist_types = recent_post_types(history_data, page_id, now_tz)
+        page_recent_captions = recent_caption_candidates(history_data, page_id, now_tz, lookback_days=30)
 
         slots = available_slots_for_plan(plan_day, page.get("time_slots", []), now_tz if plan_date == now_tz.strftime("%Y-%m-%d") else plan_day.replace(hour=0, minute=0, second=0, microsecond=0))
         slots = slots[: int(page.get("posts_per_day", len(slots)))]
@@ -309,7 +399,7 @@ def generate_plan():
             blocked.add(product["product_id"])
             hist_types.append(chosen_type)
 
-            link_ok, link_reason = validate_affiliate_link(product.get("affiliate_link", ""))
+            link_ok, link_reason = validate_affiliate_link(product.get("affiliate_link", ""), rules)
             if not link_ok:
                 daily_plan["errors"].append({
                     "page_id": page_id,
@@ -325,7 +415,7 @@ def generate_plan():
                 product.get("affiliate_link", ""),
                 hashtags,
                 page.get("page_name", ""),
-                existing_captions,
+                page_recent_captions + existing_captions_global,
                 threshold,
             )
 
@@ -334,7 +424,8 @@ def generate_plan():
                 caption += "\n\nGợi mở thêm: hãy chọn một ý và áp dụng ngay hôm nay."
                 fp = fingerprint_text(caption)
             existing_fingerprints.add(fp)
-            existing_captions.append(caption)
+            existing_captions_global.append(caption)
+            page_recent_captions.append(caption)
 
             daily_plan["posts"].append({
                 "page_id": page_id,
@@ -356,6 +447,8 @@ def generate_plan():
 
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(daily_plan, f, indent=2, ensure_ascii=False)
+
+    append_draft_history(history_data, daily_plan["posts"], now_tz)
 
     return daily_plan
 
