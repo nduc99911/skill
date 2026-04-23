@@ -294,6 +294,27 @@ def build_caption_templates(style_key: str, title: str, link_text: str, hashtags
     return mapping.get(style_key, style_1_review)
 
 
+def enforce_caption_depth(caption: str, style_key: str) -> str:
+    # Rule: avoid short/flat captions. Keep a deeper, human tone.
+    if len((caption or "").strip()) >= 520:
+        return caption
+
+    depth_by_style = {
+        "style_1_review": "\n\nĐiều mình học được sau cùng là: thay đổi bền vững không đến từ một ngày bùng nổ, mà từ việc dám nhìn thẳng vào vấn đề của mình rồi chỉnh từng chút một.",
+        "style_2_direct": "\n\nĐiểm khác biệt của cuốn này là cho bạn một hướng làm rõ ràng để áp dụng ngay, thay vì chỉ truyền động lực ngắn hạn rồi để mọi thứ quay về điểm cũ.",
+        "style_3_listicle": "\n\nNếu chọn đúng một cuốn để bắt đầu lại trong giai đoạn này, mình vẫn ưu tiên cuốn trên vì nó giúp chuyển từ hiểu vấn đề sang hành động cụ thể.",
+    }
+    addon = depth_by_style.get(style_key, depth_by_style["style_1_review"])
+
+    if "#" in caption:
+        idx = caption.find("#")
+        head = caption[:idx].rstrip()
+        tail = caption[idx:]
+        return f"{head}{addon}\n\n{tail}".strip()
+
+    return f"{caption.rstrip()}{addon}".strip()
+
+
 def pick_caption(title: str, link_text: str, hashtags: str, page_name: str,
                  existing_captions: list[str], threshold: float) -> tuple[str, dict]:
     style_key = choose_caption_style()
@@ -301,17 +322,19 @@ def pick_caption(title: str, link_text: str, hashtags: str, page_name: str,
     random.shuffle(templates)
 
     for c in templates:
-        sims = [caption_similarity(c, x) for x in existing_captions] if existing_captions else [0.0]
+        c2 = enforce_caption_depth(c, style_key)
+        sims = [caption_similarity(c2, x) for x in existing_captions] if existing_captions else [0.0]
         mx = max(sims) if sims else 0.0
         if mx < threshold:
-            return c, {
+            return c2, {
                 "max_similarity": round(mx, 4),
                 "threshold": threshold,
                 "template_count": len(templates),
                 "style_key": style_key,
             }
 
-    best = min(templates, key=lambda t: max([caption_similarity(t, x) for x in existing_captions] or [0.0]))
+    best = min(templates, key=lambda t: max([caption_similarity(enforce_caption_depth(t, style_key), x) for x in existing_captions] or [0.0]))
+    best = enforce_caption_depth(best, style_key)
     best_mx = max([caption_similarity(best, x) for x in existing_captions] or [0.0])
     return best, {
         "max_similarity": round(best_mx, 4),
@@ -364,44 +387,51 @@ def generate_first_comment(title: str, category: str, link: str, used_patterns: 
 
 
 def build_image_concept(post_type: str, title: str, caption: str) -> dict:
-    # weighted image type: keep mix between book cover and quote image
-    image_type = random.choices(["book_cover", "quote_image"], weights=[55, 45], k=1)[0]
+    # Rule: always quote_image for cleaner, consistent visuals.
+    image_type = "quote_image"
 
     quote_candidates = [
-        "Kỷ luật không làm bạn gò bó, kỷ luật giúp bạn tự do.",
-        "Bạn không thiếu quyết tâm, bạn chỉ thiếu một nhịp ổn định.",
-        "Thay đổi lớn bắt đầu từ thói quen nhỏ mỗi ngày.",
-        "Đừng đợi có hứng rồi mới bắt đầu.",
+        "Sống rõ hơn\ntừ những điều nhỏ mỗi ngày",
+        "Bình tĩnh lại\nđể nhìn đúng vấn đề",
+        "Đổi tư duy trước\nđổi kết quả sau",
+        "Đừng sống để vừa lòng tất cả",
     ]
 
-    # choose a short quote aligned to caption signal
     caption_l = (caption or "").lower()
     if "trì hoãn" in caption_l:
         image_text = "Đừng để trì hoãn\nđánh cắp ngày của bạn"
     elif "kỷ luật" in caption_l:
         image_text = "Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài"
-    elif "quá tải" in caption_l or "mệt" in caption_l:
-        image_text = "Sống nhẹ lại\ntừ những thói quen đúng"
+    elif "chữa lành" in caption_l or "mệt" in caption_l or "bình an" in caption_l:
+        image_text = "Cho mình một khoảng lặng\nđể nhẹ lòng hơn"
     else:
         image_text = random.choice(quote_candidates)
 
     image_layout = {
-        "background": "nền đơn giản, màu trung tính",
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
         "text_position": "text lớn ở giữa",
-        "book_cover_position": "bìa sách góc dưới phải"
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
     }
 
+    image_prompt = (
+        f"Minimalist quote image 1:1 cho bài về '{title}'. "
+        f"Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): '{image_text}'. "
+        f"Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. "
+        f"Soft calm lighting, không rối, không watermark."
+    )
+
     image_caption = (
-        f"Thiết kế ảnh {image_type}: nền tối giản, chữ nổi bật ở trung tâm. "
-        f"Nội dung chữ: '{image_text}'. "
-        f"Gắn bìa sách '{title}' ở góc dưới để tăng nhận diện."
+        f"Quote image tối giản: nền trung tính, text lớn ở giữa '{image_text}', "
+        f"bìa sách nhỏ góc dưới phải. Render bằng Cloudflare."
     )
 
     return {
         "image_type": image_type,
-        "image_text": image_text if image_type == "quote_image" else "",
+        "image_text": image_text,
         "image_layout": image_layout,
         "image_caption": image_caption,
+        "image_prompt": image_prompt,
     }
 
 
@@ -572,6 +602,7 @@ def generate_plan():
                 "image_text": image_concept["image_text"],
                 "image_layout": image_concept["image_layout"],
                 "image_caption": image_concept["image_caption"],
+                "image_prompt": image_concept.get("image_prompt", ""),
                 "meta": {
                     "caption_fingerprint": fp,
                     "publish_mode": config.get("publish_mode", False),
