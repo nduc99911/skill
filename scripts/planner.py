@@ -258,43 +258,68 @@ def pick_product(products: list[dict], page_cfg: dict, blocked_product_ids: set[
     return random.choice(pool[: min(6, len(pool))])
 
 
-def build_caption_templates(post_type: str, title: str, link_text: str, hashtags: str, page_name: str) -> list[str]:
-    soft = [
-        f"Đôi khi thứ mình cần không phải thêm một lời khuyên, mà là một cuốn sách đủ sâu để nhìn lại chính mình.\n\n{title} là cuốn như vậy: đọc chậm, ngẫm kỹ, rồi tự thấy nhẹ hơn.\n\nBạn có thể tham khảo tại đây: {link_text}\n{hashtags}\nlink affiliate",
-        f"Có những ngày lòng nặng mà không gọi tên được. Những lúc như vậy, {title} thường giúp mình bình tâm lại và nhìn mọi thứ rõ hơn.\n\nNếu bạn cũng đang cần một khoảng lặng, có thể xem thử.\n{link_text}\n{hashtags}\nlink affiliate",
-        f"Không phải cuốn nào cũng khiến mình dừng lại để suy nghĩ, nhưng {title} làm được điều đó.\n\nĐọc xong thấy cách mình đối diện cảm xúc cũng khác đi một chút.\n\nTham khảo: {link_text}\n{hashtags}\nlink affiliate",
-    ]
-    direct = [
-        f"Nếu bạn muốn một cuốn sách dễ đọc nhưng áp dụng được ngay vào đời sống, {title} là lựa chọn đáng tiền.\n\nNội dung rõ, không dài dòng, phù hợp đọc mỗi ngày 15-20 phút.\n\nXem chi tiết: {link_text}\n{hashtags}\nlink affiliate",
-        f"Nhiều bạn hỏi nên bắt đầu từ cuốn nào để vừa dễ đọc vừa có giá trị thực tế. Gợi ý hôm nay là {title}.\n\nĐây là cuốn mình thấy hợp để đọc và áp dụng ngay.\n\nLink tham khảo: {link_text}\n{hashtags}\nlink affiliate",
-        f"Một cuốn sách tốt là cuốn khiến mình hành động ngay sau khi đọc. {title} là kiểu sách như vậy.\n\nNếu bạn đang cân nhắc mua, mình để link ở đây:\n{link_text}\n{hashtags}\nlink affiliate",
-    ]
-    listicle = [
-        f"Gợi ý nhanh cho bạn đang muốn đọc để nâng chất lượng sống:\n1) {title}\n2) Một cuốn cùng chủ đề\n3) Một cuốn giúp áp dụng thực tế\n\nBắt đầu từ cuốn số 1 tại đây: {link_text}\n{hashtags}\nlink affiliate",
-        f"Top lựa chọn hôm nay cho tệp {page_name}:\n- {title}\n- Một cuốn nền tảng\n- Một cuốn để ứng dụng\n\nBạn có thể xem cuốn đầu tại: {link_text}\n{hashtags}\nlink affiliate",
-    ]
-    if post_type == "soft_content":
-        return soft + direct[:1] + listicle[:1]
-    if post_type == "direct_sell":
-        return direct + soft[:1] + listicle[:1]
-    return listicle + soft[:2] + direct[:1]
+def choose_caption_style() -> str:
+    return random.choices(
+        ["style_1_review", "style_2_direct", "style_3_listicle"],
+        weights=[60, 25, 15],
+        k=1,
+    )[0]
 
 
-def pick_caption(post_type: str, title: str, link_text: str, hashtags: str, page_name: str,
+def build_caption_templates(style_key: str, title: str, link_text: str, hashtags: str, page_name: str) -> list[str]:
+    cta = f"Xem chi tiết tại đây 👇\n{link_text}" if "comment" not in link_text.lower() else "Link mình để bên dưới 👇\nLink ở comment 👇"
+
+    style_1_review = [
+        f"Có lúc mình mở mắt ra là đã thấy đầu óc đầy việc, nhưng đến cuối ngày lại chẳng xong được gì ra hồn.\n\nMình từng nghĩ do mình thiếu cố gắng. Sau này mới thấy vấn đề nằm ở cách mình giữ nhịp mỗi ngày, chứ không phải ở ý chí bốc lên nhất thời.\n\n{title} cho mình cảm giác như đang được một người đi trước chỉ lại từng nút thắt rất đời thường, đọc xong thấy dễ bắt đầu lại hơn.\n\nCuốn này hợp nếu bạn:\n- Hay trì hoãn dù biết việc quan trọng\n- Dễ mất nhịp sau vài ngày quyết tâm\n- Muốn có cách làm đều đặn, không quá sức\n\n{cta}\n{hashtags}\nlink affiliate",
+        f"Bạn có bao giờ tự hứa từ mai sẽ sống kỷ luật hơn, rồi chỉ vài hôm sau mọi thứ lại quay về như cũ chưa?\n\nMình đã từng như vậy rất nhiều lần. Không phải vì lười, mà vì chưa có một cách đủ đơn giản để bám theo mỗi ngày.\n\n{title} là cuốn mình thích ở chỗ nói đúng cảm giác đó và chỉ ra hướng đi khá thực tế.\n\nCuốn này hợp nếu bạn:\n- Đang muốn lấy lại kỷ luật cá nhân\n- Thường bắt đầu tốt nhưng nhanh nản\n- Cần một lộ trình rõ để làm theo mỗi ngày\n\n{cta}\n{hashtags}\nlink affiliate",
+        f"Dạo trước mình hay bị cuốn vào việc vặt, bận cả ngày nhưng vẫn thấy bản thân đứng yên.\n\nChỉ khi nhìn lại thói quen của mình, mình mới hiểu vì sao càng cố càng dễ mệt.\n\n{title} không nói chuyện xa vời, mà giúp mình sắp lại nhịp sống theo kiểu rất dễ ngấm.\n\nCuốn này hợp nếu bạn:\n- Luôn thấy bận nhưng không tiến nhiều\n- Muốn giảm phân tán và tập trung hơn\n- Cần thay đổi nhỏ nhưng hiệu quả rõ\n\n{cta}\n{hashtags}\nlink affiliate",
+    ]
+
+    style_2_direct = [
+        f"Nếu bạn đang muốn sống kỷ luật hơn nhưng chưa biết bắt đầu từ đâu, đây là cuốn nên xem trước.\n\n{title} hợp với người dễ trì hoãn, hay mất tập trung, hoặc luôn thấy mình quyết tâm được vài hôm rồi hụt hơi.\n\nĐiểm đáng tiền là nội dung rõ, dễ áp dụng và không làm người đọc thấy ngợp.\n\nCuốn này hợp nếu bạn:\n- Cần kết quả thực tế trong vài tuần tới\n- Muốn bớt trì hoãn ngay trong công việc\n- Tìm một phương pháp dễ áp dụng hằng ngày\n\n{cta}\n{hashtags}\nlink affiliate",
+        f"Cuốn này hợp với người cần một cách làm cụ thể để chỉnh lại thói quen sống.\n\n{title} đi thẳng vào chuyện nhiều người gặp hằng ngày: thiếu kỷ luật, khó duy trì, dễ bỏ dở giữa chừng.\n\nĐọc để có khung hành động rõ ràng, thay vì chỉ thấy hứng trong chốc lát.\n\nCuốn này hợp nếu bạn:\n- Đang mất tập trung trong công việc\n- Muốn siết lại thói quen ngủ/nghỉ/làm\n- Cần một lộ trình có thể bắt đầu ngay hôm nay\n\n{cta}\n{hashtags}\nlink affiliate",
+        f"Bạn đang cần một cuốn sách dễ đọc nhưng tác động rõ vào thói quen hằng ngày?\n\n{title} phù hợp với người đi làm bận, người đang muốn lấy lại tập trung, hoặc ai đang cố xây lại nếp sống ổn định hơn.\n\nNội dung đi thẳng vào lợi ích thực tế, không vòng vo.\n\nCuốn này hợp nếu bạn:\n- Hay rơi vào vòng lặp trì hoãn\n- Muốn tăng hiệu suất mà không kiệt sức\n- Cần một phương pháp đủ rõ để duy trì lâu dài\n\n{cta}\n{hashtags}\nlink affiliate",
+    ]
+
+    style_3_listicle = [
+        f"Nếu đang muốn chỉnh lại guồng sống, mình sẽ ưu tiên 3 kiểu sách này:\n\n- Sách giúp nhìn ra thói quen xấu đang kéo mình chậm lại\n- Sách cho cách làm đủ cụ thể để bắt đầu ngay\n- Sách đọc xong thấy muốn hành động chứ không chỉ thấy hay\n\nTrong 3 kiểu đó, {title} là cuốn mình sẽ xem trước.\n\nCuốn này hợp nếu bạn:\n- Đang muốn bắt đầu lại từ nền tảng\n- Cần một cuốn dễ đọc, dễ làm theo\n- Muốn chuyển từ biết sang hành động\n\n{cta}\n{hashtags}\nlink affiliate",
+        f"Có 3 dấu hiệu cho thấy bạn nên đọc một cuốn về kỷ luật cá nhân ngay lúc này:\n\n- Việc nhỏ cũng dễ trì hoãn\n- Làm nhiều nhưng không thấy tiến\n- Muốn thay đổi nhưng không giữ được lâu\n\nNếu thấy mình ở trong đó, {title} là cuốn khá đáng để bắt đầu.\n\nCuốn này hợp nếu bạn:\n- Đang mất nhịp và muốn lấy lại sự ổn định\n- Cần một phương pháp rõ để theo mỗi ngày\n- Muốn thay đổi thật, không chỉ có động lực ngắn hạn\n\n{cta}\n{hashtags}\nlink affiliate",
+    ]
+
+    mapping = {
+        "style_1_review": style_1_review,
+        "style_2_direct": style_2_direct,
+        "style_3_listicle": style_3_listicle,
+    }
+    return mapping.get(style_key, style_1_review)
+
+
+def pick_caption(title: str, link_text: str, hashtags: str, page_name: str,
                  existing_captions: list[str], threshold: float) -> tuple[str, dict]:
-    templates = build_caption_templates(post_type, title, link_text, hashtags, page_name)
+    style_key = choose_caption_style()
+    templates = build_caption_templates(style_key, title, link_text, hashtags, page_name)
     random.shuffle(templates)
 
     for c in templates:
         sims = [caption_similarity(c, x) for x in existing_captions] if existing_captions else [0.0]
         mx = max(sims) if sims else 0.0
         if mx < threshold:
-            return c, {"max_similarity": round(mx, 4), "threshold": threshold, "template_count": len(templates)}
+            return c, {
+                "max_similarity": round(mx, 4),
+                "threshold": threshold,
+                "template_count": len(templates),
+                "style_key": style_key,
+            }
 
-    # fallback: pick least similar
     best = min(templates, key=lambda t: max([caption_similarity(t, x) for x in existing_captions] or [0.0]))
     best_mx = max([caption_similarity(best, x) for x in existing_captions] or [0.0])
-    return best, {"max_similarity": round(best_mx, 4), "threshold": threshold, "fallback": True, "template_count": len(templates)}
+    return best, {
+        "max_similarity": round(best_mx, 4),
+        "threshold": threshold,
+        "fallback": True,
+        "template_count": len(templates),
+        "style_key": style_key,
+    }
 
 
 def generate_first_comment(title: str, category: str, link: str, used_patterns: set[str]) -> str:
@@ -336,6 +361,48 @@ def generate_first_comment(title: str, category: str, link: str, used_patterns: 
     ]
     tail = random.choice(tails)
     return f"{opener}\n{link}\n{tail}"
+
+
+def build_image_concept(post_type: str, title: str, caption: str) -> dict:
+    # weighted image type: keep mix between book cover and quote image
+    image_type = random.choices(["book_cover", "quote_image"], weights=[55, 45], k=1)[0]
+
+    quote_candidates = [
+        "Kỷ luật không làm bạn gò bó, kỷ luật giúp bạn tự do.",
+        "Bạn không thiếu quyết tâm, bạn chỉ thiếu một nhịp ổn định.",
+        "Thay đổi lớn bắt đầu từ thói quen nhỏ mỗi ngày.",
+        "Đừng đợi có hứng rồi mới bắt đầu.",
+    ]
+
+    # choose a short quote aligned to caption signal
+    caption_l = (caption or "").lower()
+    if "trì hoãn" in caption_l:
+        image_text = "Đừng để trì hoãn\nđánh cắp ngày của bạn"
+    elif "kỷ luật" in caption_l:
+        image_text = "Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài"
+    elif "quá tải" in caption_l or "mệt" in caption_l:
+        image_text = "Sống nhẹ lại\ntừ những thói quen đúng"
+    else:
+        image_text = random.choice(quote_candidates)
+
+    image_layout = {
+        "background": "nền đơn giản, màu trung tính",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách góc dưới phải"
+    }
+
+    image_caption = (
+        f"Thiết kế ảnh {image_type}: nền tối giản, chữ nổi bật ở trung tâm. "
+        f"Nội dung chữ: '{image_text}'. "
+        f"Gắn bìa sách '{title}' ở góc dưới để tăng nhận diện."
+    )
+
+    return {
+        "image_type": image_type,
+        "image_text": image_text if image_type == "quote_image" else "",
+        "image_layout": image_layout,
+        "image_caption": image_caption,
+    }
 
 
 def append_draft_history(history_data: dict, plan_posts: list[dict], now_tz: datetime):
@@ -470,7 +537,6 @@ def generate_plan():
                 )
 
             caption, cap_meta = pick_caption(
-                chosen_type,
                 product.get("title", ""),
                 link_text,
                 hashtags,
@@ -487,6 +553,8 @@ def generate_plan():
             existing_captions_global.append(caption)
             page_recent_captions.append(caption)
 
+            image_concept = build_image_concept(chosen_type, product["title"], caption)
+
             daily_plan["posts"].append({
                 "page_id": page_id,
                 "internal_page_key": page.get("internal_page_key"),
@@ -500,6 +568,10 @@ def generate_plan():
                 "link_placement": link_placement,
                 "first_comment": first_comment,
                 "status": "ready_to_publish",
+                "image_type": image_concept["image_type"],
+                "image_text": image_concept["image_text"],
+                "image_layout": image_concept["image_layout"],
+                "image_caption": image_concept["image_caption"],
                 "meta": {
                     "caption_fingerprint": fp,
                     "publish_mode": config.get("publish_mode", False),

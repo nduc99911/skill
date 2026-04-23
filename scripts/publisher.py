@@ -11,6 +11,8 @@ APPROVED_PLAN_PATH = os.path.join(ROOT, "output/approved-plan.json")
 PAGES_CONFIG_PATH = os.path.join(ROOT, "config/pages.json")
 PUBLISHER_CONFIG_PATH = os.path.join(ROOT, "config/publisher.json")
 TOKENS_PATH = os.path.join(ROOT, "config/page-tokens.json")
+CATALOG_PATH = os.path.join(ROOT, "data/catalog.json")
+PRODUCTS_CSV_PATH = os.path.join(ROOT, "data/products.csv")
 PUBLISH_HISTORY_PATH = os.path.join(ROOT, "state/publish-history.json")
 PUBLISH_LOG_PATH = os.path.join(ROOT, "state/publish.log")
 PUBLISH_ERROR_LOG_PATH = os.path.join(ROOT, "state/publish_error.log")
@@ -40,6 +42,71 @@ def append_log(path, msg):
 def parse_scheduled_time(s, tz):
     # expects 'YYYY-MM-DD HH:MM'
     return datetime.strptime(s, "%Y-%m-%d %H:%M").replace(tzinfo=tz)
+
+
+def load_catalog_links():
+    links = {}
+    if os.path.exists(CATALOG_PATH):
+        d = load_json(CATALOG_PATH, {"items": []})
+        for it in d.get("items", []):
+            pid = it.get("product_id")
+            lk = (it.get("affiliate_link") or "").strip()
+            if pid and lk:
+                links[str(pid)] = lk
+
+    # fallback CSV if missing in catalog
+    if os.path.exists(PRODUCTS_CSV_PATH):
+        import csv
+        with open(PRODUCTS_CSV_PATH, "r", encoding="utf-8") as f:
+            r = csv.DictReader(f)
+            for row in r:
+                pid = row.get("product_id")
+                lk = (row.get("affiliate_link") or "").strip()
+                if pid and lk and str(pid) not in links:
+                    links[str(pid)] = lk
+    return links
+
+
+def is_placeholder_link(link: str) -> bool:
+    return link.startswith("https://shopee.vn/product/")
+
+
+def quality_gate(post: dict, catalog_links: dict):
+    caption = (post.get("caption") or "")
+    link = (post.get("affiliate_link") or "").strip()
+    pid = str(post.get("product_id") or "")
+
+    forbidden = ["một cuốn cùng chủ đề", "một cuốn giúp áp dụng thực tế"]
+    for phrase in forbidden:
+        if phrase in caption.lower():
+            return False, f"caption_quality_blocked:{phrase}"
+
+    if is_placeholder_link(link):
+        return False, "placeholder_link_blocked"
+
+    catalog_link = (catalog_links.get(pid) or "").strip()
+    if not catalog_link:
+        return False, "catalog_link_missing"
+
+    if link != catalog_link:
+        return False, "affiliate_link_mismatch_vs_catalog"
+
+    if post.get("link_placement") == "caption" and catalog_link not in caption:
+        return False, "caption_missing_catalog_link"
+
+    if post.get("link_placement") == "comment":
+        first_comment = (post.get("first_comment") or "")
+        if catalog_link not in first_comment:
+            return False, "first_comment_missing_catalog_link"
+
+    # image fail-safe: if image_type present, require image source
+    image_type = (post.get("image_type") or "").strip()
+    image_url = (post.get("image_url") or "").strip()
+    image_local = (post.get("image_local_path") or "").strip()
+    if image_type and not image_url and not image_local:
+        return False, "missing_image_source_for_image_post"
+
+    return True, "ok"
 
 
 def token_audit(page_id, token):
@@ -99,17 +166,49 @@ def token_audit(page_id, token):
 
 def publish_post(page_id, token, post):
     message = post.get("caption", "")
-    r = requests.post(
-        f"{GRAPH_BASE}/{page_id}/feed",
-        data={"message": message, "access_token": token},
-        timeout=30,
-    )
-    if r.status_code != 200:
-        return False, None, f"post_create_failed:{r.text[:400]}"
+    image_type = (post.get("image_type") or "").strip()
+    image_url = (post.get("image_url") or "").strip()
+    image_local = (post.get("image_local_path") or "").strip()
 
-    post_id = r.json().get("id")
-    if not post_id:
-        return False, None, "post_create_no_id"
+    # publish with photo endpoint when image concept/source provided
+    if image_type:
+        if image_url:
+            r = requests.post(
+                f"{GRAPH_BASE}/{page_id}/photos",
+                data={"caption": message, "url": image_url, "access_token": token},
+                timeout=45,
+            )
+        elif image_local:
+            if not os.path.exists(image_local):
+                return False, None, f"image_local_not_found:{image_local}"
+            with open(image_local, "rb") as img:
+                r = requests.post(
+                    f"{GRAPH_BASE}/{page_id}/photos",
+                    data={"caption": message, "access_token": token},
+                    files={"source": img},
+                    timeout=60,
+                )
+        else:
+            return False, None, "missing_image_source"
+
+        if r.status_code != 200:
+            return False, None, f"photo_post_failed:{r.text[:400]}"
+
+        post_id = r.json().get("post_id") or r.json().get("id")
+        if not post_id:
+            return False, None, "photo_post_no_id"
+    else:
+        r = requests.post(
+            f"{GRAPH_BASE}/{page_id}/feed",
+            data={"message": message, "access_token": token},
+            timeout=30,
+        )
+        if r.status_code != 200:
+            return False, None, f"post_create_failed:{r.text[:400]}"
+
+        post_id = r.json().get("id")
+        if not post_id:
+            return False, None, "post_create_no_id"
 
     if post.get("link_placement") == "comment":
         first_comment = (post.get("first_comment") or "").strip()
@@ -155,6 +254,7 @@ def main():
     tokens_cfg = load_json(TOKENS_PATH, {"pages": {}})
     approved = load_json(APPROVED_PLAN_PATH, {"posts": []})
     history = load_json(PUBLISH_HISTORY_PATH, {"published": []})
+    catalog_links = load_catalog_links()
 
     tz_name = pages_cfg.get("global_rules", {}).get("timezone", "Asia/Ho_Chi_Minh")
     tz = ZoneInfo(tz_name)
@@ -253,6 +353,22 @@ def main():
         scheduled_time = post.get("scheduled_time", "")
         token = tokens_cfg.get("pages", {}).get(page_id, {}).get("page_access_token", "")
 
+        ok, reason = quality_gate(post, catalog_links)
+        if not ok:
+            append_log(
+                PUBLISH_ERROR_LOG_PATH,
+                json.dumps({
+                    "page_name": page_name,
+                    "facebook_page_id": page_id,
+                    "scheduled_time": scheduled_time,
+                    "actual_publish_time": now.isoformat(),
+                    "publish_status": "failed",
+                    "post_id": None,
+                    "error_reason": reason,
+                }, ensure_ascii=False),
+            )
+            continue
+
         ok, reason, audit = token_audit(page_id, token)
         if not ok:
             append_log(
@@ -283,6 +399,8 @@ def main():
             "link_placement": post.get("link_placement"),
             "product_id": post.get("product_id"),
             "product_title": post.get("product_title"),
+            "image_type": post.get("image_type", ""),
+            "image_source": post.get("image_url") or post.get("image_local_path") or "",
         }
 
         if success:
