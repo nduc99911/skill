@@ -33,7 +33,8 @@ Yêu cầu:
 - Không dùng dấu *.
 - Không dùng tiếng Anh (trừ tên sách nếu cần).
 - Không chia đề mục máy móc (CTA, Chuyển đổi...).
-- Có câu disclosure: 'link affiliate'.
+- Không dùng cụm từ 'link affiliate'.
+- Disclosure nhẹ nhàng, tự nhiên nếu cần.
 - Hashtags: {', '.join(page_cfg['hashtags'])}
 """
         # We trigger the LLM call via the main agent turn instead of raw requests here
