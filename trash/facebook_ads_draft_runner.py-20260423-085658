@@ -1,0 +1,289 @@
+#!/usr/bin/env python3
+import csv
+import json
+import os
+import re
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
+ROOT = "/root/.openclaw/workspace"
+APPROVED_PLAN_PATH = os.path.join(ROOT, "output/approved-plan.json")
+CONFIG_PATH = os.path.join(ROOT, "config/pages.json")
+PRODUCTS_PATH = os.path.join(ROOT, "data/products.csv")
+POSTING_HISTORY_PATH = os.path.join(ROOT, "state/posting-history.json")
+PLANNER_SUMMARY_PATH = os.path.join(ROOT, "state/planner_summary.txt")
+ADS_HISTORY_PATH = os.path.join(ROOT, "state/ads-history.json")
+OUTPUT_PATH = os.path.join(ROOT, "output/ads-drafts.json")
+
+
+def load_json(path, default):
+    if not os.path.exists(path):
+        return default
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def load_products_map():
+    out = {}
+    with open(PRODUCTS_PATH, "r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            out[row.get("product_id", "")] = row
+    return out
+
+
+def is_valid_affiliate_link(link: str) -> bool:
+    if not link:
+        return False
+    return re.match(r"^https?://([a-z0-9-]+\.)?shopee\.vn/[A-Za-z0-9_./?=&%-]+$", link.strip(), re.IGNORECASE) is not None
+
+
+def page_cfg_map(config):
+    m = {}
+    for p in config.get("pages", []):
+        pid = p.get("facebook_page_id") or p.get("page_id")
+        m[pid] = p
+    return m
+
+
+def recent_ad_products(ads_history, page_id, now, days=30):
+    cutoff = now - timedelta(days=days)
+    seen = set()
+    for row in ads_history.get("history", []):
+        if row.get("page_id") != page_id:
+            continue
+        ts = row.get("created_at")
+        if not ts:
+            continue
+        try:
+            dt = datetime.fromisoformat(ts)
+        except Exception:
+            continue
+        if dt >= cutoff:
+            seen.add(row.get("product_id"))
+    return seen
+
+
+def post_type_suitability(post_type):
+    if post_type == "direct_sell":
+        return 1.0
+    if post_type == "soft_content":
+        return 0.75
+    if post_type == "listicle":
+        return 0.7
+    return 0.6
+
+
+def objective_for_post(post_type):
+    if post_type == "direct_sell":
+        return (
+            "traffic",
+            "Nội dung thiên về dẫn link sản phẩm, phù hợp mục tiêu kéo click vào affiliate link."
+        )
+    return (
+        "engagement",
+        "Nội dung thiên về giá trị/chiêm nghiệm, phù hợp mục tiêu tăng tương tác trước khi retarget."
+    )
+
+
+def audience_for_page(page_name, persona):
+    pn = (page_name or "").lower()
+    persona_l = (persona or "").lower()
+
+    if "chữa lành" in pn or "chua" in pn:
+        return {
+            "age_range": "24-45",
+            "interests": ["tâm lý học", "thiền", "chữa lành", "sách self-help"],
+            "gender": "all",
+            "note": "Tệp có nhu cầu cân bằng cảm xúc, ưu tiên nội dung dịu và sâu."
+        }
+    if "cổ nhân" in pn or "triết" in pn:
+        return {
+            "age_range": "25-50",
+            "interests": ["triết học", "nhân sinh", "sách kỹ năng sống"],
+            "gender": "all",
+            "note": "Tệp thích nội dung chiêm nghiệm, không giật gân."
+        }
+    if "sự thật" in pn or "su that" in pn:
+        return {
+            "age_range": "22-40",
+            "interests": ["phát triển bản thân", "tâm lý học", "động lực"],
+            "gender": "all",
+            "note": "Tệp thích góc nhìn thẳng, thực tế, nói rõ vấn đề."
+        }
+    if "tư duy" in pn or "tu duy" in pn:
+        return {
+            "age_range": "22-38",
+            "interests": ["thói quen", "kỷ luật", "kinh doanh", "năng suất"],
+            "gender": "all",
+            "note": "Tệp muốn nâng cấp bản thân, phù hợp thông điệp hành động."
+        }
+    if "mỗi ngày" in pn or "cuốn sách" in pn or "cuon sach" in pn:
+        return {
+            "age_range": "20-40",
+            "interests": ["đọc sách", "self-help", "kỹ năng giao tiếp"],
+            "gender": "all",
+            "note": "Tệp độc giả phổ thông yêu thích gợi ý sách ứng dụng."
+        }
+
+    if "thẳng" in persona_l or "sắc" in persona_l:
+        age = "22-40"
+    else:
+        age = "24-45"
+    return {
+        "age_range": age,
+        "interests": ["đọc sách", "phát triển bản thân"],
+        "gender": "all",
+        "note": "Audience nền tảng, đã thu hẹp theo hành vi đọc và self-help."
+    }
+
+
+def creative_from_caption(caption, product_title):
+    sentences = [s.strip() for s in re.split(r"[\n\.]+", caption or "") if s.strip()]
+    hook = sentences[0] if sentences else f"Gợi ý sách hôm nay: {product_title}"
+    benefit = sentences[1] if len(sentences) > 1 else f"{product_title} phù hợp để đọc và áp dụng ngay."
+    ad_primary_text = f"{hook}\n\n{benefit}\n\nXem chi tiết tại link trong bài."
+    ad_headline = f"{product_title} | Gợi ý đáng đọc hôm nay"
+    return ad_primary_text, ad_headline
+
+
+def message_key(caption):
+    words = re.findall(r"[\wÀ-ỹ]+", (caption or "").lower())
+    return " ".join(words[:14])
+
+
+def build_drafts():
+    tz = ZoneInfo("Asia/Ho_Chi_Minh")
+    now = datetime.now(tz)
+
+    approved = load_json(APPROVED_PLAN_PATH, {})
+    config = load_json(CONFIG_PATH, {})
+    posting_history = load_json(POSTING_HISTORY_PATH, {"history": [], "draft_history": []})
+    ads_history = load_json(ADS_HISTORY_PATH, {"history": []})
+    products = load_products_map()
+
+    posts = approved.get("posts", [])
+    pmap = page_cfg_map(config)
+
+    candidates = []
+    for post in posts:
+        page_id = post.get("page_id")
+        page = pmap.get(page_id, {})
+        pid = post.get("product_id")
+        product = products.get(pid, {})
+
+        pr = int(product.get("priority_score") or 5)
+        fit = 1.0 if (product.get("category") in set(page.get("categories", []))) else 0.55
+        pts = post_type_suitability(post.get("post_type"))
+        link_ok = is_valid_affiliate_link(post.get("affiliate_link", ""))
+
+        recent_used = recent_ad_products(ads_history, page_id, now, days=30)
+        if pid in recent_used:
+            continue
+        if not link_ok:
+            continue
+
+        score = pr * 1.5 + fit * 3 + pts * 2
+        candidates.append({
+            "score": round(score, 3),
+            "post": post,
+            "page_cfg": page,
+            "priority_score": pr,
+            "fit_score": fit,
+            "post_type_score": pts,
+        })
+
+    # sort by quality desc
+    candidates.sort(key=lambda x: x["score"], reverse=True)
+
+    selected = []
+    used_pages = set()
+    used_msgs = []
+
+    for c in candidates:
+        if len(selected) >= 3:
+            break
+        post = c["post"]
+        page_id = post.get("page_id")
+        if page_id in used_pages:
+            continue
+
+        mk = message_key(post.get("caption", ""))
+        if any(mk == x for x in used_msgs):
+            continue
+
+        objective, objective_reason = objective_for_post(post.get("post_type"))
+        page = c["page_cfg"]
+        audience = audience_for_page(post.get("page_name", ""), page.get("persona", ""))
+        ad_primary_text, ad_headline = creative_from_caption(post.get("caption", ""), post.get("product_title", ""))
+
+        budget = 120000 if objective == "traffic" else 100000
+
+        draft = {
+            "internal_page_key": post.get("internal_page_key") or page.get("internal_page_key"),
+            "page_name": post.get("page_name"),
+            "facebook_page_id": post.get("page_id"),
+            "product_id": post.get("product_id"),
+            "product_title": post.get("product_title"),
+            "affiliate_link": post.get("affiliate_link"),
+            "post_caption": post.get("caption"),
+            "ad_primary_text": ad_primary_text,
+            "ad_headline": ad_headline,
+            "cta": "Tìm hiểu thêm",
+            "audience": audience,
+            "daily_budget": {
+                "amount_vnd": budget,
+                "note": "Test budget an toàn, chưa phải ngân sách scale."
+            },
+            "objective": objective,
+            "objective_reason": objective_reason,
+            "placements": ["facebook_feed", "facebook_reels", "facebook_story"],
+            "reason_for_selection": {
+                "priority_score": c["priority_score"],
+                "persona_fit": c["fit_score"],
+                "post_type_fit": c["post_type_score"],
+                "link_valid": True,
+                "anti_repeat_days": 30,
+                "selection_score": c["score"]
+            },
+            "draft_status": "ready_for_review"
+        }
+        selected.append(draft)
+        used_pages.add(page_id)
+        used_msgs.append(mk)
+
+    out = {
+        "generated_at": now.isoformat(),
+        "timezone": "Asia/Ho_Chi_Minh",
+        "source_inputs": {
+            "approved_plan": "output/approved-plan.json",
+            "pages_config": "config/pages.json",
+            "products": "data/products.csv",
+            "posting_history": "state/posting-history.json",
+            "planner_summary": "state/planner_summary.txt"
+        },
+        "safety": {
+            "publish_mode": False,
+            "launch_enabled": False,
+            "api_calls": "none"
+        },
+        "rules": {
+            "max_draft_per_page_per_day": 1,
+            "max_draft_total_per_day": 3,
+            "approved_only": True,
+            "avoid_recent_same_product_days": 30,
+            "avoid_similar_message": True
+        },
+        "drafts": selected
+    }
+
+    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
+    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=2)
+
+    return out
+
+
+if __name__ == "__main__":
+    data = build_drafts()
+    print(f"Generated {len(data.get('drafts', []))} ads drafts -> {OUTPUT_PATH}")

@@ -247,7 +247,7 @@ def available_slots_for_plan(day: datetime, time_slots: list[str], now_tz: datet
 
 
 def pick_product(products: list[dict], page_cfg: dict, blocked_product_ids: set[str]) -> dict | None:
-    pri_cats = set(page_cfg.get("priority_categories", []))
+    pri_cats = set(page_cfg.get("categories", page_cfg.get("priority_categories", [])))
     primary = [p for p in products if p.get("category") in pri_cats and p.get("product_id") not in blocked_product_ids]
     fallback = [p for p in products if p.get("product_id") not in blocked_product_ids]
     pool = primary if primary else fallback
@@ -258,20 +258,20 @@ def pick_product(products: list[dict], page_cfg: dict, blocked_product_ids: set[
     return random.choice(pool[: min(6, len(pool))])
 
 
-def build_caption_templates(post_type: str, title: str, link: str, hashtags: str, page_name: str) -> list[str]:
+def build_caption_templates(post_type: str, title: str, link_text: str, hashtags: str, page_name: str) -> list[str]:
     soft = [
-        f"Đôi khi thứ mình cần không phải thêm một lời khuyên, mà là một cuốn sách đủ sâu để nhìn lại chính mình.\n\n{title} là cuốn như vậy: đọc chậm, ngẫm kỹ, rồi tự thấy nhẹ hơn.\n\nBạn có thể tham khảo tại đây: {link}\n{hashtags}\nlink affiliate",
-        f"Có những ngày lòng nặng mà không gọi tên được. Những lúc như vậy, {title} thường giúp mình bình tâm lại và nhìn mọi thứ rõ hơn.\n\nNếu bạn cũng đang cần một khoảng lặng, có thể xem thử.\n{link}\n{hashtags}\nlink affiliate",
-        f"Không phải cuốn nào cũng khiến mình dừng lại để suy nghĩ, nhưng {title} làm được điều đó.\n\nĐọc xong thấy cách mình đối diện cảm xúc cũng khác đi một chút.\n\nTham khảo: {link}\n{hashtags}\nlink affiliate",
+        f"Đôi khi thứ mình cần không phải thêm một lời khuyên, mà là một cuốn sách đủ sâu để nhìn lại chính mình.\n\n{title} là cuốn như vậy: đọc chậm, ngẫm kỹ, rồi tự thấy nhẹ hơn.\n\nBạn có thể tham khảo tại đây: {link_text}\n{hashtags}\nlink affiliate",
+        f"Có những ngày lòng nặng mà không gọi tên được. Những lúc như vậy, {title} thường giúp mình bình tâm lại và nhìn mọi thứ rõ hơn.\n\nNếu bạn cũng đang cần một khoảng lặng, có thể xem thử.\n{link_text}\n{hashtags}\nlink affiliate",
+        f"Không phải cuốn nào cũng khiến mình dừng lại để suy nghĩ, nhưng {title} làm được điều đó.\n\nĐọc xong thấy cách mình đối diện cảm xúc cũng khác đi một chút.\n\nTham khảo: {link_text}\n{hashtags}\nlink affiliate",
     ]
     direct = [
-        f"Nếu bạn muốn một cuốn sách dễ đọc nhưng áp dụng được ngay vào đời sống, {title} là lựa chọn đáng tiền.\n\nNội dung rõ, không dài dòng, phù hợp đọc mỗi ngày 15-20 phút.\n\nXem chi tiết: {link}\n{hashtags}\nlink affiliate",
-        f"Nhiều bạn hỏi nên bắt đầu từ cuốn nào để vừa dễ đọc vừa có giá trị thực tế. Gợi ý hôm nay là {title}.\n\nĐây là cuốn mình thấy hợp để đọc và áp dụng ngay.\n\nLink tham khảo: {link}\n{hashtags}\nlink affiliate",
-        f"Một cuốn sách tốt là cuốn khiến mình hành động ngay sau khi đọc. {title} là kiểu sách như vậy.\n\nNếu bạn đang cân nhắc mua, mình để link ở đây:\n{link}\n{hashtags}\nlink affiliate",
+        f"Nếu bạn muốn một cuốn sách dễ đọc nhưng áp dụng được ngay vào đời sống, {title} là lựa chọn đáng tiền.\n\nNội dung rõ, không dài dòng, phù hợp đọc mỗi ngày 15-20 phút.\n\nXem chi tiết: {link_text}\n{hashtags}\nlink affiliate",
+        f"Nhiều bạn hỏi nên bắt đầu từ cuốn nào để vừa dễ đọc vừa có giá trị thực tế. Gợi ý hôm nay là {title}.\n\nĐây là cuốn mình thấy hợp để đọc và áp dụng ngay.\n\nLink tham khảo: {link_text}\n{hashtags}\nlink affiliate",
+        f"Một cuốn sách tốt là cuốn khiến mình hành động ngay sau khi đọc. {title} là kiểu sách như vậy.\n\nNếu bạn đang cân nhắc mua, mình để link ở đây:\n{link_text}\n{hashtags}\nlink affiliate",
     ]
     listicle = [
-        f"Gợi ý nhanh cho bạn đang muốn đọc để nâng chất lượng sống:\n1) {title}\n2) Một cuốn cùng chủ đề\n3) Một cuốn giúp áp dụng thực tế\n\nBắt đầu từ cuốn số 1 tại đây: {link}\n{hashtags}\nlink affiliate",
-        f"Top lựa chọn hôm nay cho tệp {page_name}:\n- {title}\n- Một cuốn nền tảng\n- Một cuốn để ứng dụng\n\nBạn có thể xem cuốn đầu tại: {link}\n{hashtags}\nlink affiliate",
+        f"Gợi ý nhanh cho bạn đang muốn đọc để nâng chất lượng sống:\n1) {title}\n2) Một cuốn cùng chủ đề\n3) Một cuốn giúp áp dụng thực tế\n\nBắt đầu từ cuốn số 1 tại đây: {link_text}\n{hashtags}\nlink affiliate",
+        f"Top lựa chọn hôm nay cho tệp {page_name}:\n- {title}\n- Một cuốn nền tảng\n- Một cuốn để ứng dụng\n\nBạn có thể xem cuốn đầu tại: {link_text}\n{hashtags}\nlink affiliate",
     ]
     if post_type == "soft_content":
         return soft + direct[:1] + listicle[:1]
@@ -280,9 +280,9 @@ def build_caption_templates(post_type: str, title: str, link: str, hashtags: str
     return listicle + soft[:2] + direct[:1]
 
 
-def pick_caption(post_type: str, title: str, link: str, hashtags: str, page_name: str,
+def pick_caption(post_type: str, title: str, link_text: str, hashtags: str, page_name: str,
                  existing_captions: list[str], threshold: float) -> tuple[str, dict]:
-    templates = build_caption_templates(post_type, title, link, hashtags, page_name)
+    templates = build_caption_templates(post_type, title, link_text, hashtags, page_name)
     random.shuffle(templates)
 
     for c in templates:
@@ -295,6 +295,47 @@ def pick_caption(post_type: str, title: str, link: str, hashtags: str, page_name
     best = min(templates, key=lambda t: max([caption_similarity(t, x) for x in existing_captions] or [0.0]))
     best_mx = max([caption_similarity(best, x) for x in existing_captions] or [0.0])
     return best, {"max_similarity": round(best_mx, 4), "threshold": threshold, "fallback": True, "template_count": len(templates)}
+
+
+def generate_first_comment(title: str, category: str, link: str, used_patterns: set[str]) -> str:
+    candidates = [
+        ("review", f"Xem review chi tiết cuốn {title} tại đây 👇"),
+        ("discount", f"Link sách đang giảm giá cho {title} ở đây 👇"),
+        ("preview", f"Xem nội dung cuốn {title} trước khi mua 👇"),
+        ("quick", f"Mình để link tham khảo nhanh của {title} ở đây 👇"),
+        ("below", f"Bạn có thể xem bản này của {title} tại link bên dưới 👇"),
+    ]
+
+    # add category flavor with unique pattern keys
+    if category == "tam-ly":
+        candidates.insert(0, ("tamly", f"Nếu bạn đang cần một cuốn dễ áp dụng về tâm lý, xem {title} ở đây 👇"))
+    elif category == "tam-linh":
+        candidates.insert(0, ("tamlinh", f"Cuốn này hợp để đọc chậm và ngẫm, xem {title} tại đây 👇"))
+    elif category == "phat-trien-ban-than":
+        candidates.insert(0, ("ptbt", f"Muốn nâng cấp thói quen mỗi ngày, xem {title} ở đây 👇"))
+    elif category == "ky-nang-song":
+        candidates.insert(0, ("kns", f"Cuốn này khá thực tế cho đời sống hằng ngày, xem {title} tại đây 👇"))
+
+    opener = None
+    picked_key = None
+    for key, text in candidates:
+        if key not in used_patterns:
+            picked_key = key
+            opener = text
+            break
+    if opener is None:
+        picked_key, opener = random.choice(candidates)
+
+    used_patterns.add(picked_key)
+    tails = [
+        "Mình đã đọc và thấy khá dễ ngấm.",
+        "Bạn xem thử mục lục trước rồi quyết nhé.",
+        "Đọc vài trang đầu là biết có hợp mình không.",
+        "Nếu đúng gu, chốt luôn cho kịp đợt giá tốt.",
+        "Hợp thì mua sớm để giữ mức giá này."
+    ]
+    tail = random.choice(tails)
+    return f"{opener}\n{link}\n{tail}"
 
 
 def append_draft_history(history_data: dict, plan_posts: list[dict], now_tz: datetime):
@@ -366,8 +407,12 @@ def generate_plan():
         if h.get("caption_fingerprint")
     )
 
+    placement_cycle = ["caption", "comment"]
+    placement_idx = 0
+    used_comment_openers = set()
+
     for page in config.get("pages", []):
-        page_id = page["page_id"]
+        page_id = page.get("facebook_page_id") or page.get("page_id")
         cooldown = int(page.get("cooldown_days_same_product", rules.get("cooldown_days_same_product", 14)))
         blocked = get_posted_products(history_data, page_id, cooldown, now_tz)
         hist_types = recent_post_types(history_data, page_id, now_tz)
@@ -409,10 +454,25 @@ def generate_plan():
                 continue
 
             hashtags = " ".join(page.get("hashtags", [])[:5])
+            link_placement = placement_cycle[placement_idx % len(placement_cycle)]
+            placement_idx += 1
+
+            if link_placement == "caption":
+                link_text = product.get("affiliate_link", "")
+                first_comment = ""
+            else:
+                link_text = "Link ở comment 👇"
+                first_comment = generate_first_comment(
+                    product.get('title', ''),
+                    product.get('category', ''),
+                    product.get('affiliate_link', ''),
+                    used_comment_openers,
+                )
+
             caption, cap_meta = pick_caption(
                 chosen_type,
                 product.get("title", ""),
-                product.get("affiliate_link", ""),
+                link_text,
                 hashtags,
                 page.get("page_name", ""),
                 page_recent_captions + existing_captions_global,
@@ -429,6 +489,7 @@ def generate_plan():
 
             daily_plan["posts"].append({
                 "page_id": page_id,
+                "internal_page_key": page.get("internal_page_key"),
                 "page_name": page["page_name"],
                 "post_type": chosen_type,
                 "product_id": product["product_id"],
@@ -436,6 +497,8 @@ def generate_plan():
                 "scheduled_time": f"{plan_date} {slot}",
                 "caption": caption,
                 "affiliate_link": product["affiliate_link"],
+                "link_placement": link_placement,
+                "first_comment": first_comment,
                 "status": "ready_to_publish",
                 "meta": {
                     "caption_fingerprint": fp,

@@ -1,0 +1,23 @@
+[2026-04-19 11:10:10] Quét lịch đăng cho ngày: 2026-04-19
+[2026-04-19 11:10:35] Quét lịch đăng cho ngày: 2026-04-19
+[2026-04-19 11:10:35] Lên lịch 'at' cho task: 08:00 | Page: 1 | Mode: 2"
+[2026-04-19 11:10:35] Lên lịch 'at' cho task: 10:30 | Page: 3 | Mode: 4"
+[2026-04-19 11:10:35] Lên lịch 'at' cho task: 20:00 | Page: 3 | Mode: 4"
+[2026-04-19 11:10:36] Đã đưa các task hôm nay vào hàng chờ hệ thống.
+[2026-04-20 00:00:01] Quét lịch đăng cho ngày: 2026-04-20
+[2026-04-20 00:00:02] Lên lịch OK: 09:00 HN | page=1,2,3,4 | mode=ENGAGE
+[2026-04-20 00:00:02] Lên lịch OK: 15:00 HN | page=1,2 | mode=AFF
+[2026-04-20 00:00:02] Đã đưa 2 task hôm nay vào hàng chờ at.
+[2026-04-20 07:00:01] Quét lịch đăng cho ngày: 2026-04-20
+[2026-04-20 07:00:02] Lên lịch OK: 09:00 HN | page=1,2,3,4 | mode=ENGAGE
+[2026-04-20 07:00:02] Lên lịch OK: 15:00 HN | page=1,2 | mode=AFF
+[2026-04-20 07:00:02] Đã đưa 2 task hôm nay vào hàng chờ at.
+[2026-04-21 07:00:01] Quét lịch đăng cho ngày: 2026-04-21
+[2026-04-21 07:00:02] Lên lịch OK: 08:30 HN | page=3,4 | mode=ENGAGE
+[2026-04-21 07:00:02] Lên lịch OK: 20:00 HN | page=1,2 | mode=AFF
+[2026-04-21 07:00:02] Đã đưa 2 task hôm nay vào hàng chờ at.
+[2026-04-22 07:00:01] Quét lịch đăng cho ngày: 2026-04-22
+[2026-04-22 07:00:02] Lên lịch OK: 08:00 HN | page=1,2 | mode=VIRAL
+[2026-04-22 07:00:02] Lên lịch OK: 10:30 HN | page=3,4 | mode=VIRAL
+[2026-04-22 07:00:02] Lên lịch OK: 20:30 HN | page=3,4 | mode=AFF
+[2026-04-22 07:00:02] Đã đưa 3 task hôm nay vào hàng chờ at.

@@ -5,7 +5,7 @@ WORKSPACE="/root/.openclaw/workspace"
 PLANNER_SCRIPT="$WORKSPACE/scripts/planner.py"
 OUTPUT_PLAN="$WORKSPACE/output/daily-plan.json"
 ERROR_LOG="$WORKSPACE/state/error.log"
-TELEGRAM_SESSION_KEY="telegram:8051440849"
+TELEGRAM_TARGET="8051440849"
 
 # Ensure directories exist
 mkdir -p "$WORKSPACE/state"
@@ -26,23 +26,39 @@ if not os.path.exists(p):
     exit(0)
 with open(p, 'r', encoding='utf-8') as f:
     d = json.load(f)
-print(f"✅ LẬP PLAN THÀNH CÔNG ({d.get('date')})")
-print(f"Tổng số bài: {len(d.get('posts', []))}")
-print("-" * 20)
+print(f"--- PLAN SUMMARY: {d.get('date')} ---")
 for post in d.get('posts', []):
-    print(f"Page: {post['page_name']}")
-    print(f"Giờ: {post['scheduled_time']}")
-    print(f"Loại: {post['post_type']}")
-    print(f"Sách: {post['product_title']}")
-    print("-" * 10)
-print("Trạng thái: Đang chờ duyệt (approved-plan.json chưa cập nhật)")
+    # Short one-liner per post
+    label_map = {
+        'soft_content': 'soft',
+        'direct_sell': 'direct',
+        'listicle': 'listicle'
+    }
+    post_type = label_map.get(post['post_type'], post['post_type'])
+    placement = post.get('link_placement', 'caption')
+    line = f"- {post['page_name']} | {post['scheduled_time'].split()[-1]} | {post['product_title']} | {post_type} | {placement}"
+    print(line)
+errs = d.get('errors', [])
+if errs:
+    print("\n[ERRORS]")
+    for e in errs:
+        print(f"! {e.get('page_id') or e.get('product_id')}: {e.get('error')}")
 PY
 )
-    # Send summary to user via sessions_send (requires openclaw CLI or tool use)
-    # Since this runs in cron, we use the openclaw messenger bridge if available, 
-    # but here we'll just log it and rely on the agent heartbeat to report.
-    echo "$SUMMARY" >> "$WORKSPACE/state/planner_summary.txt"
-    echo "[$(date)] Planner finished successfully." >> "$WORKSPACE/state/planner_cron.log"
+    # Write source-of-truth summary snapshot for this run
+    echo "$SUMMARY" > "$WORKSPACE/state/planner_summary.txt"
+
+    # Try to deliver directly to Telegram
+    SEND_OUTPUT=$(openclaw message send --channel telegram --target "$TELEGRAM_TARGET" --message "$SUMMARY" 2>&1)
+    SEND_CODE=$?
+
+    if [ $SEND_CODE -eq 0 ]; then
+        echo "[$(date)] Planner finished successfully and Telegram summary sent." >> "$WORKSPACE/state/planner_cron.log"
+    else
+        echo "[$(date)] Planner finished, but Telegram send failed." >> "$WORKSPACE/state/planner_cron.log"
+        echo "[$(date)] SEND_ERROR: $SEND_OUTPUT" >> "$WORKSPACE/state/planner_cron.log"
+        echo "[$(date)] Fallback command available: Xem planner hôm nay" >> "$WORKSPACE/state/planner_cron.log"
+    fi
 else
     echo "[$(date)] Planner failed. Check $ERROR_LOG" >> "$WORKSPACE/state/planner_cron.log"
 fi

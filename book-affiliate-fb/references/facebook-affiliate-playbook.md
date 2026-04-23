@@ -1,10 +1,11 @@
-# Facebook Affiliate and Viral Playbook for Book Posts
+# Facebook Affiliate, Viral, and Engage Playbook
 
 ## Goal
 
-Create two kinds of high-performing book posts:
+Create three kinds of high-performing posts:
 - **AFF:** useful posts that lead naturally to the first comment for the affiliate link
-- **VIRAL:** emotional, shareable posts that earn comments, saves, and shares without selling
+- **VIRAL:** emotional, shareable book/topic posts that earn comments, saves, and shares without selling
+- **ENGAGE:** non-sales, non-book engagement bait posts designed to trigger comments, shares, and saves
 
 ## Fast decision guide
 
@@ -18,6 +19,10 @@ Create two kinds of high-performing book posts:
 - the post should feel deeply relatable or inspiring
 - the user wants comments, shares, or saves more than clicks
 
+### Use ENGAGE when
+- the post does not need to mention a book
+- the goal is pure page interaction and discussion
+- the topic is evergreen life, work, mindset, money, relationships, healing, or adulting
 ## AFF strategy guide
 
 ### When the book is practical or self-help
@@ -136,6 +141,61 @@ Pattern:
 - Nếu bạn nghĩ ai đó đang cần những dòng này, có thể gửi bài này cho họ.
 - Có những bài viết không cần đọc ngay. Chỉ cần đến đúng lúc là đủ.
 
+## ENGAGE strategy guide
+
+### Auto-select one of these formats
+
+#### Format E1: Opinion prompt
+Use when:
+- the topic is broadly relatable
+- the best outcome is comments and debate without toxicity
+
+Pattern:
+1. one bold but human observation
+2. short explanation or lived truth
+3. direct closing question
+
+#### Format E2: Micro-story
+Use when:
+- you want shares and emotional recognition
+- the topic is work stress, relationships, burnout, loneliness, confidence, etc.
+
+Pattern:
+1. short scene
+2. turning point
+3. simple realization
+4. save/share line or comment prompt
+
+#### Format E3: Reflection list
+Use when:
+- the audience likes snackable posts
+- the topic benefits from quick recognition points
+
+Pattern:
+1. hook
+2. 3 to 5 bullets
+3. one-line closing takeaway
+4. question or save/share trigger
+
+## ENGAGE opening styles
+
+- Càng lớn mình càng thấy, có những mối quan hệ không rời đi vì hết thương. Chỉ là hết cách để ở lại.
+- Có những ngày mình không buồn hẳn, chỉ là không còn nhiều năng lượng để giải thích mình ổn.
+- Người trưởng thành đôi khi mệt không phải vì làm quá nhiều, mà vì nghĩ quá nhiều.
+- Không phải ai im lặng cũng ổn. Có người chỉ đang quá mệt để nói thêm thôi.
+
+## ENGAGE closing ideas
+
+### To invite comments
+- Còn bạn, điều gì bạn mất rất lâu mới chấp nhận được?
+- Có khi nào bạn cũng thấy mình mệt không vì công việc, mà vì phải gồng quá lâu?
+- Nếu được nhắn một câu cho phiên bản mình của 3 năm trước, bạn sẽ nói gì?
+
+### To invite saves/shares
+- Lưu lại bài này cho những ngày bạn cần một lời nhắc nhẹ với chính mình.
+- Nếu bạn nghĩ ai đó đang ở đúng giai đoạn này, có thể gửi bài này cho họ.
+- Có những dòng không cần ai trả lời ngay. Chỉ cần đọc đúng lúc là đủ.
+
 ## Hashtag patterns
 
 ### For AFF
@@ -156,6 +216,9 @@ Example mix:
 Use lightly or omit entirely if they weaken the emotional tone.
 If used, keep to 2 to 4 soft hashtags.
 
+### For ENGAGE
+Usually omit hashtags or keep them very light.
+If used, prefer broad emotional tags only.
 ## Visual metaphor ideas
 
 Map the message of the book into an image:

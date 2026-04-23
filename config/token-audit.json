@@ -1,0 +1,61 @@
+{
+  "publish_mode": false,
+  "note": "Audit-only token storage. Do not use for publishing until explicit user approval.",
+  "pages": {
+    "p1_tram_doc_chua_lanh": {
+      "page_name": "Trạm đọc chữa lành",
+      "facebook_page_id": "1051178364752250",
+      "page_access_token": "EAANKFzb3BFkBRcZCcOJvtpgHMbO80WRWOX65gGnp3qgi1kTpBijCMsCiVPbfZA2NYcyCvKdNlidUvYKZACnzjkaiJc4jdvJoooyugqzAZANrnkxel2fDqFcXUDSehEsecuYQBRiF8RVaHWGxfYKtnxe4WMsLwibXHwBToNBq4FTIlR4xBvAtNSfNvTOZBGASEcyZCLTuQZBPdZA2ZB7n85olpEWvPZC5oivAdTEZBokyHrPP4lbWmo4ZA8b0",
+      "publish_enabled": false,
+      "audit": {
+        "status": "pass",
+        "checked_at": "2026-04-23T00:05",
+        "missing_permissions": []
+      }
+    },
+    "p2_moi_ngay_mot_cuon_sach": {
+      "page_name": "Mỗi ngày một cuốn sách",
+      "facebook_page_id": "992938690579642",
+      "page_access_token": "EAANKFzb3BFkBRcZCcOJvtpgHMbO80WRWOX65gGnp3qgi1kTpBijCMsCiVPbfZA2NYcyCvKdNlidUvYKZACnzjkaiJc4jdvJoooyugqzAZANrnkxel2fDqFcXUDSehEsecuYQBRiF8RVaHWGxfYKtnxe4WMsLwibXHwBToNBq4FTIlR4xBvAtNSfNvTOZBGASEcyZCLTuQZBPdZA2ZB7n85olpEWvPZC5oivAdTEZBokyHrPP4lbWmo4ZA8b0",
+      "publish_enabled": false,
+      "audit": {
+        "status": "pass",
+        "checked_at": "2026-04-23T00:05",
+        "missing_permissions": []
+      }
+    },
+    "p3_triet_ly_co_nhan": {
+      "page_name": "Triết Lý Cổ Nhân",
+      "facebook_page_id": "1129939793529788",
+      "page_access_token": "EAANKFzb3BFkBRcZCcOJvtpgHMbO80WRWOX65gGnp3qgi1kTpBijCMsCiVPbfZA2NYcyCvKdNlidUvYKZACnzjkaiJc4jdvJoooyugqzAZANrnkxel2fDqFcXUDSehEsecuYQBRiF8RVaHWGxfYKtnxe4WMsLwibXHwBToNBq4FTIlR4xBvAtNSfNvTOZBGASEcyZCLTuQZBPdZA2ZB7n85olpEWvPZC5oivAdTEZBokyHrPP4lbWmo4ZA8b0",
+      "publish_enabled": false,
+      "audit": {
+        "status": "pass",
+        "checked_at": "2026-04-23T00:05",
+        "missing_permissions": []
+      }
+    },
+    "p4_su_that_la": {
+      "page_name": "Sự Thật Là",
+      "facebook_page_id": "1124354747418012",
+      "page_access_token": "EAANKFzb3BFkBRcZCcOJvtpgHMbO80WRWOX65gGnp3qgi1kTpBijCMsCiVPbfZA2NYcyCvKdNlidUvYKZACnzjkaiJc4jdvJoooyugqzAZANrnkxel2fDqFcXUDSehEsecuYQBRiF8RVaHWGxfYKtnxe4WMsLwibXHwBToNBq4FTIlR4xBvAtNSfNvTOZBGASEcyZCLTuQZBPdZA2ZB7n85olpEWvPZC5oivAdTEZBokyHrPP4lbWmo4ZA8b0",
+      "publish_enabled": false,
+      "audit": {
+        "status": "pass",
+        "checked_at": "2026-04-23T00:05",
+        "missing_permissions": []
+      }
+    },
+    "p5_tu_sach_thay_doi_tu_duy": {
+      "page_name": "Tủ Sách Thay Đổi Tư Duy",
+      "facebook_page_id": "1077631882095947",
+      "page_access_token": "EAANKFzb3BFkBRcZCcOJvtpgHMbO80WRWOX65gGnp3qgi1kTpBijCMsCiVPbfZA2NYcyCvKdNlidUvYKZACnzjkaiJc4jdvJoooyugqzAZANrnkxel2fDqFcXUDSehEsecuYQBRiF8RVaHWGxfYKtnxe4WMsLwibXHwBToNBq4FTIlR4xBvAtNSfNvTOZBGASEcyZCLTuQZBPdZA2ZB7n85olpEWvPZC5oivAdTEZBokyHrPP4lbWmo4ZA8b0",
+      "publish_enabled": false,
+      "audit": {
+        "status": "pass",
+        "checked_at": "2026-04-23T00:05",
+        "missing_permissions": []
+      }
+    }
+  }
+}

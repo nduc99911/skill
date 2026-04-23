@@ -1,10 +1,21 @@
 {
-  "generated_at": "2026-04-23T07:22:17.803437+07:00",
-  "timezone": "Asia/Ho_Chi_Minh",
-  "schedule_day_mode": "today_future_slots_only",
+  "generated_from": "daily-plan.json",
+  "approved_at": "2026-04-23T07:23:30.632244",
   "publish_mode": false,
   "date": "2026-04-23",
-  "errors": [],
+  "timezone": "Asia/Ho_Chi_Minh",
+  "notes": {
+    "link_placement_ab_test": true,
+    "keep_current_first_comment": true,
+    "extra_optimization_applied": false
+  },
+  "approved_pages": [
+    "1051178364752250",
+    "1077631882095947",
+    "1124354747418012",
+    "1129939793529788",
+    "992938690579642"
+  ],
   "posts": [
     {
       "page_id": "1051178364752250",
@@ -18,7 +29,7 @@
       "affiliate_link": "https://shopee.vn/product/BK106",
       "link_placement": "caption",
       "first_comment": "",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "1666b699129a1c52",
         "publish_mode": false,
@@ -38,7 +49,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     },
     {
@@ -53,7 +66,7 @@
       "affiliate_link": "https://shopee.vn/product/BK101",
       "link_placement": "comment",
       "first_comment": "Nếu bạn đang cần một cuốn dễ áp dụng về tâm lý, xem Hiểu Về Trái Tim ở đây 👇\nhttps://shopee.vn/product/BK101\nNếu đúng gu, chốt luôn cho kịp đợt giá tốt.",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "7871c1536a4cff68",
         "publish_mode": false,
@@ -73,7 +86,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     },
     {
@@ -88,7 +103,7 @@
       "affiliate_link": "https://shopee.vn/product/BK107",
       "link_placement": "caption",
       "first_comment": "",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "7d9f0ec496b02128",
         "publish_mode": false,
@@ -109,7 +124,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     },
     {
@@ -124,7 +141,7 @@
       "affiliate_link": "https://shopee.vn/product/BK111",
       "link_placement": "comment",
       "first_comment": "Xem review chi tiết cuốn Dám Bị Ghét tại đây 👇\nhttps://shopee.vn/product/BK111\nĐọc vài trang đầu là biết có hợp mình không.",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "dba598f1f3bb4e83",
         "publish_mode": false,
@@ -145,7 +162,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     },
     {
@@ -160,7 +179,7 @@
       "affiliate_link": "https://shopee.vn/product/BK101",
       "link_placement": "caption",
       "first_comment": "",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "f74bda88c546a113",
         "publish_mode": false,
@@ -180,7 +199,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     },
     {
@@ -195,7 +216,7 @@
       "affiliate_link": "https://shopee.vn/product/BK117",
       "link_placement": "comment",
       "first_comment": "Cuốn này hợp để đọc chậm và ngẫm, xem Sức Mạnh Của Hiện Tại tại đây 👇\nhttps://shopee.vn/product/BK117\nNếu đúng gu, chốt luôn cho kịp đợt giá tốt.",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "fff34b9b6b7e76b3",
         "publish_mode": false,
@@ -215,7 +236,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     },
     {
@@ -230,7 +253,7 @@
       "affiliate_link": "https://shopee.vn/product/BK112",
       "link_placement": "caption",
       "first_comment": "",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "6ceb24c919647463",
         "publish_mode": false,
@@ -250,7 +273,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     },
     {
@@ -265,7 +290,7 @@
       "affiliate_link": "https://shopee.vn/product/BK111",
       "link_placement": "comment",
       "first_comment": "Link sách đang giảm giá cho Dám Bị Ghét ở đây 👇\nhttps://shopee.vn/product/BK111\nBạn xem thử mục lục trước rồi quyết nhé.",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "86a0be8948a83b71",
         "publish_mode": false,
@@ -285,7 +310,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     },
     {
@@ -300,7 +327,7 @@
       "affiliate_link": "https://shopee.vn/product/BK108",
       "link_placement": "caption",
       "first_comment": "",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "4fbab690204e7c7d",
         "publish_mode": false,
@@ -321,7 +348,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     },
     {
@@ -336,7 +365,7 @@
       "affiliate_link": "https://shopee.vn/product/BK118",
       "link_placement": "comment",
       "first_comment": "Muốn nâng cấp thói quen mỗi ngày, xem Đừng Lựa Chọn An Nhàn Khi Còn Trẻ ở đây 👇\nhttps://shopee.vn/product/BK118\nĐọc vài trang đầu là biết có hợp mình không.",
-      "status": "ready_to_publish",
+      "status": "approved",
       "meta": {
         "caption_fingerprint": "12019b8c055c848d",
         "publish_mode": false,
@@ -357,7 +386,9 @@
           "threshold": 0.75,
           "fallback": true,
           "template_count": 5
-        }
+        },
+        "approved_by_user": true,
+        "approval_variant": "optimized_first_comment_ab_test"
       }
     }
   ]

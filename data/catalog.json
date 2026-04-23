@@ -1,0 +1,223 @@
+{
+  "updated_at": "2026-04-23T00:26:32",
+  "items": [
+    {
+      "product_id": "BK101",
+      "title": "Hiểu Về Trái Tim",
+      "category": "tam-ly",
+      "affiliate_link": "https://shopee.vn/product/BK101",
+      "priority_score": 9,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK102",
+      "title": "Đắc Nhân Tâm",
+      "category": "ky-nang-song",
+      "affiliate_link": "https://s.shopee.vn/808wAR2fUv",
+      "priority_score": 10,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "chat",
+      "updated_at": "2026-04-23T00:26:32"
+    },
+    {
+      "product_id": "BK103",
+      "title": "Nhà Giả Kim",
+      "category": "truyen-cam-hung",
+      "affiliate_link": "https://shopee.vn/product/BK103",
+      "priority_score": 8,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK104",
+      "title": "Tuổi Trẻ Đáng Giá Bao Nhiêu",
+      "category": "phat-trien-ban-than",
+      "affiliate_link": "https://s.shopee.vn/8ASMMsyOlz",
+      "priority_score": 9,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "chat",
+      "updated_at": "2026-04-23T00:26:32"
+    },
+    {
+      "product_id": "BK105",
+      "title": "Muôn Kiếp Nhân Sinh",
+      "category": "tam-linh",
+      "affiliate_link": "https://s.shopee.vn/9zu0YEam3X",
+      "priority_score": 9,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "chat",
+      "updated_at": "2026-04-23T00:26:32"
+    },
+    {
+      "product_id": "BK106",
+      "title": "Không Diệt Không Sinh Đừng Sợ Hãi",
+      "category": "phat-giao",
+      "affiliate_link": "https://shopee.vn/product/BK106",
+      "priority_score": 9,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK107",
+      "title": "Càng Kỷ Luật Càng Tự Do",
+      "category": "phat-trien-ban-than",
+      "affiliate_link": "https://s.shopee.vn/2VnzcYvY4k",
+      "priority_score": 8,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "chat",
+      "updated_at": "2026-04-23T00:26:32"
+    },
+    {
+      "product_id": "BK108",
+      "title": "Nghĩ Giàu Làm Giàu",
+      "category": "kinh-doanh",
+      "affiliate_link": "https://s.shopee.vn/2qQq16nmfv",
+      "priority_score": 8,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "chat",
+      "updated_at": "2026-04-23T00:26:32"
+    },
+    {
+      "product_id": "BK109",
+      "title": "7 Thói Quen Hiệu Quả",
+      "category": "phat-trien-ban-than",
+      "affiliate_link": "https://shopee.vn/product/BK109",
+      "priority_score": 8,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK110",
+      "title": "Tâm Lý Học Về Tiền",
+      "category": "tai-chinh",
+      "affiliate_link": "https://shopee.vn/product/BK110",
+      "priority_score": 9,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK111",
+      "title": "Dám Bị Ghét",
+      "category": "tam-ly",
+      "affiliate_link": "https://s.shopee.vn/5AoknIMYzM",
+      "priority_score": 9,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "chat",
+      "updated_at": "2026-04-23T00:26:32"
+    },
+    {
+      "product_id": "BK112",
+      "title": "Atomic Habits",
+      "category": "phat-trien-ban-than",
+      "affiliate_link": "https://shopee.vn/product/BK112",
+      "priority_score": 9,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK113",
+      "title": "Quẳng Gánh Lo Đi Và Vui Sống",
+      "category": "tam-ly",
+      "affiliate_link": "https://s.shopee.vn/5q4RaetuUC",
+      "priority_score": 8,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "chat",
+      "updated_at": "2026-04-23T00:26:32"
+    },
+    {
+      "product_id": "BK114",
+      "title": "Đi Tìm Lẽ Sống",
+      "category": "triet-hoc",
+      "affiliate_link": "https://shopee.vn/product/BK114",
+      "priority_score": 8,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK115",
+      "title": "Khéo Ăn Nói Sẽ Có Được Thiên Hạ",
+      "category": "ky-nang-song",
+      "affiliate_link": "https://shopee.vn/product/BK115",
+      "priority_score": 7,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK116",
+      "title": "Từ Tốt Đến Vĩ Đại",
+      "category": "kinh-doanh",
+      "affiliate_link": "https://shopee.vn/product/BK116",
+      "priority_score": 7,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK117",
+      "title": "Sức Mạnh Của Hiện Tại",
+      "category": "tam-linh",
+      "affiliate_link": "https://s.shopee.vn/LjV2RUsJO",
+      "priority_score": 9,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "chat",
+      "updated_at": "2026-04-23T00:26:32"
+    },
+    {
+      "product_id": "BK118",
+      "title": "Đừng Lựa Chọn An Nhàn Khi Còn Trẻ",
+      "category": "phat-trien-ban-than",
+      "affiliate_link": "https://shopee.vn/product/BK118",
+      "priority_score": 8,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "products.csv"
+    },
+    {
+      "product_id": "BK119",
+      "title": "Sách Test Hệ Thống",
+      "category": "ky-nang-song",
+      "affiliate_link": "https://shopee.vn/product/TEST001",
+      "priority_score": 10,
+      "status": "active",
+      "created_at": "2026-04-23T00:12:25",
+      "source": "chat"
+    },
+    {
+      "product_id": "BK120",
+      "title": "Càng Kỷ Luật Càng Tự Do",
+      "category": "phat-trien-ban-than",
+      "affiliate_link": "https://s.shopee.vn/2VnzcYvY4k",
+      "priority_score": 8,
+      "status": "active",
+      "created_at": "2026-04-23T00:25:37",
+      "source": "chat"
+    },
+    {
+      "product_id": "BK121",
+      "title": "Atomic Habits (Thói Quen Nguyên Tử)",
+      "category": "phat-trien-ban-than",
+      "affiliate_link": "https://s.shopee.vn/5q4RaUelmP",
+      "priority_score": 10,
+      "status": "active",
+      "created_at": "2026-04-23T00:26:32",
+      "source": "chat"
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+[2026-04-19 20:04:23] === Bắt đầu đăng bài: Page=3,4, Mode=AFF, Topic=Không diệt không sinh đừng sợ hãi ===
+[2026-04-19 20:04:33] OK page=1077631882095947 post_id=1077631882095947_122103312692736441
+[2026-04-19 20:04:38] OK comment_aff page=1077631882095947 post_id=1077631882095947_122103312692736441
+[2026-04-19 20:04:44] OK page=1124935547358731 post_id=1124935547358731_122104835318745694
+[2026-04-19 20:04:48] OK comment_aff page=1124935547358731 post_id=1124935547358731_122104835318745694
+[2026-04-19 20:04:48] === Hoàn tất task: 2026-04-19|3,4|AFF|Không diệt không sinh đừng sợ hãi ===
+[2026-04-19 20:26:46] SKIP task already posted: 2026-04-19|3,4|AFF|Không diệt không sinh đừng sợ hãi
+[2026-04-19 20:26:56] === Bắt đầu đăng bài: Page=3,4, Mode=AFF, Topic=Không diệt không sinh đừng sợ hãi ===
+[2026-04-19 20:27:04] OK page=1077631882095947 post_id=1077631882095947_122103330896736441
+[2026-04-19 20:27:09] OK comment_aff page=1077631882095947 post_id=1077631882095947_122103330896736441
+[2026-04-19 20:27:14] OK page=1124935547358731 post_id=1124935547358731_122104841678745694
+[2026-04-19 20:27:17] OK comment_aff page=1124935547358731 post_id=1124935547358731_122104841678745694
+[2026-04-19 20:27:17] === Hoàn tất task: 2026-04-19|3,4|AFF|Không diệt không sinh đừng sợ hãi ===
+[2026-04-20 02:00:01] === Bắt đầu đăng bài: Page=1,2,3,4, Mode=ENGAGE, Topic= ===
+[2026-04-20 02:00:10] OK page=1135415682984698 post_id=1135415682984698_122098123124689153
+[2026-04-20 02:00:16] OK page=1099385626592219 post_id=1099385626592219_122099743394692227
+[2026-04-20 02:00:22] OK page=1077631882095947 post_id=1077631882095947_122103554096736441
+[2026-04-20 02:00:27] OK page=1124935547358731 post_id=1124935547358731_122104958552745694
+[2026-04-20 02:00:27] === Hoàn tất task: 2026-04-20|1,2,3,4|ENGAGE| ===
+[2026-04-20 09:00:01] SKIP task already posted: 2026-04-20|1,2,3,4|ENGAGE|
+[2026-04-20 09:59:40] === Bắt đầu đăng bài: Page=1,2,3,4, Mode=ENGAGE, Topic= ===
+[2026-04-20 09:59:40] --- Đang tạo nội dung riêng cho Page: 1 ---
+[2026-04-20 10:00:01] === Bắt đầu đăng bài: Page=1,2,3,4, Mode=ENGAGE, Topic= ===
+[2026-04-20 10:00:01] --- Đang tạo nội dung riêng cho Page: 1 ---
+[2026-04-20 10:00:01] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 10:01:00] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 10:01:04] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 10:01:04] --- Đang thực hiện Deep Research cho:  ---
+[2026-04-20 10:01:10] --- Đang viết bài Storytelling với dữ liệu research ---
+[2026-04-20 10:02:12] === Bắt đầu đăng bài: Page=1,2,3,4, Mode=ENGAGE, Topic= ===
+[2026-04-20 10:02:12] --- Đang tạo nội dung riêng cho Page: 1 ---
+[2026-04-20 10:02:12] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 10:03:11] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 10:03:16] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 10:03:16] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 10:03:31] --- Đang viết bài Storytelling với dữ liệu research ---
+[2026-04-20 10:03:50] --- Đang tạo nội dung riêng cho Page: 2 ---
+[2026-04-20 10:03:50] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 10:04:47] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 10:04:52] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 10:04:52] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 10:05:05] --- Đang viết bài Storytelling với dữ liệu research ---
+[2026-04-20 10:05:23] --- Đang tạo nội dung riêng cho Page: 3 ---
+[2026-04-20 10:05:23] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 10:06:07] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 10:06:11] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 10:06:11] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 10:06:24] --- Đang viết bài Storytelling với dữ liệu research ---
+[2026-04-20 10:06:42] --- Đang tạo nội dung riêng cho Page: 4 ---
+[2026-04-20 10:06:42] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 10:07:22] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 10:07:26] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 10:07:26] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 10:07:41] --- Đang viết bài Storytelling với dữ liệu research ---
+[2026-04-20 10:07:58] === Hoàn tất task: 2026-04-20|1,2,3,4|ENGAGE| ===
+[2026-04-20 10:08:15] === Bắt đầu đăng bài: Page=1,2,3,4, Mode=ENGAGE, Topic= ===
+[2026-04-20 10:08:15] --- Đang tạo nội dung riêng cho Page: Triết lý người xưa (1) ---
+[2026-04-20 10:08:15] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 10:09:04] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 10:09:08] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 10:09:08] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 10:09:21] --- Đang viết bài Storytelling cho Triết lý người xưa ---
+[2026-04-20 10:09:43] OK page=1135415682984698 post_id=1135415682984698_122098409816689153
+[2026-04-20 10:09:43] --- Đang tạo nội dung riêng cho Page: Triết Lý Cổ Nhân (2) ---
+[2026-04-20 10:09:43] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 10:10:25] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 10:10:29] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 10:10:29] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 10:10:47] --- Đang viết bài Storytelling cho Triết Lý Cổ Nhân ---
+[2026-04-20 10:11:10] OK page=1099385626592219 post_id=1099385626592219_122100050906692227
+[2026-04-20 10:11:10] --- Đang tạo nội dung riêng cho Page: Tủ Sách Thay Đổi Tư Duy (3) ---
+[2026-04-20 10:11:10] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 10:11:49] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 10:11:54] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 10:11:54] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 10:12:05] --- Đang viết bài Storytelling cho Tủ Sách Thay Đổi Tư Duy ---
+[2026-04-20 10:12:27] OK page=1077631882095947 post_id=1077631882095947_122103904034736441
+[2026-04-20 10:12:27] --- Đang tạo nội dung riêng cho Page: Trạm Đọc Chữa Lành (4) ---
+[2026-04-20 10:12:27] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 10:13:11] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 10:13:16] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 10:13:16] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 10:13:29] --- Đang viết bài Storytelling cho Trạm Đọc Chữa Lành ---
+[2026-04-20 10:13:53] OK page=1124935547358731 post_id=1124935547358731_122105119070745694
+[2026-04-20 10:13:53] === Hoàn tất task: 2026-04-20|1,2,3,4|ENGAGE| ===
+[2026-04-20 11:06:03] === Bắt đầu đăng bài: Page=1,2,3,4, Mode=ENGAGE, Topic= ===
+[2026-04-20 11:06:03] --- Đang tạo nội dung riêng cho Page: Triết lý người xưa (1) ---
+[2026-04-20 11:06:03] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 11:07:24] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 11:07:28] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 11:07:28] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 11:07:41] --- Đang viết bài Storytelling cho Triết lý người xưa ---
+[2026-04-20 11:08:07] OK page=1135415682984698 post_id=1135415682984698_122098440200689153
+[2026-04-20 11:08:07] --- Đang tạo nội dung riêng cho Page: Triết Lý Cổ Nhân (2) ---
+[2026-04-20 11:08:07] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 11:09:26] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 11:09:30] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 11:09:30] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 11:09:41] --- Đang viết bài Storytelling cho Triết Lý Cổ Nhân ---
+[2026-04-20 11:10:08] OK page=1099385626592219 post_id=1099385626592219_122100078584692227
+[2026-04-20 11:10:08] --- Đang tạo nội dung riêng cho Page: Tủ Sách Thay Đổi Tư Duy (3) ---
+[2026-04-20 11:10:08] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 11:11:09] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 11:11:13] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 11:11:13] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 11:11:25] --- Đang viết bài Storytelling cho Tủ Sách Thay Đổi Tư Duy ---
+[2026-04-20 11:11:51] OK page=1077631882095947 post_id=1077631882095947_122103938930736441
+[2026-04-20 11:11:51] --- Đang tạo nội dung riêng cho Page: Trạm Đọc Chữa Lành (4) ---
+[2026-04-20 11:11:51] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 11:12:44] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 11:12:48] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 11:12:48] --- Đang thực hiện Deep Research cho: Dạng list 3 điều thay đổi cuộc sống ---
+[2026-04-20 11:13:02] --- Đang viết bài Storytelling cho Trạm Đọc Chữa Lành ---
+[2026-04-20 11:13:29] OK page=1124935547358731 post_id=1124935547358731_122105136056745694
+[2026-04-20 11:13:29] === Hoàn tất task: 2026-04-20|1,2,3,4|ENGAGE| ===
+[2026-04-20 12:01:31] === Bắt đầu đăng bài: Page=1, Mode=ENGAGE, Topic= ===
+[2026-04-20 12:01:31] --- Đang tạo nội dung riêng cho Page: Triết lý người xưa (1) ---
+[2026-04-20 12:01:31] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 12:02:12] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 12:02:16] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 12:02:16] --- Đang thực hiện Research chủ đề đời sống cho ENGAGE: Áp lực phải giỏi hơn mỗi ngày nhưng trong lòng lại mệt ---
+[2026-04-20 12:02:46] --- Viết bài ENGAGE 100% tương tác cho Triết lý người xưa ---
+[2026-04-20 12:03:16] OK page=1135415682984698 post_id=1135415682984698_122098466738689153
+[2026-04-20 12:03:16] === Hoàn tất task: 2026-04-20|1|ENGAGE| ===
+[2026-04-20 12:06:31] === Bắt đầu đăng bài: Page=1, Mode=ENGAGE, Topic= ===
+[2026-04-20 12:06:31] --- Đang tạo nội dung riêng cho Page: Triết lý người xưa (1) ---
+[2026-04-20 12:06:31] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 12:07:12] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 12:07:16] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 12:07:16] --- Đang thực hiện Research chủ đề đời sống cho ENGAGE: Áp lực phải giỏi hơn mỗi ngày nhưng trong lòng lại mệt ---
+[2026-04-20 12:09:41] --- Viết bài ENGAGE 100% tương tác cho Triết lý người xưa ---
+[2026-04-20 12:10:56] OK page=1135415682984698 post_id=1135415682984698_122098470446689153
+[2026-04-20 12:10:56] === Hoàn tất task: 2026-04-20|1|ENGAGE| ===
+[2026-04-20 15:00:01] === Bắt đầu đăng bài: Page=1,2, Mode=AFF, Topic=Muôn kiếp nhân sinh ===
+[2026-04-20 15:00:01] --- Đang tạo nội dung riêng cho Page: Triết lý người xưa (1) ---
+[2026-04-20 15:00:01] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 15:00:36] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 15:00:41] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 15:00:41] --- Đang thực hiện Deep Research sách cho AFF: Muôn kiếp nhân sinh ---
+[2026-04-20 15:01:14] --- Viết bài AFF cho Triết lý người xưa ---
+[2026-04-20 15:02:11] OK page=1135415682984698 post_id=1135415682984698_122098594490689153
+[2026-04-20 15:02:18] --- Đang tạo nội dung riêng cho Page: Triết Lý Cổ Nhân (2) ---
+[2026-04-20 15:02:18] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-20 15:02:54] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-20 15:02:58] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-20 15:02:58] --- Đang thực hiện Deep Research sách cho AFF: Muôn kiếp nhân sinh ---
+[2026-04-20 15:03:31] --- Viết bài AFF cho Triết Lý Cổ Nhân ---
+[2026-04-20 15:04:30] OK page=1099385626592219 post_id=1099385626592219_122100220610692227
+[2026-04-20 15:04:37] === Hoàn tất task: 2026-04-20|1,2|AFF|Muôn kiếp nhân sinh ===
+[2026-04-21 08:30:01] === Bắt đầu đăng bài: Page=3,4, Mode=ENGAGE, Topic= ===
+[2026-04-21 08:30:01] --- Đang tạo nội dung riêng cho Page: Tủ Sách Thay Đổi Tư Duy (3) ---
+[2026-04-21 08:30:01] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-21 08:31:05] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-21 08:31:09] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-21 08:31:09] --- Đang thực hiện Research chủ đề đời sống cho ENGAGE: Bài viết lật ngược vấn đề thường gặp ---
+[2026-04-21 08:31:45] --- Viết bài ENGAGE 100% tương tác cho Tủ Sách Thay Đổi Tư Duy ---
+[2026-04-21 08:32:29] OK page=1077631882095947 post_id=1077631882095947_122104991786736441
+[2026-04-21 08:32:29] --- Đang tạo nội dung riêng cho Page: Trạm Đọc Chữa Lành (4) ---
+[2026-04-21 08:32:29] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-21 08:33:18] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-21 08:33:22] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-21 08:33:22] --- Đang thực hiện Research chủ đề đời sống cho ENGAGE: Bài viết lật ngược vấn đề thường gặp ---
+[2026-04-21 08:33:53] --- Viết bài ENGAGE 100% tương tác cho Trạm Đọc Chữa Lành ---
+[2026-04-21 08:34:22] OK page=1124935547358731 post_id=1124935547358731_122105512196745694
+[2026-04-21 08:34:22] === Hoàn tất task: 2026-04-21|3,4|ENGAGE| ===
+[2026-04-21 20:00:01] === Bắt đầu đăng bài: Page=1,2, Mode=AFF, Topic=Hiểu về trái tim ===
+[2026-04-21 20:00:01] --- Đang tạo nội dung riêng cho Page: Triết lý người xưa (1) ---
+[2026-04-21 20:00:01] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-21 20:00:53] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-21 20:00:57] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-21 20:00:57] --- Đang thực hiện Deep Research sách cho AFF: Hiểu về trái tim ---
+[2026-04-21 20:01:24] --- Viết bài AFF cho Triết lý người xưa ---
+[2026-04-21 20:02:10] OK page=1135415682984698 post_id=1135415682984698_122100607178689153
+[2026-04-21 20:02:15] --- Đang tạo nội dung riêng cho Page: Triết Lý Cổ Nhân (2) ---
+[2026-04-21 20:02:15] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-21 20:03:05] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-21 20:03:09] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-21 20:03:09] --- Đang thực hiện Deep Research sách cho AFF: Hiểu về trái tim ---
+[2026-04-21 20:03:40] --- Viết bài AFF cho Triết Lý Cổ Nhân ---
+[2026-04-21 20:04:28] OK page=1099385626592219 post_id=1099385626592219_122101875734692227
+[2026-04-21 20:04:32] === Hoàn tất task: 2026-04-21|1,2|AFF|Hiểu về trái tim ===
+[2026-04-21 20:33:44] === Bắt đầu đăng bài: Page=1,2, Mode=AFF, Topic=Hiểu về trái tim ===
+[2026-04-21 20:33:44] --- Đang tạo nội dung riêng cho Page: Triết lý người xưa (1) ---
+[2026-04-21 20:33:44] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-21 20:34:42] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-21 20:34:47] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-21 20:34:47] --- Đang thực hiện Deep Research sách cho AFF: Hiểu về trái tim ---
+[2026-04-21 20:35:23] --- Viết bài AFF cho Triết lý người xưa ---
+[2026-04-21 20:36:13] OK page=1135415682984698 post_id=1135415682984698_122100616520689153
+[2026-04-21 20:36:17] --- Đang tạo nội dung riêng cho Page: Triết Lý Cổ Nhân (2) ---
+[2026-04-21 20:36:17] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-21 20:37:40] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-21 20:37:44] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-21 20:37:44] --- Đang thực hiện Deep Research sách cho AFF: Hiểu về trái tim ---
+[2026-04-21 20:38:19] --- Viết bài AFF cho Triết Lý Cổ Nhân ---
+[2026-04-21 20:39:01] OK page=1099385626592219 post_id=1099385626592219_122101886360692227
+[2026-04-21 20:39:05] === Hoàn tất task: 2026-04-21|1,2|AFF|Hiểu về trái tim ===
+[2026-04-22 08:00:01] === Bắt đầu đăng bài: Page=1,2, Mode=VIRAL, Topic=Lời dạy của Khổng Tử về chữ Nhẫn ===
+[2026-04-22 08:00:01] --- Đang tạo nội dung riêng cho Page: Triết lý người xưa (1) ---
+[2026-04-22 08:00:01] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-22 08:01:00] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-22 08:01:04] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-22 08:01:04] --- Đang thực hiện Deep Research sách cho VIRAL: Lời dạy của Khổng Tử về chữ Nhẫn ---
+[2026-04-22 08:01:43] --- Viết bài VIRAL cho Triết lý người xưa ---
+[2026-04-22 08:02:49] OK page=1135415682984698 post_id=1135415682984698_122100761948689153
+[2026-04-22 08:02:49] --- Đang tạo nội dung riêng cho Page: Triết Lý Cổ Nhân (2) ---
+[2026-04-22 08:02:49] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-22 08:03:36] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-22 08:03:41] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-22 08:03:41] --- Đang thực hiện Deep Research sách cho VIRAL: Lời dạy của Khổng Tử về chữ Nhẫn ---
+[2026-04-22 08:04:09] --- Viết bài VIRAL cho Triết Lý Cổ Nhân ---
+[2026-04-22 08:04:47] OK page=1099385626592219 post_id=1099385626592219_122102035238692227
+[2026-04-22 08:04:47] === Hoàn tất task: 2026-04-22|1,2|VIRAL|Lời dạy của Khổng Tử về chữ Nhẫn ===
+[2026-04-22 10:30:01] === Bắt đầu đăng bài: Page=3,4, Mode=VIRAL, Topic=Video/Ảnh nói về cách yêu thương bản thân ===
+[2026-04-22 10:30:01] --- Đang tạo nội dung riêng cho Page: Tủ Sách Thay Đổi Tư Duy (3) ---
+[2026-04-22 10:30:01] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-22 10:31:02] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-22 10:31:07] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-22 10:31:07] --- Đang thực hiện Deep Research sách cho VIRAL: Video/Ảnh nói về cách yêu thương bản thân ---
+[2026-04-22 10:31:34] --- Viết bài VIRAL cho Tủ Sách Thay Đổi Tư Duy ---
+[2026-04-22 10:32:20] OK page=1077631882095947 post_id=1077631882095947_122105538536736441
+[2026-04-22 10:32:20] --- Đang tạo nội dung riêng cho Page: Trạm Đọc Chữa Lành (4) ---
+[2026-04-22 10:32:20] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-22 10:33:08] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-22 10:33:12] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-22 10:33:12] --- Đang thực hiện Deep Research sách cho VIRAL: Video/Ảnh nói về cách yêu thương bản thân ---
+[2026-04-22 10:33:37] --- Viết bài VIRAL cho Trạm Đọc Chữa Lành ---
+[2026-04-22 10:34:24] OK page=1124935547358731 post_id=1124935547358731_122105947418745694
+[2026-04-22 10:34:24] === Hoàn tất task: 2026-04-22|3,4|VIRAL|Video/Ảnh nói về cách yêu thương bản thân ===
+[2026-04-22 20:30:01] === Bắt đầu đăng bài: Page=3,4, Mode=AFF, Topic=Khi hơi thở hóa thinh không ===
+[2026-04-22 20:30:01] --- Đang tạo nội dung riêng cho Page: Tủ Sách Thay Đổi Tư Duy (3) ---
+[2026-04-22 20:30:01] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-22 20:31:07] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-22 20:31:11] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-22 20:31:11] --- Đang thực hiện Deep Research sách cho AFF: Khi hơi thở hóa thinh không ---
+[2026-04-22 20:31:41] --- Viết bài AFF cho Tủ Sách Thay Đổi Tư Duy ---
+[2026-04-22 20:32:14] OK page=1077631882095947 post_id=1077631882095947_122105746940736441
+[2026-04-22 20:32:41] --- Đang tạo nội dung riêng cho Page: Trạm Đọc Chữa Lành (4) ---
+[2026-04-22 20:32:41] --- Đang thử tạo ảnh bằng Google (Gemini) ---
+[2026-04-22 20:33:49] WARN: Google (Gemini) lỗi hoặc hết quota. Đang fallback sang Cloudflare...
+[2026-04-22 20:33:53] OK: Đã tạo ảnh bằng Cloudflare.
+[2026-04-22 20:33:53] --- Đang thực hiện Deep Research sách cho AFF: Khi hơi thở hóa thinh không ---
+[2026-04-22 20:34:28] --- Viết bài AFF cho Trạm Đọc Chữa Lành ---
+[2026-04-22 20:35:01] OK page=1124935547358731 post_id=1124935547358731_122106115376745694
+[2026-04-22 20:35:05] === Hoàn tất task: 2026-04-22|3,4|AFF|Khi hơi thở hóa thinh không ===

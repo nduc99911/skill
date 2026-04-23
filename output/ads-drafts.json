@@ -1,0 +1,158 @@
+{
+  "generated_at": "2026-04-23T00:37:18.193431+07:00",
+  "timezone": "Asia/Ho_Chi_Minh",
+  "source_inputs": {
+    "approved_plan": "output/approved-plan.json",
+    "pages_config": "config/pages.json",
+    "products": "data/products.csv",
+    "posting_history": "state/posting-history.json",
+    "planner_summary": "state/planner_summary.txt"
+  },
+  "safety": {
+    "publish_mode": false,
+    "launch_enabled": false,
+    "api_calls": "none"
+  },
+  "rules": {
+    "max_draft_per_page_per_day": 1,
+    "max_draft_total_per_day": 3,
+    "approved_only": true,
+    "avoid_recent_same_product_days": 30,
+    "avoid_similar_message": true
+  },
+  "drafts": [
+    {
+      "internal_page_key": "p1_tram_doc_chua_lanh",
+      "page_name": "Trạm đọc chữa lành",
+      "facebook_page_id": "1051178364752250",
+      "product_id": "BK105",
+      "product_title": "Muôn Kiếp Nhân Sinh",
+      "affiliate_link": "https://shopee.vn/product/BK105",
+      "post_caption": "Gợi ý nhanh cho bạn đang muốn đọc để nâng chất lượng sống:\n1) Muôn Kiếp Nhân Sinh\n2) Một cuốn cùng chủ đề\n3) Một cuốn giúp áp dụng thực tế\n\nBắt đầu từ cuốn số 1 tại đây: https://shopee.vn/product/BK105\n#chualanh #tamyen #tramdoc\nlink affiliate\n\nGợi mở thêm: hãy chọn một ý và áp dụng ngay hôm nay.",
+      "ad_primary_text": "Gợi ý nhanh cho bạn đang muốn đọc để nâng chất lượng sống:\n\n1) Muôn Kiếp Nhân Sinh\n\nXem chi tiết tại link trong bài.",
+      "ad_headline": "Muôn Kiếp Nhân Sinh | Gợi ý đáng đọc hôm nay",
+      "cta": "Tìm hiểu thêm",
+      "audience": {
+        "age_range": "24-45",
+        "interests": [
+          "tâm lý học",
+          "thiền",
+          "chữa lành",
+          "sách self-help"
+        ],
+        "gender": "all",
+        "note": "Tệp có nhu cầu cân bằng cảm xúc, ưu tiên nội dung dịu và sâu."
+      },
+      "daily_budget": {
+        "amount_vnd": 120000,
+        "note": "Test budget an toàn, chưa phải ngân sách scale."
+      },
+      "objective": "traffic",
+      "objective_reason": "Nội dung thiên về dẫn link sản phẩm, phù hợp mục tiêu kéo click vào affiliate link.",
+      "placements": [
+        "facebook_feed",
+        "facebook_reels",
+        "facebook_story"
+      ],
+      "reason_for_selection": {
+        "priority_score": 10,
+        "persona_fit": 1.0,
+        "post_type_fit": 1.0,
+        "link_valid": true,
+        "anti_repeat_days": 30,
+        "selection_score": 20.0
+      },
+      "draft_status": "approved_by_user",
+      "approval_note": "User approved objective=traffic, budget=120000"
+    },
+    {
+      "internal_page_key": "p2_moi_ngay_mot_cuon_sach",
+      "page_name": "Mỗi ngày một cuốn sách",
+      "facebook_page_id": "992938690579642",
+      "product_id": "BK121",
+      "product_title": "Atomic Habits",
+      "affiliate_link": "https://s.shopee.vn/5q4RaUelmP",
+      "post_caption": "Nếu bạn muốn một cuốn sách dễ đọc nhưng áp dụng được ngay vào đời sống, Đắc Nhân Tâm là lựa chọn đáng tiền.\n\nNội dung rõ, không dài dòng, phù hợp đọc mỗi ngày 15-20 phút.\n\nXem chi tiết: https://shopee.vn/product/BK102\n#moingaymotcuonsach #docsach #baihoccuocsong\nlink affiliate",
+      "ad_primary_text": "Nếu bạn đang muốn xây thói quen tốt mà không bị quá tải, Atomic Habits là cuốn nên đọc trước tiên.\n\nCuốn sách chỉ ra cách tạo thay đổi nhỏ nhưng bền vững, rất hợp cho người bận rộn cần kết quả thực tế.\n\nXem chi tiết tại link trong bài.",
+      "ad_headline": "Atomic Habits | Thay đổi nhỏ, kết quả lớn",
+      "cta": "Tìm hiểu thêm",
+      "audience": {
+        "age_range": "20-38",
+        "interests": [
+          "atomic habits",
+          "thói quen tốt",
+          "năng suất cá nhân",
+          "self-help"
+        ],
+        "gender": "all",
+        "note": "Tệp trẻ đi làm/sinh viên muốn cải thiện kỷ luật và hiệu suất cá nhân."
+      },
+      "daily_budget": {
+        "amount_vnd": 120000,
+        "note": "Test budget an toàn, chưa phải ngân sách scale."
+      },
+      "objective": "traffic",
+      "objective_reason": "Sản phẩm có ưu tiên cao, thông điệp hành vi rõ, phù hợp ads kéo click vì nhu cầu rộng và cụ thể.",
+      "placements": [
+        "facebook_feed",
+        "facebook_reels",
+        "facebook_story"
+      ],
+      "reason_for_selection": {
+        "priority_score": 10,
+        "persona_fit": 1.0,
+        "post_type_fit": 0.85,
+        "link_valid": true,
+        "anti_repeat_days": 30,
+        "selection_score": 19.9,
+        "message_angle": "Hook mạnh về thói quen + lợi ích rõ ràng cho tệp rộng"
+      },
+      "draft_status": "approved_by_user",
+      "approval_note": "User selected option B: Atomic Habits, objective=traffic"
+    },
+    {
+      "internal_page_key": "p5_tu_sach_thay_doi_tu_duy",
+      "page_name": "Tủ Sách Thay Đổi Tư Duy",
+      "facebook_page_id": "1077631882095947",
+      "product_id": "BK107",
+      "product_title": "Càng Kỷ Luật Càng Tự Do",
+      "affiliate_link": "https://shopee.vn/product/BK107",
+      "post_caption": "Nhiều bạn hỏi nên bắt đầu từ cuốn nào để vừa dễ đọc vừa có giá trị thực tế. Gợi ý hôm nay là Càng Kỷ Luật Càng Tự Do.\n\nĐây là cuốn mình thấy hợp để đọc và áp dụng ngay.\n\nLink tham khảo: https://shopee.vn/product/BK107\n#thaydoituduy #phattrienbanthan #docsachmoingay\nlink affiliate",
+      "ad_primary_text": "Nhiều bạn hỏi nên bắt đầu từ cuốn nào để vừa dễ đọc vừa có giá trị thực tế\n\nGợi ý hôm nay là Càng Kỷ Luật Càng Tự Do\n\nXem chi tiết tại link trong bài.",
+      "ad_headline": "Càng Kỷ Luật Càng Tự Do | Gợi ý đáng đọc hôm nay",
+      "cta": "Tìm hiểu thêm",
+      "audience": {
+        "age_range": "22-38",
+        "interests": [
+          "thói quen",
+          "kỷ luật",
+          "kinh doanh",
+          "năng suất"
+        ],
+        "gender": "all",
+        "note": "Tệp muốn nâng cấp bản thân, phù hợp thông điệp hành động."
+      },
+      "daily_budget": {
+        "amount_vnd": 120000,
+        "note": "Test budget an toàn, chưa phải ngân sách scale."
+      },
+      "objective": "traffic",
+      "objective_reason": "Nội dung thiên về dẫn link sản phẩm, phù hợp mục tiêu kéo click vào affiliate link.",
+      "placements": [
+        "facebook_feed",
+        "facebook_reels",
+        "facebook_story"
+      ],
+      "reason_for_selection": {
+        "priority_score": 9,
+        "persona_fit": 1.0,
+        "post_type_fit": 1.0,
+        "link_valid": true,
+        "anti_repeat_days": 30,
+        "selection_score": 18.5
+      },
+      "draft_status": "approved_by_user",
+      "approval_note": "User approved objective=traffic, budget=120000"
+    }
+  ]
+}
