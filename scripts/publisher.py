@@ -125,6 +125,25 @@ def publish_post(page_id, token, post):
     return True, post_id, "ok"
 
 
+def get_test_candidate(approved_posts, page_id, tz, now):
+    # only approved posts from one page, sorted by scheduled_time desc
+    rows = []
+    for post in approved_posts:
+        if post.get("status") != "approved":
+            continue
+        if str(post.get("page_id")) != str(page_id):
+            continue
+        try:
+            st = parse_scheduled_time(post.get("scheduled_time"), tz)
+        except Exception:
+            continue
+        if st <= now:
+            post_key = f"{page_id}|{post.get('scheduled_time')}|{post.get('product_id')}"
+            rows.append((st, post_key, post))
+    rows.sort(key=lambda x: x[0], reverse=True)  # nearest past first
+    return rows[0] if rows else None
+
+
 def main():
     pages_cfg = load_json(PAGES_CONFIG_PATH, {})
     publisher_cfg = load_json(PUBLISHER_CONFIG_PATH, {
@@ -149,6 +168,11 @@ def main():
         append_log(PUBLISH_LOG_PATH, "Global publish_mode=false. Skip publishing.")
         return
 
+    # strict safety gate: in test mode, require explicit confirmation flag
+    if publisher_cfg.get("test_mode", True) and not publisher_cfg.get("test_confirmed", False):
+        append_log(PUBLISH_LOG_PATH, "Test mode active but test_confirmed=false. Skip publishing.")
+        return
+
     pages_by_id = {}
     for p in pages_cfg.get("pages", []):
         pid = p.get("facebook_page_id") or p.get("page_id")
@@ -158,35 +182,65 @@ def main():
     published_keys = {x.get("post_key") for x in history.get("published", []) if x.get("post_key")}
 
     eligible = []
-    for post in approved.get("posts", []):
-        if post.get("status") != "approved":
-            continue
 
-        page_id = str(post.get("page_id"))
-        page = pages_by_id.get(page_id)
+    if publisher_cfg.get("test_mode", True):
+        # strict mode: only one page, one post
+        test_page_id = str(publisher_cfg.get("test_page_id", "")).strip()
+        if not test_page_id:
+            append_log(PUBLISH_ERROR_LOG_PATH, "test_mode=true but test_page_id is empty. Abort.")
+            return
+
+        page = pages_by_id.get(test_page_id)
         if not page:
-            continue
+            append_log(PUBLISH_ERROR_LOG_PATH, f"test_page_id={test_page_id} not found in pages config. Abort.")
+            return
 
         if not page.get("publish_enabled", False):
-            continue
+            append_log(PUBLISH_ERROR_LOG_PATH, f"test page {test_page_id} publish_enabled=false. Abort.")
+            return
 
-        if publisher_cfg.get("test_mode", True):
-            test_page_id = str(publisher_cfg.get("test_page_id", "")).strip()
-            if test_page_id and page_id != test_page_id:
+        candidate = get_test_candidate(approved.get("posts", []), test_page_id, tz, now)
+        if not candidate:
+            append_log(PUBLISH_LOG_PATH, f"No approved due post for test_page_id={test_page_id}.")
+            return
+
+        st, post_key, post = candidate
+        requested_key = str(publisher_cfg.get("test_post_key", "")).strip()
+        if requested_key and requested_key != post_key:
+            append_log(PUBLISH_ERROR_LOG_PATH, f"Requested test_post_key mismatch. requested={requested_key} actual={post_key}. Abort.")
+            return
+
+        if post_key in published_keys:
+            append_log(PUBLISH_LOG_PATH, f"Test post already published: {post_key}")
+            return
+
+        eligible = [(st, post_key, post, page)]
+    else:
+        for post in approved.get("posts", []):
+            if post.get("status") != "approved":
                 continue
 
-        st = parse_scheduled_time(post.get("scheduled_time"), tz)
-        if st > now:
-            continue
+            page_id = str(post.get("page_id"))
+            page = pages_by_id.get(page_id)
+            if not page:
+                continue
 
-        post_key = f"{page_id}|{post.get('scheduled_time')}|{post.get('product_id')}"
-        if post_key in published_keys:
-            continue
+            if not page.get("publish_enabled", False):
+                continue
 
-        eligible.append((st, post_key, post, page))
+            st = parse_scheduled_time(post.get("scheduled_time"), tz)
+            if st > now:
+                continue
 
-    eligible.sort(key=lambda x: x[0])
-    max_posts = int(publisher_cfg.get("max_posts_per_run", 1))
+            post_key = f"{page_id}|{post.get('scheduled_time')}|{post.get('product_id')}"
+            if post_key in published_keys:
+                continue
+
+            eligible.append((st, post_key, post, page))
+
+        eligible.sort(key=lambda x: x[0])
+
+    max_posts = 1 if publisher_cfg.get("test_mode", True) else int(publisher_cfg.get("max_posts_per_run", 1))
     to_publish = eligible[:max_posts]
 
     if not to_publish:
@@ -241,6 +295,13 @@ def main():
 
     save_json(PUBLISH_HISTORY_PATH, history)
     save_json(APPROVED_PLAN_PATH, approved)
+
+    # auto-disable after one test publish attempt to prevent further posts
+    if publisher_cfg.get("test_mode", True):
+        publisher_cfg["enabled"] = False
+        publisher_cfg["test_confirmed"] = False
+        save_json(PUBLISHER_CONFIG_PATH, publisher_cfg)
+        append_log(PUBLISH_LOG_PATH, "Test publish flow auto-disabled: publisher.enabled=false, test_confirmed=false.")
 
 
 if __name__ == "__main__":

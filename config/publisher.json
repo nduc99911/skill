@@ -2,6 +2,8 @@
   "enabled": false,
   "test_mode": true,
   "test_page_id": "",
+  "test_post_key": "",
+  "test_confirmed": false,
   "max_posts_per_run": 1,
-  "note": "Safe default: disabled until user explicitly says 'Bật publish test cho page X'."
+  "note": "Safe default: disabled until user explicitly says 'Bật publish test cho page X'. In test_mode only one post from one specified page can publish, and only after explicit confirmation."
 }
