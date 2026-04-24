@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+import mimetypes
 import requests
+from pathlib import Path
 from typing import Any, Dict
 
 GRAPH_BASE = 'https://graph.facebook.com/v19.0'
@@ -41,13 +43,27 @@ class MetaClient:
         )
 
     def create_photo_post(self, page_id: str, page_access_token: str, caption: str, image_url: str) -> Dict[str, Any]:
-        # Uses URL upload to /photos
         return self._req(
             'POST',
             f'{page_id}/photos',
             access_token=page_access_token,
             data={'caption': caption, 'url': image_url, 'published': 'true'},
         )
+
+    def create_photo_post_from_file(self, page_id: str, page_access_token: str, caption: str, image_path: str) -> Dict[str, Any]:
+        p = Path(image_path)
+        if not p.exists():
+            raise MetaApiError(f'Image file not found: {image_path}')
+        mime = mimetypes.guess_type(str(p))[0] or 'image/png'
+        with p.open('rb') as f:
+            files = {'source': (p.name, f, mime)}
+            return self._req(
+                'POST',
+                f'{page_id}/photos',
+                access_token=page_access_token,
+                data={'caption': caption, 'published': 'true'},
+                files=files,
+            )
 
     def create_feed_post(self, page_id: str, page_access_token: str, message: str) -> Dict[str, Any]:
         return self._req('POST', f'{page_id}/feed', access_token=page_access_token, data={'message': message})

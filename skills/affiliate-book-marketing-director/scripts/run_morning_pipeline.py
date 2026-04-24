@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import json
+import os
 import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -16,8 +17,15 @@ from meta_api import MetaClient, MetaApiError
 
 ROOT = Path('/root/.openclaw/workspace')
 STATE_FILE = ROOT / 'state' / 'affiliate_pipeline_state.json'
+QUEUE_FILE = ROOT / 'state' / 'affiliate_publish_queue.json'
 TMP_IMG_DIR = ROOT / 'data' / 'cloudflare_generated'
 TMP_IMG_DIR.mkdir(parents=True, exist_ok=True)
+
+
+# PIPELINE_MODE:
+# - build_queue (default): run at 07:00, read sheet and enqueue posts by "Giờ đăng"
+# - dispatch_due: run every 5-15 minutes, publish only due queue items
+PIPELINE_MODE = os.getenv('PIPELINE_MODE', 'build_queue').strip().lower()
 
 
 def load_state():
@@ -31,41 +39,119 @@ def save_state(s):
     STATE_FILE.write_text(json.dumps(s, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
-def main():
-    cfg = get_settings()
-    tz = ZoneInfo(cfg.timezone)
-    now = datetime.now(tz)
+def load_queue():
+    if not QUEUE_FILE.exists():
+        return {'date': '', 'items': []}
+    return json.loads(QUEUE_FILE.read_text(encoding='utf-8'))
 
-    weekday = now.weekday()  # Monday=0 ... Sunday=6
-    is_friday = weekday == 4
 
-    books = load_books(cfg.books_csv_path, cfg.books_csv_url)
-    trends = scan_trends(max_items=20)
-    log('morning_pipeline_start', books=len(books), trends=len(trends), is_friday=is_friday, dry_run=cfg.dry_run)
+def save_queue(q):
+    QUEUE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    QUEUE_FILE.write_text(json.dumps(q, ensure_ascii=False, indent=2), encoding='utf-8')
 
-    meta = None
-    cf = None
-    if cfg.meta_access_token:
-        meta = MetaClient(cfg.meta_access_token)
-    if cfg.cf_account_id and cfg.cf_api_token:
-        cf = CloudflareClient(cfg.cf_account_id, cfg.cf_api_token)
 
+def resolve_pages(meta: MetaClient | None, cfg, dryrun=False):
     if meta:
         pages = meta.list_pages()
-        # TEST_PAGE_ID has highest priority for safe live nghiệm thu
         if cfg.test_page_id:
             pages = [p for p in pages if str(p.get('id')) == str(cfg.test_page_id)]
         elif cfg.fb_page_id:
             pages = [p for p in pages if str(p.get('id')) == str(cfg.fb_page_id)]
-    elif cfg.dry_run:
+    elif dryrun:
         pages = [{'id': 'dryrun_page_1', 'name': 'Dry Run Page 1', 'access_token': 'dryrun_page_token'}]
     else:
         raise SystemExit('META_ACCESS_TOKEN missing for live mode')
 
     if not pages:
-        raise SystemExit('No page available from /me/accounts with current token')
+        raise SystemExit('No page available from /me/accounts with current token/filter')
+    return pages
 
-    # Optional mapping: {"<page_id>": "<ig_business_id>"}
+
+def parse_publish_hhmm(book: dict, now: datetime) -> datetime:
+    # Accept Vietnamese and ASCII column names
+    raw = (book.get('Giờ đăng') or book.get('gio_dang') or book.get('publish_time') or '').strip()
+    if not raw:
+        # default immediate at scan time
+        return now
+    try:
+        hh, mm = raw.split(':', 1)
+        hh_i = int(hh)
+        mm_i = int(mm)
+        return now.replace(hour=hh_i, minute=mm_i, second=0, microsecond=0)
+    except Exception:
+        # fallback now + log in queue note
+        return now
+
+
+def build_daily_queue(cfg):
+    tz = ZoneInfo(cfg.timezone)
+    now = datetime.now(tz)
+    day_key = now.strftime('%Y-%m-%d')
+    weekday = now.weekday()
+    is_friday = weekday == 4
+
+    books = load_books(cfg.books_csv_path, cfg.books_csv_url)
+    trends = scan_trends(max_items=20)
+
+    meta = MetaClient(cfg.meta_access_token) if cfg.meta_access_token else None
+    pages = resolve_pages(meta, cfg, dryrun=cfg.dry_run)
+
+    items = []
+    seq = 0
+    for page in pages:
+        page_id = str(page.get('id'))
+        page_name = page.get('name', '')
+        for book in books:
+            seq += 1
+            publish_at = parse_publish_hhmm(book, now)
+            if is_friday:
+                caption = (
+                    f"Minigame Thứ Sáu: Trích câu này, bạn đoán thuộc cuốn nào nhé?\n\n"
+                    f"\"{book.get('quote', 'Hạnh phúc là hành trình, không phải đích đến.')}\"\n\n"
+                    "Tag 2 người bạn và comment đáp án đúng để nhận quà bí mật 🎁"
+                )
+            else:
+                trend = pick_trend_for_book(book, trends)
+                caption = build_caption(book, trend)
+
+            image_text = build_image_text(book)
+            prompt = build_image_prompt(book, image_text)
+
+            items.append({
+                'queue_id': f"{day_key}_{page_id}_{book.get('id','book')}_{seq}",
+                'status': 'queued',
+                'created_at': now.isoformat(),
+                'publish_at': publish_at.isoformat(),
+                'page_id': page_id,
+                'page_name': page_name,
+                'book': book,
+                'caption': caption,
+                'image_text': image_text,
+                'image_prompt': prompt,
+                'friday_mode': is_friday,
+            })
+
+    queue_doc = {'date': day_key, 'items': items}
+    save_queue(queue_doc)
+    log('morning_pipeline_queue_built', date=day_key, total_items=len(items), pages=len(pages), books=len(books), dry_run=cfg.dry_run)
+
+
+def dispatch_due(cfg):
+    tz = ZoneInfo(cfg.timezone)
+    now = datetime.now(tz)
+
+    queue_doc = load_queue()
+    items = queue_doc.get('items', [])
+    if not items:
+        log('morning_pipeline_dispatch_skip', reason='empty_queue')
+        return
+
+    meta = MetaClient(cfg.meta_access_token) if cfg.meta_access_token else None
+    cf = CloudflareClient(cfg.cf_account_id, cfg.cf_api_token) if (cfg.cf_account_id and cfg.cf_api_token) else None
+
+    pages = resolve_pages(meta, cfg, dryrun=cfg.dry_run)
+    page_token_map = {str(p.get('id')): (p.get('access_token') or '').strip() for p in pages}
+
     page_ig_map = {}
     map_path = Path(cfg.page_ig_map_path)
     if map_path.exists():
@@ -74,92 +160,133 @@ def main():
     state = load_state()
     min_gap = cfg.min_publish_interval_minutes * 60
 
-    for page in pages:
-        page_id = str(page.get('id'))
-        page_name = page.get('name', '')
-        page_token = (page.get('access_token') or '').strip()
-        if not page_token:
-            log_error('morning_pipeline_page_skip', 'missing_page_access_token', page_id=page_id, page_name=page_name)
+    changed = False
+    for item in sorted(items, key=lambda x: x.get('publish_at', '')):
+        if item.get('status') != 'queued':
             continue
 
-        for i, book in enumerate(books, 1):
-            try:
-                if is_friday:
-                    caption = (
-                        f"Minigame Thứ Sáu: Trích câu này, bạn đoán thuộc cuốn nào nhé?\n\n"
-                        f"\"{book.get('quote', 'Hạnh phúc là hành trình, không phải đích đến.')}\"\n\n"
-                        "Tag 2 người bạn và comment đáp án đúng để nhận quà bí mật 🎁"
-                    )
-                else:
-                    trend = pick_trend_for_book(book, trends)
-                    caption = build_caption(book, trend)
+        try:
+            due_at = datetime.fromisoformat(item.get('publish_at'))
+        except Exception:
+            due_at = now
 
-                image_text = build_image_text(book)
-                prompt = build_image_prompt(book, image_text)
+        if due_at > now:
+            continue
 
-                if cfg.dry_run and not cf:
-                    image_bytes = b'dryrun-image-bytes'
-                    tmp_file = TMP_IMG_DIR / f"{page_id}_{book.get('id','book')}_{int(time.time())}.png"
-                    tmp_file.write_bytes(image_bytes)
-                    image_url = 'https://example.com/dryrun-image.png'
-                else:
-                    image_bytes = cf.render_image(prompt)
-                    tmp_file = TMP_IMG_DIR / f"{page_id}_{book.get('id','book')}_{int(time.time())}.png"
-                    tmp_file.write_bytes(image_bytes)
+        page_id = str(item.get('page_id', ''))
+        page_name = item.get('page_name', '')
 
+        # enforce TEST_PAGE_ID at dispatch too
+        if cfg.test_page_id and page_id != str(cfg.test_page_id):
+            continue
+
+        page_token = page_token_map.get(page_id, '')
+        if not cfg.dry_run and not page_token:
+            item['status'] = 'failed'
+            item['error'] = 'missing_page_access_token'
+            changed = True
+            log_error('morning_pipeline_dispatch_failed', 'missing_page_access_token', queue_id=item.get('queue_id'), page_id=page_id, page_name=page_name)
+            continue
+
+        try:
+            now_ts = time.time()
+            wait_sec = (state.get('last_publish_ts', 0) + min_gap) - now_ts
+            if wait_sec > 0:
+                time.sleep(wait_sec)
+
+            book = item.get('book', {})
+            caption = item.get('caption', '')
+            image_text = item.get('image_text', '')
+            prompt = item.get('image_prompt', '')
+            is_friday = bool(item.get('friday_mode'))
+
+            tmp_file = TMP_IMG_DIR / f"{page_id}_{book.get('id','book')}_{int(time.time())}.png"
+            image_url = ''
+            if cfg.dry_run and not cf:
+                image_bytes = b'dryrun-image-bytes'
+                tmp_file.write_bytes(image_bytes)
+                image_url = 'https://example.com/dryrun-image.png'
+            else:
+                if not cf:
+                    raise CloudflareApiError('Cloudflare credentials missing in live mode')
+                image_bytes = cf.render_image(prompt)
+                tmp_file.write_bytes(image_bytes)
+
+                # Try Cloudflare Images public URL first; if fails, fallback to FB file upload.
+                try:
                     upload = cf.upload_image_public(image_bytes)
                     variants = upload.get('variants', [])
                     image_url = variants[0] if variants else ''
-                    if not image_url:
-                        raise CloudflareApiError('Cloudflare image upload returned no public variants URL')
+                except Exception:
+                    image_url = ''
 
-                now_ts = time.time()
-                wait_sec = (state.get('last_publish_ts', 0) + min_gap) - now_ts
-                if wait_sec > 0:
-                    time.sleep(wait_sec)
+            affiliate_link = (book.get('affiliate_link') or '').strip()
 
-                affiliate_link = (book.get('affiliate_link') or '').strip()
+            if cfg.dry_run:
+                fb_post_id = f"dryrun_{page_id}_{book.get('id','book')}"
+                ig_id = f"dryrun_ig_{page_id}_{book.get('id','book')}"
+                mode_note = 'dry_run_no_api_publish'
+            else:
+                if not meta:
+                    raise MetaApiError('META_ACCESS_TOKEN missing for live publish')
 
-                if cfg.dry_run:
-                    fb_post_id = f"dryrun_{page_id}_{book.get('id','book')}"
-                    ig_id = f"dryrun_ig_{page_id}_{book.get('id','book')}"
-                    private_note = 'dry_run_no_api_publish'
-                else:
+                if image_url:
                     fb_resp = meta.create_photo_post(page_id, page_token, caption, image_url)
-                    fb_post_id = fb_resp.get('post_id') or fb_resp.get('id', '')
-                    if (not is_friday) and affiliate_link and fb_post_id:
-                        meta.create_comment(fb_post_id, page_token, f"Link ưu đãi mình để bên dưới 👇\n{affiliate_link}")
+                    publish_path = 'fb_photo_by_url'
+                else:
+                    fb_resp = meta.create_photo_post_from_file(page_id, page_token, caption, str(tmp_file))
+                    publish_path = 'fb_photo_by_file_fallback'
 
-                    ig_id = ''
-                    ig_business_id = page_ig_map.get(page_id) or cfg.ig_business_id
-                    if ig_business_id:
-                        ig_resp = meta.publish_instagram_media(ig_business_id, image_url, caption)
-                        ig_id = ig_resp.get('id', '')
-                    private_note = 'published'
+                fb_post_id = fb_resp.get('post_id') or fb_resp.get('id', '')
 
-                state['last_publish_ts'] = time.time()
-                save_state(state)
+                if (not is_friday) and affiliate_link and fb_post_id:
+                    meta.create_comment(fb_post_id, page_token, f"Link ưu đãi mình để bên dưới 👇\n{affiliate_link}")
 
-                log(
-                    'morning_pipeline_posted',
-                    seq=i,
-                    page_id=page_id,
-                    page_name=page_name,
-                    book_id=book.get('id', ''),
-                    title=book.get('title', ''),
-                    image_text=image_text,
-                    image_url=image_url,
-                    fb_post_id=fb_post_id,
-                    ig_media_id=ig_id,
-                    friday_mode=is_friday,
-                    mode=private_note,
-                )
+                ig_id = ''
+                ig_business_id = page_ig_map.get(page_id) or cfg.ig_business_id
+                if ig_business_id and image_url:
+                    ig_resp = meta.publish_instagram_media(ig_business_id, image_url, caption)
+                    ig_id = ig_resp.get('id', '')
+                mode_note = f'published:{publish_path}'
 
-            except (MetaApiError, CloudflareApiError, Exception) as e:
-                log_error('morning_pipeline_failed', str(e), page_id=page_id, page_name=page_name, seq=i, book=book)
-                continue
+            item['status'] = 'published'
+            item['published_at'] = datetime.now(tz).isoformat()
+            item['fb_post_id'] = fb_post_id
+            item['ig_media_id'] = ig_id
+            item['image_url'] = image_url
+            changed = True
 
-    log('morning_pipeline_done', pages=len(pages), dry_run=cfg.dry_run)
+            state['last_publish_ts'] = time.time()
+            save_state(state)
+
+            log('morning_pipeline_posted', queue_id=item.get('queue_id'), page_id=page_id, page_name=page_name,
+                book_id=book.get('id', ''), title=book.get('title', ''), image_text=image_text,
+                image_url=image_url, fb_post_id=fb_post_id, ig_media_id=ig_id,
+                friday_mode=is_friday, mode=mode_note)
+
+        except (MetaApiError, CloudflareApiError, Exception) as e:
+            item['status'] = 'failed'
+            item['error'] = str(e)
+            changed = True
+            log_error('morning_pipeline_dispatch_failed', str(e), queue_id=item.get('queue_id'), page_id=page_id, page_name=page_name)
+            continue
+
+    if changed:
+        queue_doc['items'] = items
+        save_queue(queue_doc)
+
+    queued_left = sum(1 for x in items if x.get('status') == 'queued')
+    published = sum(1 for x in items if x.get('status') == 'published')
+    failed = sum(1 for x in items if x.get('status') == 'failed')
+    log('morning_pipeline_dispatch_done', queued_left=queued_left, published=published, failed=failed, dry_run=cfg.dry_run)
+
+
+def main():
+    cfg = get_settings()
+    if PIPELINE_MODE == 'dispatch_due':
+        dispatch_due(cfg)
+    else:
+        build_daily_queue(cfg)
 
 
 if __name__ == '__main__':
