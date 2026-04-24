@@ -40,6 +40,8 @@ def _normalize_row(row: Dict[str, str]) -> Dict[str, str]:
         return ''
 
     out = dict(mapped)
+    out['stt'] = pick('stt', 'index', 'no')
+    out['page_id'] = pick('id page', 'page id', 'page_id', 'id fanpage', 'fanpage id')
     out['title'] = pick('tên sách', 'ten sach', 'title')
     out['affiliate_link'] = pick('link aff', 'link affiliate', 'affiliate_link', 'link')
     out['post_type'] = pick('loại bài', 'loai bai', 'post_type', 'type')

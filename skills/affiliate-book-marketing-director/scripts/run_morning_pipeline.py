@@ -97,12 +97,24 @@ def build_daily_queue(cfg):
     meta = MetaClient(cfg.meta_access_token) if cfg.meta_access_token else None
     pages = resolve_pages(meta, cfg, dryrun=cfg.dry_run)
 
+    page_map = {str(p.get('id')): p for p in pages}
+
     items = []
     seq = 0
-    for page in pages:
-        page_id = str(page.get('id'))
-        page_name = page.get('name', '')
-        for book in books:
+    for book in books:
+        row_page_id = str((book.get('page_id') or '').strip())
+
+        if row_page_id:
+            if row_page_id not in page_map:
+                log_error('queue_row_skipped', 'sheet_page_id_not_accessible_or_filtered', row_page_id=row_page_id, row=book)
+                continue
+            target_pages = [page_map[row_page_id]]
+        else:
+            target_pages = pages
+
+        for page in target_pages:
+            page_id = str(page.get('id'))
+            page_name = page.get('name', '')
             seq += 1
             publish_at = parse_publish_hhmm(book, now)
             if is_friday:
@@ -118,8 +130,9 @@ def build_daily_queue(cfg):
             image_text = build_image_text(book)
             prompt = build_image_prompt(book, image_text)
 
+            row_id = (book.get('stt') or book.get('id') or 'book').strip() if isinstance(book.get('stt') or book.get('id') or 'book', str) else str(book.get('stt') or book.get('id') or 'book')
             items.append({
-                'queue_id': f"{day_key}_{page_id}_{book.get('id','book')}_{seq}",
+                'queue_id': f"{day_key}_{page_id}_{row_id}_{seq}",
                 'status': 'queued',
                 'created_at': now.isoformat(),
                 'publish_at': publish_at.isoformat(),
