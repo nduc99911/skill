@@ -56,13 +56,13 @@ def build_image_prompt(book: Dict[str, str], image_text: str) -> str:
         motif = 'editorial abstract composition with subtle symbolic shapes related to learning and books'
 
     return (
-        f"Create a premium, consistent 1:1 social background for Vietnamese book content about '{title}'. "
-        f"Style base: dark blue to warm amber cinematic gradient, subtle paper texture, soft vignette, "
-        f"clean center safe-area for headline text, elegant editorial lighting, high contrast, minimal noise. "
+        f"Create a premium, consistent 1:1 abstract thematic background for Vietnamese book content about '{title}'. "
+        f"Style base: cinematic scene with soft depth, elegant color grading, clean center safe-area for headline text. "
+        f"Visual direction: landscape elements or human silhouette/figure in artistic abstract style, emotionally evocative. "
         f"Add subtle thematic motif: {motif}. "
-        f"Keep composition stable across posts, no people, no explicit text, no clutter."
+        f"Strict exclusions: no book, no bookshelf, no readable text, no letters, no logo, no watermark, no clutter."
     )
 
 
 def build_image_negative_prompt() -> str:
-    return 'text, letters, words, typography, watermark, logo, signature, gibberish, artifacts'
+    return 'text, letters, words, typography, watermark, logo, signature, gibberish, artifacts, book, books, bookshelf, book cover, magazine, newspaper'
