@@ -36,7 +36,9 @@ Thực hiện theo thứ tự:
 3. Ghép trend với sách theo mức liên quan ngữ nghĩa:
    - Nếu liên quan đủ mạnh: viết bài trend-jacking
    - Nếu không: viết bài affiliate/review/chia sẻ kiến thức thông thường
-4. Tạo ảnh bằng Cloudflare AI theo prompt chuẩn visual
+4. Tạo ảnh theo pipeline mới:
+   - Bước A: Cloudflare AI chỉ tạo background (không chữ)
+   - Bước B: Pillow render text tiếng Việt (Unicode) lên ảnh với dark overlay + drop shadow
 5. Đăng chéo Facebook + Instagram
 6. Nếu là bài bán hàng và chính sách page cho phép: đưa link affiliate ở comment đầu tiên (hoặc theo policy account)
 
@@ -45,6 +47,7 @@ Quy tắc quality:
 - Hook rõ trong 1-2 câu đầu
 - Có CTA mềm cho bài bán hàng
 - Không spam emoji/hashtag
+- Ảnh quote tiếng Việt phải render bằng Pillow, không để model tự viết chữ
 
 ## 2) Nhiệm vụ liên tục: tối ưu chuyển đổi qua bình luận/inbox
 

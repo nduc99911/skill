@@ -21,32 +21,46 @@ class CloudflareClient:
         self.font_dir = Path('/root/.openclaw/workspace/assets/fonts')
         self.font_dir.mkdir(parents=True, exist_ok=True)
 
-    def _ensure_vn_font(self) -> Path:
-        font_path = self.font_dir / 'Roboto-Regular.ttf'
+    def _ensure_vn_font(self) -> Path | None:
+        font_path = self.font_dir / 'NotoSansVN.ttf'
         if font_path.exists():
             return font_path
-        # Noto Sans (supports Vietnamese) from Google Fonts GitHub raw
         url = 'https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans%5Bwdth,wght%5D.ttf'
-        r = requests.get(url, timeout=30)
-        if r.status_code >= 400:
-            raise CloudflareApiError(f'Cannot download font: {r.status_code}')
-        font_path.write_bytes(r.content)
-        return font_path
+        last_err = None
+        for _ in range(3):
+            try:
+                r = requests.get(url, timeout=30)
+                if r.status_code < 400 and r.content:
+                    font_path.write_bytes(r.content)
+                    return font_path
+                last_err = f'font_http_{r.status_code}'
+            except Exception as e:
+                last_err = str(e)
+                continue
+        return None
 
     def render_image(self, prompt: str, negative_prompt: str = '') -> bytes:
         url = f'https://api.cloudflare.com/client/v4/accounts/{self.account_id}/ai/run/@cf/bytedance/stable-diffusion-xl-lightning'
-        r = requests.post(
-            url,
-            headers={
-                'Authorization': f'Bearer {self.api_token}',
-                'Content-Type': 'application/json',
-            },
-            json={'prompt': prompt, 'negative_prompt': negative_prompt} if negative_prompt else {'prompt': prompt},
-            timeout=60,
-        )
-        if r.status_code >= 400:
-            raise CloudflareApiError(f'Cloudflare render failed {r.status_code}: {r.text[:500]}')
-        return r.content
+        payload = {'prompt': prompt, 'negative_prompt': negative_prompt} if negative_prompt else {'prompt': prompt}
+        last_err = None
+        for _ in range(3):
+            try:
+                r = requests.post(
+                    url,
+                    headers={
+                        'Authorization': f'Bearer {self.api_token}',
+                        'Content-Type': 'application/json',
+                    },
+                    json=payload,
+                    timeout=90,
+                )
+                if r.status_code < 400:
+                    return r.content
+                last_err = f'{r.status_code}: {r.text[:300]}'
+            except Exception as e:
+                last_err = str(e)
+                continue
+        raise CloudflareApiError(f'Cloudflare render failed after retries: {last_err}')
 
     def render_text_overlay(self, background_bytes: bytes, text: str, out_size: int = 1080) -> bytes:
         try:
@@ -63,7 +77,10 @@ class CloudflareClient:
 
         font_path = self._ensure_vn_font()
         font_size = int(out_size * 0.06)
-        font = ImageFont.truetype(str(font_path), font_size)
+        try:
+            font = ImageFont.truetype(str(font_path), font_size) if font_path else ImageFont.load_default()
+        except Exception:
+            font = ImageFont.load_default()
 
         # wrap text dynamically
         max_width = int(out_size * 0.78)
@@ -88,7 +105,10 @@ class CloudflareClient:
                 wrapped = test_text
                 break
             font_size = max(28, int(font_size * 0.9))
-            font = ImageFont.truetype(str(font_path), font_size)
+            try:
+                font = ImageFont.truetype(str(font_path), font_size) if font_path else ImageFont.load_default()
+            except Exception:
+                font = ImageFont.load_default()
             wrapped = test_text
 
         bbox = draw.multiline_textbbox((0, 0), wrapped, font=font, spacing=int(font_size * 0.35), align='center')

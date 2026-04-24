@@ -16,6 +16,12 @@ Lưu ý: hệ thống tự gọi /me/accounts và loop qua toàn bộ page lấy
 2) Morning pipeline:
 python3 skills/affiliate-book-marketing-director/scripts/run_morning_pipeline.py
 
+Luồng tạo ảnh production hiện tại:
+- Cloudflare AI chỉ render background
+- Pillow render text tiếng Việt lên ảnh (Unicode-safe)
+- Có dark overlay + drop shadow để tăng readability
+- Nếu Cloudflare Images upload fail, Facebook sẽ fallback sang upload file local trực tiếp
+
 3) Continuous triage (run by cron every 10-15 min):
 python3 skills/affiliate-book-marketing-director/scripts/run_comment_triage.py
 
@@ -48,3 +54,4 @@ Checklist On-Air (live thật):
 Notes:
 - Tokens are runtime-only.
 - All errors logged in state/affiliate_marketing_error.log
+- Font tiếng Việt được tự tải về `assets/fonts/` khi cần; nếu tải font lỗi, hệ thống fallback font mặc định thay vì crash.
