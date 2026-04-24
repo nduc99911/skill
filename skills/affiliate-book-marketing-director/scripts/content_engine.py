@@ -41,11 +41,22 @@ def build_image_text(book: Dict[str, str]) -> str:
 
 def build_image_prompt(book: Dict[str, str], image_text: str) -> str:
     title = book.get('title', 'Book')
-    # Background-only prompt. Text will be rendered by Pillow to avoid Vietnamese glyph errors.
+    mood = (book.get('category') or '').strip().lower()
+
+    if any(k in mood for k in ['kinh doanh', 'tài chính', 'business']):
+        style = 'luxury editorial desk mood, cinematic key light, premium paper texture, subtle gold accents'
+    elif any(k in mood for k in ['tâm lý', 'healing', 'chữa lành']):
+        style = 'soft atmospheric gradient, dreamy bokeh, warm film grain, gentle depth and calm emotional tone'
+    elif any(k in mood for k in ['triết', 'philosophy']):
+        style = 'moody museum-light ambiance, classical texture, deep contrast, contemplative and intellectual atmosphere'
+    else:
+        style = 'modern editorial background, layered composition, rich depth, nuanced texture, cinematic lighting'
+
     return (
-        f"Cinematic minimalist 1:1 background for Vietnamese book content about '{title}'. "
-        f"Soft gradient or abstract texture, balanced composition, premium editorial style, "
-        f"high quality lighting, calm and inspiring mood, no focal person."
+        f"Create a visually rich 1:1 background for Vietnamese book content about '{title}'. "
+        f"{style}. "
+        f"Keep center area clean for text overlay, but preserve depth and visual interest around edges. "
+        f"Ultra-detailed, high-quality, social-media ready, no people."
     )
 
 
