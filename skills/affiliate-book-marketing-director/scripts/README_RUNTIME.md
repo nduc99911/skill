@@ -4,12 +4,14 @@ Runtime quickstart (manual):
 - META_ACCESS_TOKEN (user token)
 - CF_ACCOUNT_ID
 - CF_API_TOKEN
-- BOOKS_CSV_PATH (optional, default: data/books_today.sample.csv)
+- DRY_RUN=1 (default an toàn; đổi 0 khi live thật)
+- BOOKS_CSV_URL (Google Sheets Publish-to-web CSV URL) **ưu tiên cao nhất**
+- BOOKS_CSV_PATH (fallback local CSV, default: data/books_today.sample.csv)
+- TEST_PAGE_ID (nếu set thì chỉ chạy đúng 1 page này để nghiệm thu)
 - PAGE_IG_MAP_PATH (optional mapping page_id -> ig_business_id)
-- DRY_RUN=1 (recommended for testing)
 
-Lưu ý: hệ thống sẽ tự gọi /me/accounts và loop qua toàn bộ page lấy được từ token.
-FB_PAGE_ID chỉ là tùy chọn để filter 1 page khi debug.
+Lưu ý: hệ thống tự gọi /me/accounts và loop qua toàn bộ page lấy được từ token.
+Ưu tiên filter page: TEST_PAGE_ID > FB_PAGE_ID > tất cả pages.
 
 2) Morning pipeline:
 python3 skills/affiliate-book-marketing-director/scripts/run_morning_pipeline.py
@@ -36,6 +38,12 @@ Cron đề xuất:
 - 00 07 * * * .../cron-morning.sh
 - */15 * * * * .../cron-triage.sh
 - 30 21 * * 0 .../cron-weekly-report.sh
+
+Checklist On-Air (live thật):
+1. BOOKS_CSV_URL: link CSV từ Google Sheets Publish to web.
+2. META_ACCESS_TOKEN: long-lived token (~60 ngày).
+3. TEST_PAGE_ID: ID page thử nghiệm trước.
+4. CF_ACCOUNT_ID + CF_API_TOKEN: để render ảnh.
 
 Notes:
 - Tokens are runtime-only.

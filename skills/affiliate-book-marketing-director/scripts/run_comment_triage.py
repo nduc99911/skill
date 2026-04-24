@@ -54,7 +54,9 @@ def main():
 
     if meta:
         pages = meta.list_pages()
-        if cfg.fb_page_id:
+        if cfg.test_page_id:
+            pages = [p for p in pages if str(p.get('id')) == str(cfg.test_page_id)]
+        elif cfg.fb_page_id:
             pages = [p for p in pages if str(p.get('id')) == str(cfg.fb_page_id)]
     elif cfg.dry_run:
         pages = [{'id': 'dryrun_page_1', 'name': 'Dry Run Page 1', 'access_token': 'dryrun_page_token'}]

@@ -20,7 +20,9 @@ class Settings:
     cf_api_token: str = os.getenv('CF_API_TOKEN', '')
 
     # Data source
-    books_csv_path: str = os.getenv('BOOKS_CSV_PATH', '/root/.openclaw/workspace/data/books_today.csv')
+    books_csv_path: str = os.getenv('BOOKS_CSV_PATH', '/root/.openclaw/workspace/data/books_today.sample.csv')
+    books_csv_url: str = os.getenv('BOOKS_CSV_URL', '')
+    test_page_id: str = os.getenv('TEST_PAGE_ID', '')
     dry_run: bool = os.getenv('DRY_RUN', '1') == '1'
 
     # Operational rules

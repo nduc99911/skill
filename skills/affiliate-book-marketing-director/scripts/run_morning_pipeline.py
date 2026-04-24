@@ -39,7 +39,7 @@ def main():
     weekday = now.weekday()  # Monday=0 ... Sunday=6
     is_friday = weekday == 4
 
-    books = load_books(cfg.books_csv_path)
+    books = load_books(cfg.books_csv_path, cfg.books_csv_url)
     trends = scan_trends(max_items=20)
     log('morning_pipeline_start', books=len(books), trends=len(trends), is_friday=is_friday, dry_run=cfg.dry_run)
 
@@ -52,7 +52,10 @@ def main():
 
     if meta:
         pages = meta.list_pages()
-        if cfg.fb_page_id:
+        # TEST_PAGE_ID has highest priority for safe live nghiệm thu
+        if cfg.test_page_id:
+            pages = [p for p in pages if str(p.get('id')) == str(cfg.test_page_id)]
+        elif cfg.fb_page_id:
             pages = [p for p in pages if str(p.get('id')) == str(cfg.fb_page_id)]
     elif cfg.dry_run:
         pages = [{'id': 'dryrun_page_1', 'name': 'Dry Run Page 1', 'access_token': 'dryrun_page_token'}]
