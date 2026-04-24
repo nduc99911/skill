@@ -88,7 +88,8 @@ def build_daily_queue(cfg):
     now = datetime.now(tz)
     day_key = now.strftime('%Y-%m-%d')
     weekday = now.weekday()
-    is_friday = weekday == 4
+    # Temporarily disable Friday minigame by default; enable only when explicitly turned on.
+    is_friday = (weekday == 4) and (os.getenv('ENABLE_FRIDAY_SPECIAL', '0') == '1')
 
     books = load_books(cfg.books_csv_path, cfg.books_csv_url)
     trends = scan_trends(max_items=20)
