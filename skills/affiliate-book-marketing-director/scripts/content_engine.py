@@ -40,14 +40,27 @@ def build_image_text(book: Dict[str, str]) -> str:
 
 
 def build_image_prompt(book: Dict[str, str], image_text: str) -> str:
-    title = book.get('title', 'Book')
-    # SEO-friendly social visual style: consistent brand background for recognizability.
+    title = (book.get('title') or 'Book').strip()
+    category = (book.get('category') or '').strip().lower()
+
+    # Thematic cue: keep brand-consistent look but add subtle topic-related motifs.
+    if any(k in category for k in ['tâm lý', 'chữa lành', 'healing']):
+        motif = 'soft light beams, calm organic curves, subtle warm bokeh suggesting emotional healing'
+    elif any(k in category for k in ['kinh doanh', 'tài chính', 'business']):
+        motif = 'structured geometric layers, clean chart-like lines, premium executive desk mood'
+    elif any(k in category for k in ['triết', 'philosophy', 'cổ nhân']):
+        motif = 'classical paper texture, subtle ink brush traces, contemplative museum-like lighting'
+    elif any(k in category for k in ['kỹ năng', 'phát triển', 'self-help']):
+        motif = 'upward dynamic gradients, roadmap-like abstract paths, optimistic disciplined tone'
+    else:
+        motif = 'editorial abstract composition with subtle symbolic shapes related to learning and books'
+
     return (
-        f"Create a premium, consistent 1:1 social background for Vietnamese book brand content about '{title}'. "
-        f"Style guide: dark blue to warm amber cinematic gradient, subtle paper texture, soft vignette, "
+        f"Create a premium, consistent 1:1 social background for Vietnamese book content about '{title}'. "
+        f"Style base: dark blue to warm amber cinematic gradient, subtle paper texture, soft vignette, "
         f"clean center safe-area for headline text, elegant editorial lighting, high contrast, minimal noise. "
-        f"Keep composition stable and brand-consistent across different posts. "
-        f"No people, no objects competing with text, no clutter."
+        f"Add subtle thematic motif: {motif}. "
+        f"Keep composition stable across posts, no people, no explicit text, no clutter."
     )
 
 
