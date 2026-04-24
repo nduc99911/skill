@@ -1,6 +1,6 @@
 {
-  "enabled": true,
-  "test_mode": false,
+  "enabled": false,
+  "test_mode": true,
   "test_page_id": "1051178364752250",
   "test_post_key": "1051178364752250|2026-04-23 21:10|BK105",
   "test_confirmed": false,

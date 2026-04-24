@@ -123,44 +123,102 @@ def validate_image_source(post: dict):
     image_local = (post.get("image_local_path") or "").strip()
 
     if not image_type:
-        return True, {"required": False, "source": "", "source_type": "", "status": "not_required"}
-
-    allowed_local_prefixes = [
-        os.path.join(ROOT, "data", "cloudflare_generated") + os.sep,
-        os.path.join(ROOT, "data", "quote_images_cf") + os.sep,
-        os.path.join(ROOT, "data", "quote_images_tonight") + os.sep,
-    ]
+        return True, {
+            "required": False,
+            "source": "",
+            "source_type": "",
+            "status": "not_required",
+        }
 
     if image_local:
-        norm = os.path.abspath(image_local)
-        if not any(norm.startswith(p) for p in allowed_local_prefixes):
-            return False, {"required": True, "source": image_local, "source_type": "local", "status": "non_cloudflare_local_forbidden"}
-        if not os.path.exists(norm):
-            return False, {"required": True, "source": norm, "source_type": "local", "status": "local_missing"}
-        size = os.path.getsize(norm)
+        if not os.path.exists(image_local):
+            return False, {
+                "required": True,
+                "source": image_local,
+                "source_type": "local",
+                "status": "local_missing",
+            }
+        size = os.path.getsize(image_local)
         if size < 10 * 1024:
-            return False, {"required": True, "source": norm, "source_type": "local", "status": "local_too_small", "file_size": size}
-        mime, _ = mimetypes.guess_type(norm)
+            return False, {
+                "required": True,
+                "source": image_local,
+                "source_type": "local",
+                "status": "local_too_small",
+                "file_size": size,
+            }
+        mime, _ = mimetypes.guess_type(image_local)
         if not mime or not mime.startswith("image/"):
-            return False, {"required": True, "source": norm, "source_type": "local", "status": "local_not_image", "content_type": mime or "unknown"}
-        dims = _read_image_dimensions(norm)
+            return False, {
+                "required": True,
+                "source": image_local,
+                "source_type": "local",
+                "status": "local_not_image",
+                "content_type": mime or "unknown",
+                "file_size": size,
+            }
+        dims = _read_image_dimensions(image_local)
         if not dims:
-            return False, {"required": True, "source": norm, "source_type": "local", "status": "local_dimensions_unreadable", "content_type": mime}
-        return True, {"required": True, "source": norm, "source_type": "local", "status": "PASS", "content_type": mime, "file_size": size, "dimensions": f"{dims[0]}x{dims[1]}"}
+            return False, {
+                "required": True,
+                "source": image_local,
+                "source_type": "local",
+                "status": "local_dimensions_unreadable",
+                "content_type": mime,
+                "file_size": size,
+            }
+        return True, {
+            "required": True,
+            "source": image_local,
+            "source_type": "local",
+            "status": "PASS",
+            "content_type": mime,
+            "file_size": size,
+            "dimensions": f"{dims[0]}x{dims[1]}",
+        }
 
     if image_url:
         try:
             r = requests.get(image_url, timeout=20, allow_redirects=True, stream=True)
             ct = (r.headers.get("content-type") or "").lower()
             if r.status_code != 200:
-                return False, {"required": True, "source": image_url, "source_type": "url", "status": f"http_{r.status_code}", "content_type": ct}
+                return False, {
+                    "required": True,
+                    "source": image_url,
+                    "source_type": "url",
+                    "status": f"http_{r.status_code}",
+                    "content_type": ct,
+                }
             if not ct.startswith("image/"):
-                return False, {"required": True, "source": image_url, "source_type": "url", "status": "url_not_image", "content_type": ct}
-            return True, {"required": True, "source": image_url, "source_type": "url", "status": "PASS", "content_type": ct}
+                return False, {
+                    "required": True,
+                    "source": image_url,
+                    "source_type": "url",
+                    "status": "url_not_image",
+                    "content_type": ct,
+                }
+            return True, {
+                "required": True,
+                "source": image_url,
+                "source_type": "url",
+                "status": "PASS",
+                "content_type": ct,
+            }
         except Exception as e:
-            return False, {"required": True, "source": image_url, "source_type": "url", "status": "url_check_error", "error": str(e)}
+            return False, {
+                "required": True,
+                "source": image_url,
+                "source_type": "url",
+                "status": "url_check_error",
+                "error": str(e),
+            }
 
-    return False, {"required": True, "source": "", "source_type": "", "status": "missing_cloudflare_image_source"}
+    return False, {
+        "required": True,
+        "source": "",
+        "source_type": "",
+        "status": "missing_image_source_for_image_post",
+    }
 
 
 def quality_gate(post: dict, catalog_links: dict):
