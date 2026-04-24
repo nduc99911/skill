@@ -41,22 +41,13 @@ def build_image_text(book: Dict[str, str]) -> str:
 
 def build_image_prompt(book: Dict[str, str], image_text: str) -> str:
     title = book.get('title', 'Book')
-    mood = (book.get('category') or '').strip().lower()
-
-    if any(k in mood for k in ['kinh doanh', 'tài chính', 'business']):
-        style = 'luxury editorial desk mood, cinematic key light, premium paper texture, subtle gold accents'
-    elif any(k in mood for k in ['tâm lý', 'healing', 'chữa lành']):
-        style = 'soft atmospheric gradient, dreamy bokeh, warm film grain, gentle depth and calm emotional tone'
-    elif any(k in mood for k in ['triết', 'philosophy']):
-        style = 'moody museum-light ambiance, classical texture, deep contrast, contemplative and intellectual atmosphere'
-    else:
-        style = 'modern editorial background, layered composition, rich depth, nuanced texture, cinematic lighting'
-
+    # SEO-friendly social visual style: consistent brand background for recognizability.
     return (
-        f"Create a visually rich 1:1 background for Vietnamese book content about '{title}'. "
-        f"{style}. "
-        f"Keep center area clean for text overlay, but preserve depth and visual interest around edges. "
-        f"Ultra-detailed, high-quality, social-media ready, no people."
+        f"Create a premium, consistent 1:1 social background for Vietnamese book brand content about '{title}'. "
+        f"Style guide: dark blue to warm amber cinematic gradient, subtle paper texture, soft vignette, "
+        f"clean center safe-area for headline text, elegant editorial lighting, high contrast, minimal noise. "
+        f"Keep composition stable and brand-consistent across different posts. "
+        f"No people, no objects competing with text, no clutter."
     )
 
 
