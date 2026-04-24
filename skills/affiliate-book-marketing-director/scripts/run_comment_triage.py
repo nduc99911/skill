@@ -16,7 +16,8 @@ TRACK_FILE = ROOT / 'state' / 'comment_triage_state.json'
 POSTS_FILE = ROOT / 'state' / 'recent_posts.json'  # expected to store recent fb post ids
 
 BUY_INTENTS = ['mua', 'xin link', 'giá', 'gia', 'đặt', 'đặt mua', 'chốt', 'ib', 'inbox', 'link shop', 'link mua']
-NEGATIVE_INTENTS = ['lừa', 'xạo', 'rác', 'spam', 'đểu', 'ngu', 'dở', 'tệ', 'nhảm', 'xàm', 'chửi', 'đm', 'dm']
+NEGATIVE_INTENTS = ['lừa', 'xạo', 'rác', 'spam', 'đểu', 'ngu', 'dở', 'tệ', 'nhảm', 'xàm', 'chửi', 'khốn nạn', 'óc chó']
+NEGATIVE_REGEX = [r'(^|\s)đm($|\s)', r'(^|\s)dm($|\s)']
 SPAM_PATTERNS = [r'https?://', r'www\.', r't\.me/', r'bit\.ly/']
 
 
@@ -31,17 +32,61 @@ def save_json(path: Path, data):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
-def classify(text: str) -> str:
+def _classify_heuristic(text: str) -> str:
     t = (text or '').lower().strip()
     if any(k in t for k in BUY_INTENTS):
         return 'buy_intent'
-    if any(k in t for k in NEGATIVE_INTENTS):
+    if any(k in t for k in NEGATIVE_INTENTS + ['chán', 'chan', 'phí tiền', 'phi tien', 'tốn tiền', 'ton tien']):
+        return 'negative_or_spam'
+    if any(re.search(p, t) for p in NEGATIVE_REGEX):
         return 'negative_or_spam'
     if any(re.search(p, t) for p in SPAM_PATTERNS):
         return 'negative_or_spam'
     if len(t.strip()) == 0:
         return 'empty'
     return 'casual'
+
+
+def _classify_llm(text: str) -> str | None:
+    api_key = os.getenv('OPENAI_API_KEY', '').strip()
+    if not api_key:
+        return None
+    try:
+        prompt = (
+            'Phân loại bình luận tiếng Việt vào đúng 1 nhãn: buy_intent | casual | negative_or_spam | empty. '
+            'Quy tắc: hỏi thêm thông tin/nội dung sách (ví dụ sinh viên có đọc được không) => casual. '
+            'Chê bai gay gắt/chửi bới/tiêu cực/link rác => negative_or_spam. '
+            'Xin link/mua/chốt/giá => buy_intent. Chỉ trả về đúng 1 nhãn, không giải thích.'
+        )
+        r = requests.post(
+            'https://api.openai.com/v1/chat/completions',
+            headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'},
+            json={
+                'model': 'gpt-4o-mini',
+                'messages': [
+                    {'role': 'system', 'content': prompt},
+                    {'role': 'user', 'content': f'Bình luận: "{text}"'},
+                ],
+                'max_tokens': 16,
+                'temperature': 0,
+            },
+            timeout=20,
+        )
+        if r.status_code >= 400:
+            return None
+        label = (r.json().get('choices', [{}])[0].get('message', {}).get('content', '') or '').strip().lower()
+        if label in {'buy_intent', 'casual', 'negative_or_spam', 'empty'}:
+            return label
+        return None
+    except Exception:
+        return None
+
+
+def classify(text: str) -> str:
+    llm_label = _classify_llm(text)
+    if llm_label:
+        return llm_label
+    return _classify_heuristic(text)
 
 
 def _dynamic_reply_heuristic(comment_text: str) -> str:
@@ -167,14 +212,14 @@ def main():
                     if intent == 'buy_intent' and affiliate_link:
                         public_text = f'Dạ sách đang có ưu đãi, bạn đặt mua chính hãng tại link này nhé: {affiliate_link}'
                         if not cfg.dry_run:
-                            meta.create_comment(post_id, page_token, public_text)
-                        log('triage_buy_intent_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, private_reply=False, mode='dry_run' if cfg.dry_run else 'live', strategy='public_reply_only')
+                            meta.create_comment(cid, page_token, public_text)
+                        log('triage_buy_intent_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, private_reply=False, mode='dry_run' if cfg.dry_run else 'live', strategy='public_reply_only_threaded')
 
                     elif intent == 'casual':
                         reply_text = dynamic_reply(msg)
                         if not cfg.dry_run:
-                            meta.create_comment(post_id, page_token, reply_text)
-                        log('triage_casual_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, mode='dry_run' if cfg.dry_run else 'live', reply_preview=reply_text[:180])
+                            meta.create_comment(cid, page_token, reply_text)
+                        log('triage_casual_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, mode='dry_run' if cfg.dry_run else 'live', reply_preview=reply_text[:180], strategy='threaded_reply')
 
                     elif intent == 'negative_or_spam':
                         log('triage_skipped', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, reason='negative_or_spam')
