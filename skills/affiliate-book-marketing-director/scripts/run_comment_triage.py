@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import json
+import os
+import re
+import requests
 from pathlib import Path
 from typing import Dict
 
@@ -12,7 +15,9 @@ ROOT = Path('/root/.openclaw/workspace')
 TRACK_FILE = ROOT / 'state' / 'comment_triage_state.json'
 POSTS_FILE = ROOT / 'state' / 'recent_posts.json'  # expected to store recent fb post ids
 
-BUY_INTENTS = ['mua', 'xin link', 'giá', 'gia', 'đặt', 'đặt mua', 'chốt', 'ib', 'inbox']
+BUY_INTENTS = ['mua', 'xin link', 'giá', 'gia', 'đặt', 'đặt mua', 'chốt', 'ib', 'inbox', 'link shop', 'link mua']
+NEGATIVE_INTENTS = ['lừa', 'xạo', 'rác', 'spam', 'đểu', 'ngu', 'dở', 'tệ', 'nhảm', 'xàm', 'chửi', 'đm', 'dm']
+SPAM_PATTERNS = [r'https?://', r'www\.', r't\.me/', r'bit\.ly/']
 
 
 def load_json(path: Path, default):
@@ -27,12 +32,67 @@ def save_json(path: Path, data):
 
 
 def classify(text: str) -> str:
-    t = (text or '').lower()
+    t = (text or '').lower().strip()
     if any(k in t for k in BUY_INTENTS):
         return 'buy_intent'
+    if any(k in t for k in NEGATIVE_INTENTS):
+        return 'negative_or_spam'
+    if any(re.search(p, t) for p in SPAM_PATTERNS):
+        return 'negative_or_spam'
     if len(t.strip()) == 0:
         return 'empty'
     return 'casual'
+
+
+def _dynamic_reply_heuristic(comment_text: str) -> str:
+    t = (comment_text or '').lower()
+    if '@' in t or 'tag' in t:
+        return 'Chào cả nhà, cảm ơn mọi người đã quan tâm. Nếu cần mình gửi thêm gợi ý sách phù hợp theo mục tiêu luôn nhé 📚'
+    if any(k in t for k in ['hay', 'tuyệt', 'xịn', 'ok', 'hữu ích', 'đỉnh']):
+        return 'Cảm ơn bạn nhiều nha, rất vui vì nội dung này hữu ích với bạn. Mình sẽ tiếp tục chia sẻ thêm các góc nhìn thực tế từ sách nhé ✨'
+    if '?' in t or any(k in t for k in ['nội dung', 'review', 'có gì', 'phù hợp', 'nên đọc']):
+        return 'Câu hỏi hay quá bạn. Cuốn này nổi bật ở phần ứng dụng thực tế, đọc xong có thể áp dụng ngay vào giao tiếp và công việc hằng ngày.'
+    return 'Cảm ơn bạn đã tương tác nè. Mình sẽ tiếp tục cập nhật thêm nhiều nội dung sách hữu ích để cả nhà cùng tham khảo nhé ❤️'
+
+
+def _dynamic_reply_llm(comment_text: str) -> str | None:
+    api_key = os.getenv('OPENAI_API_KEY', '').strip()
+    if not api_key:
+        return None
+    try:
+        r = requests.post(
+            'https://api.openai.com/v1/chat/completions',
+            headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'},
+            json={
+                'model': 'gpt-4o-mini',
+                'messages': [
+                    {
+                        'role': 'system',
+                        'content': 'Bạn là admin fanpage sách. Viết 1-2 câu trả lời bình luận tự nhiên, thân thiện, tiếng Việt, không dùng markdown, không dùng dấu sao, không quá 45 từ.'
+                    },
+                    {
+                        'role': 'user',
+                        'content': f'Bình luận của khách: "{comment_text}". Hãy trả lời phù hợp ngữ cảnh.'
+                    }
+                ],
+                'max_tokens': 120,
+                'temperature': 0.7,
+            },
+            timeout=20,
+        )
+        if r.status_code >= 400:
+            return None
+        data = r.json()
+        return (data.get('choices', [{}])[0].get('message', {}).get('content', '') or '').strip() or None
+    except Exception:
+        return None
+
+
+def dynamic_reply(comment_text: str) -> str:
+    llm = _dynamic_reply_llm(comment_text)
+    if llm:
+        return llm
+    return _dynamic_reply_heuristic(comment_text)
 
 
 def main():
@@ -111,9 +171,13 @@ def main():
                         log('triage_buy_intent_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, private_reply=False, mode='dry_run' if cfg.dry_run else 'live', strategy='public_reply_only')
 
                     elif intent == 'casual':
+                        reply_text = dynamic_reply(msg)
                         if not cfg.dry_run:
-                            meta.create_comment(post_id, page_token, 'Cảm ơn bạn đã ghé đọc và để lại bình luận nhé ❤️')
-                        log('triage_casual_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, mode='dry_run' if cfg.dry_run else 'live')
+                            meta.create_comment(post_id, page_token, reply_text)
+                        log('triage_casual_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, mode='dry_run' if cfg.dry_run else 'live', reply_preview=reply_text[:180])
+
+                    elif intent == 'negative_or_spam':
+                        log('triage_skipped', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, reason='negative_or_spam')
 
                     else:
                         log('triage_skipped', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, reason=intent)

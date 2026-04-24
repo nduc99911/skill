@@ -42,13 +42,16 @@
   - quét comment mới từ các bài gần nhất trên từng page
   - phân loại intent: `buy_intent` vs `casual`
 
-### 5.1 Quy tắc xử lý (đã chuyển sang public-only)
+### 5.1 Quy tắc xử lý (public-only + dynamic reply)
 - Buy intent:
   - KHÔNG dùng private reply/inbox
   - reply công khai trực tiếp dưới bài với link affiliate:
     - `Dạ sách đang có ưu đãi, bạn đặt mua chính hãng tại link này nhé: [Link Aff]`
 - Casual:
-  - reply cảm ơn thân thiện
+  - dynamic AI reply 1-2 câu theo ngữ cảnh comment (khen, hỏi nội dung, tag bạn bè...)
+  - ưu tiên LLM nếu có `OPENAI_API_KEY`, nếu không có thì dùng heuristic fallback tự nhiên
+- Negative/Spam:
+  - nếu comment chê bai gay gắt/chửi bới/rải link spam -> bỏ qua, không reply
 
 ### 5.2 Chạy DRY_RUN
 - `DRY_RUN=1` chỉ mô phỏng + log hành vi dự kiến.
