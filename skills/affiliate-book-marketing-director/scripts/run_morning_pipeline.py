@@ -11,7 +11,7 @@ from config import get_settings
 from logger import log, log_error
 from books_source import load_books
 from trend_scanner import scan_trends
-from content_engine import pick_trend_for_book, build_caption, build_image_text, build_image_prompt
+from content_engine import pick_trend_for_book, build_caption, build_image_text, build_image_prompt, build_image_negative_prompt
 from cloudflare_api import CloudflareClient, CloudflareApiError
 from meta_api import MetaClient, MetaApiError
 
@@ -209,7 +209,8 @@ def dispatch_due(cfg):
             else:
                 if not cf:
                     raise CloudflareApiError('Cloudflare credentials missing in live mode')
-                image_bytes = cf.render_image(prompt)
+                bg_bytes = cf.render_image(prompt, negative_prompt=build_image_negative_prompt())
+                image_bytes = cf.render_text_overlay(bg_bytes, image_text)
                 tmp_file.write_bytes(image_bytes)
 
                 # Try Cloudflare Images public URL first; if fails, fallback to FB file upload.

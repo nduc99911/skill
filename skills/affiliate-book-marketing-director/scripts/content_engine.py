@@ -41,8 +41,13 @@ def build_image_text(book: Dict[str, str]) -> str:
 
 def build_image_prompt(book: Dict[str, str], image_text: str) -> str:
     title = book.get('title', 'Book')
+    # Background-only prompt. Text will be rendered by Pillow to avoid Vietnamese glyph errors.
     return (
-        f"Minimalist quote image 1:1 for Vietnamese social media about book '{title}'. "
-        f"Neutral background, clean modern typography, centered readable text: '{image_text}'. "
-        f"Soft lighting, high contrast text, no watermark, no random symbols, no gibberish text."
+        f"Cinematic minimalist 1:1 background for Vietnamese book content about '{title}'. "
+        f"Soft gradient or abstract texture, balanced composition, premium editorial style, "
+        f"high quality lighting, calm and inspiring mood, no focal person."
     )
+
+
+def build_image_negative_prompt() -> str:
+    return 'text, letters, words, typography, watermark, logo, signature, gibberish, artifacts'
