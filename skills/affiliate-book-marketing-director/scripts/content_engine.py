@@ -14,20 +14,101 @@ def pick_trend_for_book(book: Dict[str, str], trends: List[str]) -> str:
     return ''
 
 
+def _split_core_ideas(book: Dict[str, str]) -> List[str]:
+    raw = (book.get('core_idea') or book.get('ý chính') or '').strip()
+    if not raw:
+        return [
+            'Biết lắng nghe để hiểu động cơ thật sự của người đối diện trước khi phản hồi.',
+            'Tôn trọng thể diện và cảm xúc giúp giảm xung đột, tăng thiện chí hợp tác.',
+            'Thuyết phục bằng lợi ích chung thay vì cố thắng thua trong từng cuộc tranh luận.',
+        ]
+    parts = [p.strip(' .;-') for p in raw.replace('•', '|').replace(';', '|').split('|') if p.strip()]
+    if len(parts) >= 3:
+        return parts[:3]
+    # Expand when source is short
+    seed = parts[0] if parts else raw
+    return [
+        f'Thấu hiểu tâm lý con người trong bối cảnh thực tế: {seed}.',
+        'Điều chỉnh cách giao tiếp để giảm phản kháng và mở đường cho hợp tác dài hạn.',
+        'Xây dựng niềm tin từng bước bằng sự chân thành, nhất quán và tôn trọng.',
+    ]
+
+
+def _hashtags(book: Dict[str, str], trend: str) -> str:
+    title = (book.get('title') or 'SachHay').replace(' ', '')
+    author = (book.get('author') or 'TacGia').replace(' ', '')
+    topic = (book.get('category') or 'PhatTrienBanThan').replace(' ', '')
+    trend_kw = ''.join(ch for ch in (trend or 'TrendHomNay') if ch.isalnum()) or 'TrendHomNay'
+    return f"#{title} #{author} #{topic} #{trend_kw}"
+
+
+def _word_count(text: str) -> int:
+    return len([w for w in text.replace('\n', ' ').split(' ') if w.strip()])
+
+
+def _enforce_caption_length(caption: str, min_words: int = 250, max_words: int = 400) -> str:
+    wc = _word_count(caption)
+    if wc >= min_words:
+        if wc <= max_words:
+            return caption
+        # soft trim when too long
+        words = caption.split()
+        return ' '.join(words[:max_words])
+
+    filler = (
+        "\n\nNhìn rộng hơn, điểm giá trị của cuốn sách không nằm ở vài mẹo giao tiếp ngắn hạn, "
+        "mà ở cách nó giúp bạn thay đổi hệ điều hành tư duy khi làm việc với con người. "
+        "Khi bạn đọc chậm và áp dụng từng nguyên tắc vào bối cảnh thật như công việc, gia đình, "
+        "đàm phán hay quản trị đội nhóm, bạn sẽ thấy hiệu quả bền hơn nhiều so với việc phản ứng theo cảm xúc tức thời."
+    )
+    out = caption
+    while _word_count(out) < min_words:
+        out += filler
+    if _word_count(out) > max_words:
+        words = out.split()
+        out = ' '.join(words[:max_words])
+    return out
+
+
 def build_caption(book: Dict[str, str], trend: str) -> str:
     title = book.get('title', 'Cuốn sách này')
-    link = book.get('affiliate_link', '')
+    ideas = _split_core_ideas(book)
+
     if trend:
-        return (
-            f"Nhân sự kiện đang được quan tâm hôm nay: {trend}, mình thấy có một góc nhìn rất đáng ngẫm trong {title}.\n\n"
-            f"Cuốn này không chỉ kể chuyện, mà giúp mình nhìn lại cách ra quyết định trong đời sống hàng ngày.\n\n"
-            f"Nếu bạn muốn đọc sâu hơn về chủ đề này, mình để link ở bình luận nhé 👇"
+        headline = f"🔥 [GÓC NHÌN HOT] TỪ {trend.upper()}: BÀI HỌC THỰC CHIẾN TRONG {title.upper()}"
+        bridge = (
+            f"Sự kiện {trend} đang khiến nhiều người tranh luận về lợi ích, trách nhiệm và cách các bên giữ chữ tín với nhau.\n"
+            f"Điểm thú vị là khi đặt vào lăng kính của {title}, câu chuyện không còn là tin nóng nhất thời mà trở thành bài học dài hạn về tâm lý con người và nghệ thuật hợp tác."
         )
-    return (
-        f"Mình vừa đọc lại {title} và thấy đây là cuốn cực kỳ đáng để có trên kệ nếu bạn muốn nâng cấp tư duy mỗi ngày.\n\n"
-        f"Điểm mình thích là viết dễ hiểu, áp dụng được ngay, không lý thuyết rườm rà.\n\n"
-        f"Mình để link ở bình luận để bạn tham khảo nhé 👇"
+    else:
+        headline = f"💡 [ĐỪNG ĐỢI HỐI TIẾC] {title.upper()} VÀ 3 BÀI HỌC GIÚP BẠN RA QUYẾT ĐỊNH CHẮC TAY HƠN"
+        bridge = (
+            f"Nhiều người giỏi chuyên môn nhưng vẫn trả giá đắt vì giao tiếp sai thời điểm, sai ngữ cảnh và sai kỳ vọng.\n"
+            f"{title} cho mình một góc nhìn rất tỉnh: muốn đi xa, hãy hiểu tâm lý người đối diện trước khi cố gắng thay đổi họ."
+        )
+
+    body = (
+        f"📌 Bài học 1: {ideas[0]}\n"
+        f"👉 Ở đời thực, phần lớn mâu thuẫn leo thang vì ai cũng muốn được công nhận ngay lập tức. "
+        f"Khi bạn chủ động lắng nghe sâu hơn một nhịp, cuộc nói chuyện chuyển từ thế đối đầu sang thế cùng giải quyết vấn đề. "
+        f"Đây là kỹ năng cực hữu ích trong quản lý đội nhóm, chăm sóc khách hàng và cả quan hệ gia đình.\n\n"
+        f"📌 Bài học 2: {ideas[1]}\n"
+        f"👉 Sự tôn trọng không phải phép lịch sự bề mặt, mà là đòn bẩy giúp giữ thể diện và cảm xúc của đối phương. "
+        f"Trong môi trường áp lực cao, người biết giữ nhịp bình tĩnh thường giành lợi thế lâu dài vì họ bảo toàn được niềm tin. "
+        f"Một quyết định đúng nhưng cách nói sai có thể phá hỏng cả quan hệ hợp tác nhiều năm.\n\n"
+        f"📌 Bài học 3: {ideas[2]}\n"
+        f"👉 Thuyết phục bền vững không nằm ở việc nói thắng, mà ở việc thiết kế một phương án để hai bên cùng thấy lợi ích. "
+        f"Khi bạn chuyển từ tư duy thắng-thua sang cùng-thắng, sức nặng lời nói tăng lên rõ rệt và khả năng chốt kết quả cũng cao hơn. "
+        f"Đó là lý do cuốn sách này vẫn còn nguyên giá trị trong thời đại biến động nhanh và cạnh tranh khốc liệt."
     )
+
+    cta = (
+        "Nếu bạn đang muốn nâng cấp kỹ năng giao tiếp, thuyết phục và xây dựng ảnh hưởng một cách bền vững, đây là cuốn rất đáng sở hữu.\n"
+        "Mời bạn xem link mua sách chính hãng giá ưu đãi mình ghim ở dưới phần bình luận nhé 👇"
+    )
+
+    caption = f"{headline}\n\n{bridge}\n\n{body}\n\n{cta}\n\n{_hashtags(book, trend)}"
+    return _enforce_caption_length(caption, min_words=250, max_words=400)
 
 
 def build_image_text(book: Dict[str, str]) -> str:
