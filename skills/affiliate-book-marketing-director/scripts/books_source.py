@@ -7,8 +7,51 @@ from typing import List, Dict
 import requests
 
 
+def _repair_mojibake(s: str) -> str:
+    if not isinstance(s, str):
+        return s
+    out = s
+    for _ in range(3):
+        if 'Ã' not in out and 'Â' not in out and 'Ä' not in out and 'áº' not in out:
+            break
+        try:
+            out = out.encode('latin1').decode('utf-8')
+        except Exception:
+            break
+    return out
+
+
+def _norm_key(k: str) -> str:
+    return _repair_mojibake((k or '').strip()).lower()
+
+
+def _normalize_row(row: Dict[str, str]) -> Dict[str, str]:
+    # Map VN headers -> canonical keys used by pipeline
+    mapped = {}
+    for k, v in row.items():
+        nk = _norm_key(k)
+        vv = _repair_mojibake((v or '').strip())
+        mapped[nk] = vv
+
+    def pick(*keys):
+        for kk in keys:
+            if kk in mapped and mapped[kk] != '':
+                return mapped[kk]
+        return ''
+
+    out = dict(mapped)
+    out['title'] = pick('tên sách', 'ten sach', 'title')
+    out['affiliate_link'] = pick('link aff', 'link affiliate', 'affiliate_link', 'link')
+    out['post_type'] = pick('loại bài', 'loai bai', 'post_type', 'type')
+    out['publish_date'] = pick('ngày đăng', 'ngay dang', 'publish_date', 'date')
+    out['publish_time'] = pick('giờ đăng', 'gio dang', 'publish_time', 'time')
+    out['core_idea'] = pick('ý chính', 'y chinh', 'core_idea', 'idea')
+    return out
+
+
 def _load_books_from_text(csv_text: str) -> List[Dict[str, str]]:
-    return list(csv.DictReader(io.StringIO(csv_text)))
+    reader = csv.DictReader(io.StringIO(csv_text))
+    return [_normalize_row(r) for r in reader]
 
 
 def _normalize_google_sheet_csv_url(url: str) -> str:
