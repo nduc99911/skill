@@ -27,7 +27,14 @@ class MetaClient:
         except Exception:
             data = {'raw': r.text}
         if r.status_code >= 400:
-            raise MetaApiError(f'Meta API {r.status_code}: {data}')
+            err = data.get('error', {}) if isinstance(data, dict) else {}
+            msg = err.get('message')
+            etype = err.get('type')
+            ecode = err.get('code')
+            esub = err.get('error_subcode')
+            raise MetaApiError(
+                f"Meta API {r.status_code} | message={msg} | type={etype} | code={ecode} | subcode={esub} | full={data}"
+            )
         return data
 
     def list_pages(self) -> list[Dict[str, Any]]:

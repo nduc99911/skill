@@ -1,1 +1,18 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python cache
 __pycache__/
+pycache/
+*.py[cod]
+
+# Logs
+*.log
+
+# Runtime state (queues, history, triage state, reports)
+state/
+
+# Virtual env
+.venv_aff/
