@@ -1,13 +1,12 @@
 {
   "generated_from": "daily-plan.json",
-  "approved_at": "2026-04-23T07:23:30.632244",
-  "publish_mode": false,
-  "date": "2026-04-23",
+  "approved_at": "2026-04-24T06:00:01.802096+07:00",
+  "publish_mode": true,
+  "date": "2026-04-24",
   "timezone": "Asia/Ho_Chi_Minh",
   "notes": {
-    "link_placement_ab_test": true,
-    "keep_current_first_comment": true,
-    "extra_optimization_applied": false
+    "bulk_approved": true,
+    "auto_schedule_enabled": true
   },
   "approved_pages": [
     "1051178364752250",
@@ -22,16 +21,26 @@
       "internal_page_key": "p1_tram_doc_chua_lanh",
       "page_name": "Trạm đọc chữa lành",
       "post_type": "soft_content",
-      "product_id": "BK106",
-      "product_title": "Không Diệt Không Sinh Đừng Sợ Hãi",
-      "scheduled_time": "2026-04-23 10:15",
-      "caption": "Đôi khi thứ mình cần không phải thêm một lời khuyên, mà là một cuốn sách đủ sâu để nhìn lại chính mình.\n\nKhông Diệt Không Sinh Đừng Sợ Hãi là cuốn như vậy: đọc chậm, ngẫm kỹ, rồi tự thấy nhẹ hơn.\n\nBạn có thể tham khảo tại đây: https://shopee.vn/product/BK106\n#chualanh #tamyen #tramdoc",
-      "affiliate_link": "https://shopee.vn/product/BK106",
+      "product_id": "BK101",
+      "product_title": "Hiểu Về Trái Tim",
+      "scheduled_time": "2026-04-24 10:15",
+      "caption": "Dạo trước mình hay bị cuốn vào việc vặt, bận cả ngày nhưng vẫn thấy bản thân đứng yên.\n\nChỉ khi nhìn lại thói quen của mình, mình mới hiểu vì sao càng cố càng dễ mệt.\n\nHiểu Về Trái Tim không nói chuyện xa vời, mà giúp mình sắp lại nhịp sống theo kiểu rất dễ ngấm.\n\nCuốn này hợp nếu bạn:\n- Luôn thấy bận nhưng không tiến nhiều\n- Muốn giảm phân tán và tập trung hơn\n- Cần thay đổi nhỏ nhưng hiệu quả rõ\n\nXem chi tiết tại đây 👇\nhttps://shopee.vn/product/BK101\n\nĐiều mình học được sau cùng là: thay đổi bền vững không đến từ một ngày bùng nổ, mà từ việc dám nhìn thẳng vào vấn đề của mình rồi chỉnh từng chút một.\n\n#chualanh #tamyen #tramdoc",
+      "affiliate_link": "https://s.shopee.vn/5AomuW4YX2",
       "link_placement": "caption",
       "first_comment": "",
       "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Cho mình một khoảng lặng\nđể nhẹ lòng hơn",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Cho mình một khoảng lặng\nđể nhẹ lòng hơn', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Hiểu Về Trái Tim'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Cho mình một khoảng lặng\nđể nhẹ lòng hơn'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
       "meta": {
-        "caption_fingerprint": "1666b699129a1c52",
+        "caption_fingerprint": "de25a6f8d9ac82af",
         "publish_mode": false,
         "post_type_logic": {
           "rule_applied": "ratio_weighted_selection",
@@ -45,271 +54,185 @@
           "slot_index": 0
         },
         "caption_similarity": {
-          "max_similarity": 0.8856,
+          "max_similarity": 0.2061,
           "threshold": 0.75,
-          "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test"
-      }
+          "template_count": 3,
+          "style_key": "style_1_review"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png",
+      "image_url": ""
     },
     {
       "page_id": "1051178364752250",
       "internal_page_key": "p1_tram_doc_chua_lanh",
       "page_name": "Trạm đọc chữa lành",
-      "post_type": "soft_content",
-      "product_id": "BK101",
-      "product_title": "Hiểu Về Trái Tim",
-      "scheduled_time": "2026-04-23 21:00",
-      "caption": "Có những ngày lòng nặng mà không gọi tên được. Những lúc như vậy, Hiểu Về Trái Tim thường giúp mình bình tâm lại và nhìn mọi thứ rõ hơn.\n\nNếu bạn cũng đang cần một khoảng lặng, có thể xem thử.\nLink ở comment 👇\n#chualanh #tamyen #tramdoc",
-      "affiliate_link": "https://shopee.vn/product/BK101",
-      "link_placement": "comment",
-      "first_comment": "Nếu bạn đang cần một cuốn dễ áp dụng về tâm lý, xem Hiểu Về Trái Tim ở đây 👇\nhttps://shopee.vn/product/BK101\nNếu đúng gu, chốt luôn cho kịp đợt giá tốt.",
-      "status": "approved",
-      "meta": {
-        "caption_fingerprint": "7871c1536a4cff68",
-        "publish_mode": false,
-        "post_type_logic": {
-          "rule_applied": "ratio_weighted_selection",
-          "recent_direct_streak": 0,
-          "soft_ratio": 0.684,
-          "direct_ratio": 0.316,
-          "weights": {
-            "soft_content": 1.2,
-            "direct_sell": 1.0
-          },
-          "slot_index": 1
-        },
-        "caption_similarity": {
-          "max_similarity": 0.8086,
-          "threshold": 0.75,
-          "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test"
-      }
-    },
-    {
-      "page_id": "992938690579642",
-      "internal_page_key": "p2_moi_ngay_mot_cuon_sach",
-      "page_name": "Mỗi ngày một cuốn sách",
-      "post_type": "soft_content",
-      "product_id": "BK107",
-      "product_title": "Càng Kỷ Luật Càng Tự Do",
-      "scheduled_time": "2026-04-23 08:30",
-      "caption": "Bạn có bao giờ tự hứa tuần này sẽ làm việc kỷ luật hơn, rồi chỉ vài ngày sau mọi thứ lại trôi về nhịp cũ?\n\nMình từng nghĩ do bản thân thiếu quyết tâm. Nhưng sau nhiều lần hụt nhịp, mình mới hiểu vấn đề nằm ở chỗ chưa có một cách duy trì đủ đơn giản để theo mỗi ngày.\n\nCàng Kỷ Luật Càng Tự Do là cuốn mình thấy hữu ích vì đi thẳng vào phần khó nhất: bắt đầu từ việc nhỏ nhưng giữ được đều. Đọc xong có cảm giác mọi thứ rõ ràng hơn, không còn mơ hồ kiểu cố lên là được.\n\nCuốn này hợp nếu bạn:\n- Hay trì hoãn dù biết việc đó quan trọng\n- Thường quyết tâm mạnh đầu tuần rồi nhanh hụt hơi\n- Muốn có một nhịp làm việc ổn định mà không kiệt sức\n\nXem chi tiết tại đây 👇\nhttps://s.shopee.vn/2VnzcYvY4k\n#moingaymotcuonsach #docsach #baihoccuocsong",
-      "affiliate_link": "https://s.shopee.vn/2VnzcYvY4k",
-      "link_placement": "caption",
-      "first_comment": "",
-      "status": "approved",
-      "meta": {
-        "caption_fingerprint": "7d9f0ec496b02128",
-        "publish_mode": false,
-        "post_type_logic": {
-          "rule_applied": "ratio_weighted_selection",
-          "recent_direct_streak": 0,
-          "soft_ratio": 0.5,
-          "direct_ratio": 0.333,
-          "weights": {
-            "soft_content": 1.2,
-            "direct_sell": 1.0,
-            "listicle": 0.7
-          },
-          "slot_index": 0
-        },
-        "caption_similarity": {
-          "max_similarity": 0.8872,
-          "threshold": 0.75,
-          "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test"
-      },
-      "image_type": "book_cover",
-      "image_text": "",
-      "image_layout": {
-        "background": "nền đơn giản, màu trung tính",
-        "text_position": "text lớn ở giữa",
-        "book_cover_position": "bìa sách góc dưới phải"
-      },
-      "image_caption": "Ảnh bìa thật của sách Càng Kỷ Luật Càng Tự Do (lưu local).",
-      "image_url": "",
-      "image_local_path": "/root/.openclaw/workspace/data/bk107_cover.jpg"
-    },
-    {
-      "page_id": "992938690579642",
-      "internal_page_key": "p2_moi_ngay_mot_cuon_sach",
-      "page_name": "Mỗi ngày một cuốn sách",
-      "post_type": "soft_content",
-      "product_id": "BK111",
-      "product_title": "Dám Bị Ghét",
-      "scheduled_time": "2026-04-23 19:25",
-      "caption": "Bạn đã bao giờ thấy mình kiệt sức chỉ vì cứ mải lo người khác đang nghĩ gì về mình chưa?\n\nMình từng sống đúng kiểu người tốt quốc dân: không dám từ chối, sợ làm mất lòng và luôn cố để vừa ý tất cả mọi người. Nhưng càng cố, mình càng thấy bản thân mờ nhạt và mất tự do.\n\nDám Bị Ghét cho mình một cú hích cực mạnh: Hạnh phúc thật sự chỉ đến khi bạn có đủ can đảm để sống là chính mình, kể cả khi điều đó khiến vài người không hài lòng. Đọc xong thấy nhẹ người vì hiểu ra mình không có nghĩa vụ phải sống theo kỳ vọng của bất kỳ ai khác.\n\nCuốn này hợp nếu bạn:\n- Hay suy nghĩ quá nhiều về lời nhận xét của người xung quanh\n- Khó nói không ngay cả khi đang quá tải\n- Muốn tìm lại sự tự tin và định vị lại giá trị bản thân\n\nLink mình để ở comment bên dưới, bạn kéo xuống xem thử 👇\n\n#moingaymotcuonsach #docsach #baihoccuocsong\nlink affiliate",
-      "affiliate_link": "https://s.shopee.vn/5AoknIMYzM",
-      "link_placement": "comment",
-      "first_comment": "Xem chi tiết tại đây 👇\nhttps://s.shopee.vn/5AoknIMYzM",
-      "status": "published",
-      "meta": {
-        "caption_fingerprint": "dba598f1f3bb4e83",
-        "publish_mode": false,
-        "post_type_logic": {
-          "rule_applied": "ratio_weighted_selection",
-          "recent_direct_streak": 0,
-          "soft_ratio": 0.526,
-          "direct_ratio": 0.316,
-          "weights": {
-            "soft_content": 1.2,
-            "direct_sell": 1.0,
-            "listicle": 0.7
-          },
-          "slot_index": 1
-        },
-        "caption_similarity": {
-          "max_similarity": 0.835,
-          "threshold": 0.75,
-          "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test",
-        "test_slot_note": "new_test_slot_after_previous_published_BK107",
-        "published_post_id": "992938690579642_122095190306483066"
-      },
-      "image_type": "book_cover",
-      "image_url": "",
-      "image_local_path": "/root/.openclaw/workspace/data/bk111_test_cover_v2.jpg",
-      "image_text": "",
-      "image_caption": "Ảnh bìa thay thế đã xác thực: file local JPEG hợp lệ."
-    },
-    {
-      "page_id": "1129939793529788",
-      "internal_page_key": "p3_triet_ly_co_nhan",
-      "page_name": "Triết Lý Cổ Nhân",
       "post_type": "direct_sell",
-      "product_id": "BK101",
-      "product_title": "Hiểu Về Trái Tim",
-      "scheduled_time": "2026-04-23 09:00",
-      "caption": "Một cuốn sách tốt là cuốn khiến mình hành động ngay sau khi đọc. Hiểu Về Trái Tim là kiểu sách như vậy.\n\nNếu bạn đang cân nhắc mua, mình để link ở đây:\nhttps://shopee.vn/product/BK101\n#trietlyconhan #nhansinh #songsang",
-      "affiliate_link": "https://shopee.vn/product/BK101",
-      "link_placement": "caption",
-      "first_comment": "",
-      "status": "approved",
-      "meta": {
-        "caption_fingerprint": "f74bda88c546a113",
-        "publish_mode": false,
-        "post_type_logic": {
-          "rule_applied": "ratio_weighted_selection",
-          "recent_direct_streak": 0,
-          "soft_ratio": 0.611,
-          "direct_ratio": 0.389,
-          "weights": {
-            "soft_content": 1.2,
-            "direct_sell": 1.0
-          },
-          "slot_index": 0
-        },
-        "caption_similarity": {
-          "max_similarity": 0.8605,
-          "threshold": 0.75,
-          "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test"
-      }
-    },
-    {
-      "page_id": "1129939793529788",
-      "internal_page_key": "p3_triet_ly_co_nhan",
-      "page_name": "Triết Lý Cổ Nhân",
-      "post_type": "soft_content",
       "product_id": "BK117",
       "product_title": "Sức Mạnh Của Hiện Tại",
-      "scheduled_time": "2026-04-23 19:45",
-      "caption": "Đôi khi thứ mình cần không phải thêm một lời khuyên, mà là một cuốn sách đủ sâu để nhìn lại chính mình.\n\nSức Mạnh Của Hiện Tại là cuốn như vậy: đọc chậm, ngẫm kỹ, rồi tự thấy nhẹ hơn.\n\nBạn có thể tham khảo tại đây: Link ở comment 👇\n#trietlyconhan #nhansinh #songsang",
+      "scheduled_time": "2026-04-24 21:00",
+      "caption": "Có lúc mình mở mắt ra là đã thấy đầu óc đầy việc, nhưng đến cuối ngày lại chẳng xong được gì ra hồn.\n\nMình từng nghĩ do mình thiếu cố gắng. Sau này mới thấy vấn đề nằm ở cách mình giữ nhịp mỗi ngày, chứ không phải ở ý chí bốc lên nhất thời.\n\nSức Mạnh Của Hiện Tại cho mình cảm giác như đang được một người đi trước chỉ lại từng nút thắt rất đời thường, đọc xong thấy dễ bắt đầu lại hơn.\n\nCuốn này hợp nếu bạn:\n- Hay trì hoãn dù biết việc quan trọng\n- Dễ mất nhịp sau vài ngày quyết tâm\n- Muốn có cách làm đều đặn, không quá sức\n\nLink mình để bên dưới 👇\nLink ở comment 👇\n#chualanh #tamyen #tramdoc",
       "affiliate_link": "https://s.shopee.vn/LjV2RUsJO",
       "link_placement": "comment",
-      "first_comment": "Cuốn này hợp để đọc chậm và ngẫm, xem Sức Mạnh Của Hiện Tại tại đây 👇\nhttps://s.shopee.vn/LjV2RUsJO\nNếu đúng gu, chốt luôn cho kịp đợt giá tốt.",
+      "first_comment": "Link mình để bên dưới 👇\nhttps://s.shopee.vn/LjV2RUsJO\nBạn kéo xuống xem thử rồi quyết cũng chưa muộn.",
       "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Đừng để trì hoãn\nđánh cắp ngày của bạn",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Đừng để trì hoãn\nđánh cắp ngày của bạn', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Sức Mạnh Của Hiện Tại'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Đừng để trì hoãn\nđánh cắp ngày của bạn'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
       "meta": {
-        "caption_fingerprint": "fff34b9b6b7e76b3",
+        "caption_fingerprint": "69372de76962b8e3",
         "publish_mode": false,
         "post_type_logic": {
           "rule_applied": "ratio_weighted_selection",
-          "recent_direct_streak": 1,
-          "soft_ratio": 0.579,
-          "direct_ratio": 0.421,
+          "recent_direct_streak": 0,
+          "soft_ratio": 0.682,
+          "direct_ratio": 0.318,
           "weights": {
             "soft_content": 1.2,
-            "direct_sell": 0.0
+            "direct_sell": 1.0
           },
           "slot_index": 1
         },
         "caption_similarity": {
-          "max_similarity": 0.8015,
+          "max_similarity": 0.1793,
           "threshold": 0.75,
-          "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test"
-      }
+          "template_count": 3,
+          "style_key": "style_1_review"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/quote_images_tonight/bk117_quote.jpg",
+      "image_url": ""
     },
     {
-      "page_id": "1124354747418012",
-      "internal_page_key": "p4_su_that_la",
-      "page_name": "Sự Thật Là",
+      "page_id": "992938690579642",
+      "internal_page_key": "p2_moi_ngay_mot_cuon_sach",
+      "page_name": "Mỗi ngày một cuốn sách",
+      "post_type": "listicle",
+      "product_id": "BK102",
+      "product_title": "Đắc Nhân Tâm",
+      "scheduled_time": "2026-04-24 08:30",
+      "caption": "Có lúc mình mở mắt ra là đã thấy đầu óc đầy việc, nhưng đến cuối ngày lại chẳng xong được gì ra hồn.\n\nMình từng nghĩ do mình thiếu cố gắng. Sau này mới thấy vấn đề nằm ở cách mình giữ nhịp mỗi ngày, chứ không phải ở ý chí bốc lên nhất thời.\n\nĐắc Nhân Tâm cho mình cảm giác như đang được một người đi trước chỉ lại từng nút thắt rất đời thường, đọc xong thấy dễ bắt đầu lại hơn.\n\nCuốn này hợp nếu bạn:\n- Hay trì hoãn dù biết việc quan trọng\n- Dễ mất nhịp sau vài ngày quyết tâm\n- Muốn có cách làm đều đặn, không quá sức\n\nXem chi tiết tại đây 👇\nhttps://shopee.vn/product/BK102\n#moingaymotcuonsach #docsach #baihoccuocsong",
+      "affiliate_link": "https://s.shopee.vn/808wAR2fUv",
+      "link_placement": "caption",
+      "first_comment": "",
+      "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Đừng để trì hoãn\nđánh cắp ngày của bạn",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Đừng để trì hoãn\nđánh cắp ngày của bạn', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Đắc Nhân Tâm'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Đừng để trì hoãn\nđánh cắp ngày của bạn'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
+      "meta": {
+        "caption_fingerprint": "28e15984b1e59b10",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 0,
+          "soft_ratio": 0.571,
+          "direct_ratio": 0.286,
+          "weights": {
+            "soft_content": 1.2,
+            "direct_sell": 2.2,
+            "listicle": 0.7
+          },
+          "slot_index": 0
+        },
+        "caption_similarity": {
+          "max_similarity": 0.8167,
+          "threshold": 0.75,
+          "fallback": true,
+          "template_count": 3,
+          "style_key": "style_1_review"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png",
+      "image_url": ""
+    },
+    {
+      "page_id": "992938690579642",
+      "internal_page_key": "p2_moi_ngay_mot_cuon_sach",
+      "page_name": "Mỗi ngày một cuốn sách",
       "post_type": "direct_sell",
       "product_id": "BK112",
       "product_title": "Atomic Habits",
-      "scheduled_time": "2026-04-23 14:00",
-      "caption": "Nhiều bạn hỏi nên bắt đầu từ cuốn nào để vừa dễ đọc vừa có giá trị thực tế. Gợi ý hôm nay là Atomic Habits.\n\nĐây là cuốn mình thấy hợp để đọc và áp dụng ngay.\n\nLink tham khảo: https://shopee.vn/product/BK112\n#suthatla #gocnhinthucte #tamlyhoc",
-      "affiliate_link": "https://shopee.vn/product/BK112",
-      "link_placement": "caption",
-      "first_comment": "",
+      "scheduled_time": "2026-04-24 20:00",
+      "caption": "Dạo trước mình hay bị cuốn vào việc vặt, bận cả ngày nhưng vẫn thấy bản thân đứng yên.\n\nChỉ khi nhìn lại thói quen của mình, mình mới hiểu vì sao càng cố càng dễ mệt.\n\nAtomic Habits không nói chuyện xa vời, mà giúp mình sắp lại nhịp sống theo kiểu rất dễ ngấm.\n\nCuốn này hợp nếu bạn:\n- Luôn thấy bận nhưng không tiến nhiều\n- Muốn giảm phân tán và tập trung hơn\n- Cần thay đổi nhỏ nhưng hiệu quả rõ\n\nLink mình để bên dưới 👇\nLink ở comment 👇\n\nĐiều mình học được sau cùng là: thay đổi bền vững không đến từ một ngày bùng nổ, mà từ việc dám nhìn thẳng vào vấn đề của mình rồi chỉnh từng chút một.\n\n#moingaymotcuonsach #docsach #baihoccuocsong",
+      "affiliate_link": "https://s.shopee.vn/10zDwv1cEv",
+      "link_placement": "comment",
+      "first_comment": "Link mình để bên dưới 👇\nhttps://s.shopee.vn/10zDwv1cEv\nBạn kéo xuống xem thử rồi quyết cũng chưa muộn.",
       "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Cho mình một khoảng lặng\nđể nhẹ lòng hơn",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Cho mình một khoảng lặng\nđể nhẹ lòng hơn', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Atomic Habits'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Cho mình một khoảng lặng\nđể nhẹ lòng hơn'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
       "meta": {
-        "caption_fingerprint": "6ceb24c919647463",
+        "caption_fingerprint": "266173272b10fef0",
         "publish_mode": false,
         "post_type_logic": {
           "rule_applied": "ratio_weighted_selection",
           "recent_direct_streak": 0,
-          "soft_ratio": 0.6,
-          "direct_ratio": 0.4,
+          "soft_ratio": 0.545,
+          "direct_ratio": 0.273,
           "weights": {
             "soft_content": 1.2,
-            "direct_sell": 1.0
+            "direct_sell": 2.2,
+            "listicle": 0.7
           },
-          "slot_index": 0
+          "slot_index": 1
         },
         "caption_similarity": {
-          "max_similarity": 0.9064,
+          "max_similarity": 0.8284,
           "threshold": 0.75,
           "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test"
-      }
+          "template_count": 3,
+          "style_key": "style_1_review"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/cloudflare_generated/1124354747418012_BK112_cf.png",
+      "image_url": ""
     },
     {
-      "page_id": "1124354747418012",
-      "internal_page_key": "p4_su_that_la",
-      "page_name": "Sự Thật Là",
+      "page_id": "1129939793529788",
+      "internal_page_key": "p3_triet_ly_co_nhan",
+      "page_name": "Triết Lý Cổ Nhân",
       "post_type": "soft_content",
-      "product_id": "BK111",
-      "product_title": "Dám Bị Ghét",
-      "scheduled_time": "2026-04-23 20:30",
-      "caption": "Nếu bạn muốn một cuốn sách dễ đọc nhưng áp dụng được ngay vào đời sống, Dám Bị Ghét là lựa chọn đáng tiền.\n\nNội dung rõ, không dài dòng, phù hợp đọc mỗi ngày 15-20 phút.\n\nXem chi tiết: Link ở comment 👇\n#suthatla #gocnhinthucte #tamlyhoc",
-      "affiliate_link": "https://s.shopee.vn/5AoknIMYzM",
-      "link_placement": "comment",
-      "first_comment": "Link sách đang giảm giá cho Dám Bị Ghét ở đây 👇\nhttps://s.shopee.vn/5AoknIMYzM\nBạn xem thử mục lục trước rồi quyết nhé.",
+      "product_id": "BK101",
+      "product_title": "Hiểu Về Trái Tim",
+      "scheduled_time": "2026-04-24 09:00",
+      "caption": "Nếu đang muốn chỉnh lại guồng sống, mình sẽ ưu tiên 3 kiểu sách này:\n\n- Sách giúp nhìn ra thói quen xấu đang kéo mình chậm lại\n- Sách cho cách làm đủ cụ thể để bắt đầu ngay\n- Sách đọc xong thấy muốn hành động chứ không chỉ thấy hay\n\nTrong 3 kiểu đó, Hiểu Về Trái Tim là cuốn mình sẽ xem trước.\n\nCuốn này hợp nếu bạn:\n- Đang muốn bắt đầu lại từ nền tảng\n- Cần một cuốn dễ đọc, dễ làm theo\n- Muốn chuyển từ biết sang hành động\n\nXem chi tiết tại đây 👇\nhttps://shopee.vn/product/BK101\n\nNếu chọn đúng một cuốn để bắt đầu lại trong giai đoạn này, mình vẫn ưu tiên cuốn trên vì nó giúp chuyển từ hiểu vấn đề sang hành động cụ thể.\n\n#trietlyconhan #nhansinh #songsang",
+      "affiliate_link": "https://s.shopee.vn/5AomuW4YX2",
+      "link_placement": "caption",
+      "first_comment": "",
       "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Bình tĩnh lại\nđể nhìn đúng vấn đề",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Bình tĩnh lại\nđể nhìn đúng vấn đề', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Hiểu Về Trái Tim'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Bình tĩnh lại\nđể nhìn đúng vấn đề'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
       "meta": {
-        "caption_fingerprint": "86a0be8948a83b71",
+        "caption_fingerprint": "e250d41ace9f7330",
         "publish_mode": false,
         "post_type_logic": {
           "rule_applied": "ratio_weighted_selection",
@@ -320,17 +243,207 @@
             "soft_content": 1.2,
             "direct_sell": 0.0
           },
+          "slot_index": 0
+        },
+        "caption_similarity": {
+          "max_similarity": 0.3443,
+          "threshold": 0.75,
+          "template_count": 2,
+          "style_key": "style_3_listicle"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png",
+      "image_url": ""
+    },
+    {
+      "page_id": "1129939793529788",
+      "internal_page_key": "p3_triet_ly_co_nhan",
+      "page_name": "Triết Lý Cổ Nhân",
+      "post_type": "direct_sell",
+      "product_id": "BK113",
+      "product_title": "Quẳng Gánh Lo Đi Và Vui Sống",
+      "scheduled_time": "2026-04-24 19:45",
+      "caption": "Bạn đang cần một cuốn sách dễ đọc nhưng tác động rõ vào thói quen hằng ngày?\n\nQuẳng Gánh Lo Đi Và Vui Sống phù hợp với người đi làm bận, người đang muốn lấy lại tập trung, hoặc ai đang cố xây lại nếp sống ổn định hơn.\n\nNội dung đi thẳng vào lợi ích thực tế, không vòng vo.\n\nCuốn này hợp nếu bạn:\n- Hay rơi vào vòng lặp trì hoãn\n- Muốn tăng hiệu suất mà không kiệt sức\n- Cần một phương pháp đủ rõ để duy trì lâu dài\n\nLink mình để bên dưới 👇\nLink ở comment 👇\n\nĐiểm khác biệt của cuốn này là cho bạn một hướng làm rõ ràng để áp dụng ngay, thay vì chỉ truyền động lực ngắn hạn rồi để mọi thứ quay về điểm cũ.\n\n#trietlyconhan #nhansinh #songsang",
+      "affiliate_link": "https://s.shopee.vn/5q4RaetuUC",
+      "link_placement": "comment",
+      "first_comment": "Link mình để bên dưới 👇\nhttps://s.shopee.vn/5q4RaetuUC\nBạn kéo xuống xem thử rồi quyết cũng chưa muộn.",
+      "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Đừng để trì hoãn\nđánh cắp ngày của bạn",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Đừng để trì hoãn\nđánh cắp ngày của bạn', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Quẳng Gánh Lo Đi Và Vui Sống'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Đừng để trì hoãn\nđánh cắp ngày của bạn'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
+      "meta": {
+        "caption_fingerprint": "620d92d52791c8ac",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 0,
+          "soft_ratio": 0.591,
+          "direct_ratio": 0.409,
+          "weights": {
+            "soft_content": 1.2,
+            "direct_sell": 1.0
+          },
           "slot_index": 1
         },
         "caption_similarity": {
-          "max_similarity": 0.8632,
+          "max_similarity": 0.1885,
+          "threshold": 0.75,
+          "template_count": 3,
+          "style_key": "style_2_direct"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/quote_images_tonight/bk111_quote.jpg",
+      "image_url": ""
+    },
+    {
+      "page_id": "1124354747418012",
+      "internal_page_key": "p4_su_that_la",
+      "page_name": "Sự Thật Là",
+      "post_type": "soft_content",
+      "product_id": "BK101",
+      "product_title": "Hiểu Về Trái Tim",
+      "scheduled_time": "2026-04-24 14:00",
+      "caption": "Bạn có bao giờ tự hứa từ mai sẽ sống kỷ luật hơn, rồi chỉ vài hôm sau mọi thứ lại quay về như cũ chưa?\n\nMình đã từng như vậy rất nhiều lần. Không phải vì lười, mà vì chưa có một cách đủ đơn giản để bám theo mỗi ngày.\n\nHiểu Về Trái Tim là cuốn mình thích ở chỗ nói đúng cảm giác đó và chỉ ra hướng đi khá thực tế.\n\nCuốn này hợp nếu bạn:\n- Đang muốn lấy lại kỷ luật cá nhân\n- Thường bắt đầu tốt nhưng nhanh nản\n- Cần một lộ trình rõ để làm theo mỗi ngày\n\nXem chi tiết tại đây 👇\nhttps://shopee.vn/product/BK101\n#suthatla #gocnhinthucte #tamlyhoc",
+      "affiliate_link": "https://s.shopee.vn/5AomuW4YX2",
+      "link_placement": "caption",
+      "first_comment": "",
+      "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Hiểu Về Trái Tim'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
+      "meta": {
+        "caption_fingerprint": "cfa63755d3803ec1",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 0,
+          "soft_ratio": 0.609,
+          "direct_ratio": 0.391,
+          "weights": {
+            "soft_content": 1.2,
+            "direct_sell": 1.0
+          },
+          "slot_index": 0
+        },
+        "caption_similarity": {
+          "max_similarity": 0.298,
+          "threshold": 0.75,
+          "template_count": 3,
+          "style_key": "style_1_review"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png",
+      "image_url": ""
+    },
+    {
+      "page_id": "1124354747418012",
+      "internal_page_key": "p4_su_that_la",
+      "page_name": "Sự Thật Là",
+      "post_type": "direct_sell",
+      "product_id": "BK111",
+      "product_title": "Dám Bị Ghét",
+      "scheduled_time": "2026-04-24 20:30",
+      "caption": "Có 3 dấu hiệu cho thấy bạn nên đọc một cuốn về kỷ luật cá nhân ngay lúc này:\n\n- Việc nhỏ cũng dễ trì hoãn\n- Làm nhiều nhưng không thấy tiến\n- Muốn thay đổi nhưng không giữ được lâu\n\nNếu thấy mình ở trong đó, Dám Bị Ghét là cuốn khá đáng để bắt đầu.\n\nCuốn này hợp nếu bạn:\n- Đang mất nhịp và muốn lấy lại sự ổn định\n- Cần một phương pháp rõ để theo mỗi ngày\n- Muốn thay đổi thật, không chỉ có động lực ngắn hạn\n\nLink mình để bên dưới 👇\nLink ở comment 👇\n\nNếu chọn đúng một cuốn để bắt đầu lại trong giai đoạn này, mình vẫn ưu tiên cuốn trên vì nó giúp chuyển từ hiểu vấn đề sang hành động cụ thể.\n\n#suthatla #gocnhinthucte #tamlyhoc",
+      "affiliate_link": "https://s.shopee.vn/5AoknIMYzM",
+      "link_placement": "comment",
+      "first_comment": "Link mình để bên dưới 👇\nhttps://s.shopee.vn/5AoknIMYzM\nBạn kéo xuống xem thử rồi quyết cũng chưa muộn.",
+      "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Đừng để trì hoãn\nđánh cắp ngày của bạn",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Đừng để trì hoãn\nđánh cắp ngày của bạn', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Dám Bị Ghét'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Đừng để trì hoãn\nđánh cắp ngày của bạn'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
+      "meta": {
+        "caption_fingerprint": "ab9a44c00f9f9046",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 0,
+          "soft_ratio": 0.625,
+          "direct_ratio": 0.375,
+          "weights": {
+            "soft_content": 1.2,
+            "direct_sell": 1.0
+          },
+          "slot_index": 1
+        },
+        "caption_similarity": {
+          "max_similarity": 0.2774,
+          "threshold": 0.75,
+          "template_count": 2,
+          "style_key": "style_3_listicle"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/cloudflare_generated/1124354747418012_BK111_cf.png",
+      "image_url": ""
+    },
+    {
+      "page_id": "1077631882095947",
+      "internal_page_key": "p5_tu_sach_thay_doi_tu_duy",
+      "page_name": "Tủ Sách Thay Đổi Tư Duy",
+      "post_type": "listicle",
+      "product_id": "BK107",
+      "product_title": "Càng Kỷ Luật Càng Tự Do",
+      "scheduled_time": "2026-04-24 08:45",
+      "caption": "Bạn có bao giờ tự hứa từ mai sẽ sống kỷ luật hơn, rồi chỉ vài hôm sau mọi thứ lại quay về như cũ chưa?\n\nMình đã từng như vậy rất nhiều lần. Không phải vì lười, mà vì chưa có một cách đủ đơn giản để bám theo mỗi ngày.\n\nCàng Kỷ Luật Càng Tự Do là cuốn mình thích ở chỗ nói đúng cảm giác đó và chỉ ra hướng đi khá thực tế.\n\nCuốn này hợp nếu bạn:\n- Đang muốn lấy lại kỷ luật cá nhân\n- Thường bắt đầu tốt nhưng nhanh nản\n- Cần một lộ trình rõ để làm theo mỗi ngày\n\nXem chi tiết tại đây 👇\nhttps://shopee.vn/product/BK107\n#thaydoituduy #phattrienbanthan #docsachmoingay",
+      "affiliate_link": "https://s.shopee.vn/2VnzcYvY4k",
+      "link_placement": "caption",
+      "first_comment": "",
+      "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Càng Kỷ Luật Càng Tự Do'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
+      "meta": {
+        "caption_fingerprint": "95201c846396b0fc",
+        "publish_mode": false,
+        "post_type_logic": {
+          "rule_applied": "ratio_weighted_selection",
+          "recent_direct_streak": 2,
+          "soft_ratio": 0.458,
+          "direct_ratio": 0.375,
+          "weights": {
+            "soft_content": 1.2,
+            "direct_sell": 0.0,
+            "listicle": 0.7
+          },
+          "slot_index": 0
+        },
+        "caption_similarity": {
+          "max_similarity": 0.8846,
           "threshold": 0.75,
           "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test"
-      }
+          "template_count": 3,
+          "style_key": "style_1_review"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/bk107_cover.jpg",
+      "image_url": ""
     },
     {
       "page_id": "1077631882095947",
@@ -339,58 +452,30 @@
       "post_type": "soft_content",
       "product_id": "BK108",
       "product_title": "Nghĩ Giàu Làm Giàu",
-      "scheduled_time": "2026-04-23 08:45",
-      "caption": "Nếu bạn muốn một cuốn sách dễ đọc nhưng áp dụng được ngay vào đời sống, Nghĩ Giàu Làm Giàu là lựa chọn đáng tiền.\n\nNội dung rõ, không dài dòng, phù hợp đọc mỗi ngày 15-20 phút.\n\nXem chi tiết: https://s.shopee.vn/2qQq16nmfv\n#thaydoituduy #phattrienbanthan #docsachmoingay",
+      "scheduled_time": "2026-04-24 20:15",
+      "caption": "Bạn có bao giờ tự hứa từ mai sẽ sống kỷ luật hơn, rồi chỉ vài hôm sau mọi thứ lại quay về như cũ chưa?\n\nMình đã từng như vậy rất nhiều lần. Không phải vì lười, mà vì chưa có một cách đủ đơn giản để bám theo mỗi ngày.\n\nNghĩ Giàu Làm Giàu là cuốn mình thích ở chỗ nói đúng cảm giác đó và chỉ ra hướng đi khá thực tế.\n\nCuốn này hợp nếu bạn:\n- Đang muốn lấy lại kỷ luật cá nhân\n- Thường bắt đầu tốt nhưng nhanh nản\n- Cần một lộ trình rõ để làm theo mỗi ngày\n\nLink mình để bên dưới 👇\nLink ở comment 👇\n#thaydoituduy #phattrienbanthan #docsachmoingay",
       "affiliate_link": "https://s.shopee.vn/2qQq16nmfv",
-      "link_placement": "caption",
-      "first_comment": "",
-      "status": "approved",
-      "meta": {
-        "caption_fingerprint": "4fbab690204e7c7d",
-        "publish_mode": false,
-        "post_type_logic": {
-          "rule_applied": "ratio_weighted_selection",
-          "recent_direct_streak": 0,
-          "soft_ratio": 0.476,
-          "direct_ratio": 0.333,
-          "weights": {
-            "soft_content": 1.2,
-            "direct_sell": 1.0,
-            "listicle": 0.7
-          },
-          "slot_index": 0
-        },
-        "caption_similarity": {
-          "max_similarity": 0.9001,
-          "threshold": 0.75,
-          "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test"
-      }
-    },
-    {
-      "page_id": "1077631882095947",
-      "internal_page_key": "p5_tu_sach_thay_doi_tu_duy",
-      "page_name": "Tủ Sách Thay Đổi Tư Duy",
-      "post_type": "direct_sell",
-      "product_id": "BK118",
-      "product_title": "Đừng Lựa Chọn An Nhàn Khi Còn Trẻ",
-      "scheduled_time": "2026-04-23 20:15",
-      "caption": "Nhiều bạn hỏi nên bắt đầu từ cuốn nào để vừa dễ đọc vừa có giá trị thực tế. Gợi ý hôm nay là Đừng Lựa Chọn An Nhàn Khi Còn Trẻ.\n\nĐây là cuốn mình thấy hợp để đọc và áp dụng ngay.\n\nLink tham khảo: Link ở comment 👇\n#thaydoituduy #phattrienbanthan #docsachmoingay",
-      "affiliate_link": "https://shopee.vn/product/BK118",
       "link_placement": "comment",
-      "first_comment": "Muốn nâng cấp thói quen mỗi ngày, xem Đừng Lựa Chọn An Nhàn Khi Còn Trẻ ở đây 👇\nhttps://shopee.vn/product/BK118\nĐọc vài trang đầu là biết có hợp mình không.",
+      "first_comment": "Link mình để bên dưới 👇\nhttps://s.shopee.vn/2qQq16nmfv\nBạn kéo xuống xem thử rồi quyết cũng chưa muộn.",
       "status": "approved",
+      "image_type": "quote_image",
+      "image_text": "Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài",
+      "image_layout": {
+        "background": "minimal, clean background tông be/trắng/tối nhẹ",
+        "text_position": "text lớn ở giữa",
+        "book_cover_position": "bìa sách nhỏ góc dưới phải",
+        "lighting": "soft, calm"
+      },
+      "image_caption": "Quote image tối giản: nền trung tính, text lớn ở giữa 'Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài', bìa sách nhỏ góc dưới phải. Render bằng Cloudflare.",
+      "image_prompt": "Minimalist quote image 1:1 cho bài về 'Nghĩ Giàu Làm Giàu'. Nền sạch màu trung tính, chữ lớn ở giữa (tiếng Việt): 'Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài'. Font hiện đại, dễ đọc trên mobile. Bìa sách nhỏ ở góc dưới phải. Soft calm lighting, không rối, không watermark.",
       "meta": {
-        "caption_fingerprint": "12019b8c055c848d",
+        "caption_fingerprint": "418c92fbd15d10ab",
         "publish_mode": false,
         "post_type_logic": {
           "rule_applied": "ratio_weighted_selection",
           "recent_direct_streak": 0,
-          "soft_ratio": 0.5,
-          "direct_ratio": 0.318,
+          "soft_ratio": 0.44,
+          "direct_ratio": 0.36,
           "weights": {
             "soft_content": 1.2,
             "direct_sell": 1.0,
@@ -399,14 +484,15 @@
           "slot_index": 1
         },
         "caption_similarity": {
-          "max_similarity": 0.7649,
+          "max_similarity": 0.8519,
           "threshold": 0.75,
           "fallback": true,
-          "template_count": 5
-        },
-        "approved_by_user": true,
-        "approval_variant": "optimized_first_comment_ab_test"
-      }
+          "template_count": 3,
+          "style_key": "style_1_review"
+        }
+      },
+      "image_local_path": "/root/.openclaw/workspace/data/cloudflare_generated/1077631882095947_BK108_cf.png",
+      "image_url": ""
     }
   ]
 }

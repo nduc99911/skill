@@ -1,12 +1,15 @@
 {
-  "publish_mode": false,
+  "publish_mode": true,
   "default_language": "vi",
   "default_disclosure": "link affiliate",
   "global_rules": {
     "cooldown_days_same_product": 14,
     "require_valid_affiliate_link": true,
     "affiliate_link_pattern": "^https?://([a-z0-9-]+\\.)?shopee\\.vn/(product|[A-Za-z0-9_./?=&%-]+)",
-    "affiliate_required_subdomains": ["s", "shopee"],
+    "affiliate_required_subdomains": [
+      "s",
+      "shopee"
+    ],
     "avoid_similar_caption_threshold": 0.75,
     "max_direct_sell_streak_default": 2,
     "min_soft_ratio": 0.4,
@@ -18,76 +21,148 @@
       "internal_page_key": "p1_tram_doc_chua_lanh",
       "page_name": "Trạm đọc chữa lành",
       "facebook_page_id": "1051178364752250",
-      "publish_enabled": false,
+      "publish_enabled": true,
       "persona": "Nhẹ nhàng, đồng cảm, xoa dịu, như một người bạn tâm giao.",
       "audience": "Người đang mệt mỏi, cần chữa lành, tìm sự bình an và thấu hiểu.",
-      "time_slots": ["10:15", "21:00"],
-      "categories": ["tam-ly", "phat-giao", "tam-linh"],
+      "time_slots": [
+        "10:15",
+        "21:00"
+      ],
+      "categories": [
+        "tam-ly",
+        "phat-giao",
+        "tam-linh"
+      ],
       "posts_per_day": 2,
       "cooldown_days_same_product": 14,
       "max_direct_sell_streak": 1,
-      "allowed_post_types": ["soft_content", "direct_sell"],
-      "hashtags": ["#chualanh", "#tamyen", "#tramdoc"]
+      "allowed_post_types": [
+        "soft_content",
+        "direct_sell"
+      ],
+      "hashtags": [
+        "#chualanh",
+        "#tamyen",
+        "#tramdoc"
+      ]
     },
     {
       "internal_page_key": "p2_moi_ngay_mot_cuon_sach",
       "page_name": "Mỗi ngày một cuốn sách",
       "facebook_page_id": "992938690579642",
-      "publish_enabled": false,
+      "publish_enabled": true,
       "persona": "Chiêm nghiệm, gần gũi, truyền cảm hứng đọc sách mỗi ngày.",
       "audience": "Người thích đọc sách phát triển bản thân, muốn có gợi ý ngắn và dễ áp dụng.",
-      "time_slots": ["08:30", "20:00"],
-      "categories": ["phat-trien-ban-than", "tam-ly", "ky-nang-song"],
+      "time_slots": [
+        "08:30",
+        "20:00"
+      ],
+      "categories": [
+        "phat-trien-ban-than",
+        "tam-ly",
+        "ky-nang-song"
+      ],
       "posts_per_day": 2,
       "cooldown_days_same_product": 14,
       "max_direct_sell_streak": 1,
-      "allowed_post_types": ["soft_content", "direct_sell", "listicle"],
-      "hashtags": ["#moingaymotcuonsach", "#docsach", "#baihoccuocsong"]
+      "allowed_post_types": [
+        "soft_content",
+        "direct_sell",
+        "listicle"
+      ],
+      "hashtags": [
+        "#moingaymotcuonsach",
+        "#docsach",
+        "#baihoccuocsong"
+      ]
     },
     {
       "internal_page_key": "p3_triet_ly_co_nhan",
       "page_name": "Triết Lý Cổ Nhân",
       "facebook_page_id": "1129939793529788",
-      "publish_enabled": false,
+      "publish_enabled": true,
       "persona": "Trầm mặc, sâu, ngôn từ thuần Việt, thiên về đạo lý Á Đông.",
       "audience": "Người thích chiêm nghiệm từ lời dạy xưa, nhân sinh quan, cách giữ mình.",
-      "time_slots": ["09:00", "19:45"],
-      "categories": ["tam-linh", "triet-hoc", "tam-ly"],
+      "time_slots": [
+        "09:00",
+        "19:45"
+      ],
+      "categories": [
+        "tam-linh",
+        "triet-hoc",
+        "tam-ly"
+      ],
       "posts_per_day": 2,
       "cooldown_days_same_product": 14,
       "max_direct_sell_streak": 1,
-      "allowed_post_types": ["soft_content", "direct_sell"],
-      "hashtags": ["#trietlyconhan", "#nhansinh", "#songsang"]
+      "allowed_post_types": [
+        "soft_content",
+        "direct_sell"
+      ],
+      "hashtags": [
+        "#trietlyconhan",
+        "#nhansinh",
+        "#songsang"
+      ]
     },
     {
       "internal_page_key": "p4_su_that_la",
       "page_name": "Sự Thật Là",
       "facebook_page_id": "1124354747418012",
-      "publish_enabled": false,
+      "publish_enabled": true,
       "persona": "Sắc, thẳng, lột tả tâm lý và sự thật đời sống nhưng không chợ búa.",
       "audience": "Người thích góc nhìn thực tế, tỉnh táo, không màu mè.",
-      "time_slots": ["14:00", "20:30"],
-      "categories": ["tam-ly", "triet-hoc", "phat-trien-ban-than"],
+      "time_slots": [
+        "14:00",
+        "20:30"
+      ],
+      "categories": [
+        "tam-ly",
+        "triet-hoc",
+        "phat-trien-ban-than"
+      ],
       "posts_per_day": 2,
       "cooldown_days_same_product": 14,
       "max_direct_sell_streak": 1,
-      "allowed_post_types": ["soft_content", "direct_sell"],
-      "hashtags": ["#suthatla", "#gocnhinthucte", "#tamlyhoc"]
+      "allowed_post_types": [
+        "soft_content",
+        "direct_sell"
+      ],
+      "hashtags": [
+        "#suthatla",
+        "#gocnhinthucte",
+        "#tamlyhoc"
+      ]
     },
     {
       "internal_page_key": "p5_tu_sach_thay_doi_tu_duy",
       "page_name": "Tủ Sách Thay Đổi Tư Duy",
       "facebook_page_id": "1077631882095947",
-      "publish_enabled": false,
+      "publish_enabled": true,
       "persona": "Khích lệ, thực tế, giúp người đọc muốn thay đổi bản thân từng ngày.",
       "audience": "Người trẻ muốn phát triển tư duy, kỷ luật và thói quen tốt.",
-      "time_slots": ["08:45", "20:15"],
-      "categories": ["phat-trien-ban-than", "ky-nang-song", "kinh-doanh"],
+      "time_slots": [
+        "08:45",
+        "20:15"
+      ],
+      "categories": [
+        "phat-trien-ban-than",
+        "ky-nang-song",
+        "kinh-doanh"
+      ],
       "posts_per_day": 2,
       "cooldown_days_same_product": 14,
       "max_direct_sell_streak": 2,
-      "allowed_post_types": ["soft_content", "direct_sell", "listicle"],
-      "hashtags": ["#thaydoituduy", "#phattrienbanthan", "#docsachmoingay"]
+      "allowed_post_types": [
+        "soft_content",
+        "direct_sell",
+        "listicle"
+      ],
+      "hashtags": [
+        "#thaydoituduy",
+        "#phattrienbanthan",
+        "#docsachmoingay"
+      ]
     }
   ]
 }
