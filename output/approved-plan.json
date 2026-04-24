@@ -60,7 +60,7 @@
           "style_key": "style_1_review"
         }
       },
-      "image_local_path": "",
+      "image_local_path": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png",
       "image_url": ""
     },
     {
@@ -107,7 +107,7 @@
           "style_key": "style_1_review"
         }
       },
-      "image_local_path": "",
+      "image_local_path": "/root/.openclaw/workspace/data/quote_images_tonight/bk117_quote.jpg",
       "image_url": ""
     },
     {
@@ -122,7 +122,7 @@
       "affiliate_link": "https://s.shopee.vn/808wAR2fUv",
       "link_placement": "caption",
       "first_comment": "",
-      "status": "approved",
+      "status": "published",
       "image_type": "quote_image",
       "image_text": "Nói để hiểu nhau\nkhông phải để thắng nhau",
       "image_layout": {
@@ -154,9 +154,10 @@
           "fallback": true,
           "template_count": 3,
           "style_key": "style_1_review"
-        }
+        },
+        "published_post_id": "992938690579642_122095630802483066"
       },
-      "image_local_path": "",
+      "image_local_path": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png",
       "image_url": ""
     },
     {
@@ -220,7 +221,7 @@
       "affiliate_link": "https://s.shopee.vn/5AomuW4YX2",
       "link_placement": "caption",
       "first_comment": "",
-      "status": "approved",
+      "status": "published",
       "image_type": "quote_image",
       "image_text": "Bình tĩnh lại\nđể nhìn đúng vấn đề",
       "image_layout": {
@@ -250,7 +251,8 @@
           "threshold": 0.75,
           "template_count": 2,
           "style_key": "style_3_listicle"
-        }
+        },
+        "published_post_id": "1129939793529788_122096728178555812"
       },
       "image_local_path": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png",
       "image_url": ""
@@ -408,7 +410,7 @@
       "affiliate_link": "https://s.shopee.vn/2VnzcYvY4k",
       "link_placement": "caption",
       "first_comment": "",
-      "status": "approved",
+      "status": "published",
       "image_type": "quote_image",
       "image_text": "Kỷ luật mỗi ngày\nđổi lấy tự do lâu dài",
       "image_layout": {
@@ -440,7 +442,8 @@
           "fallback": true,
           "template_count": 3,
           "style_key": "style_1_review"
-        }
+        },
+        "published_post_id": "1077631882095947_122106366044736441"
       },
       "image_local_path": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png",
       "image_url": ""
