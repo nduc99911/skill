@@ -43,26 +43,32 @@ def build_image_prompt(book: Dict[str, str], image_text: str) -> str:
     title = (book.get('title') or 'Book').strip()
     category = (book.get('category') or '').strip().lower()
 
-    # Thematic cue: keep brand-consistent look but add subtle topic-related motifs.
-    if any(k in category for k in ['tâm lý', 'chữa lành', 'healing']):
-        motif = 'soft light beams, calm organic curves, subtle warm bokeh suggesting emotional healing'
-    elif any(k in category for k in ['kinh doanh', 'tài chính', 'business']):
-        motif = 'structured geometric layers, clean chart-like lines, premium executive desk mood'
+    # Step 1: Visual metaphor (concrete objects, avoid abstract buzzwords)
+    if any(k in category for k in ['khởi nghiệp', 'kinh doanh', 'tài chính', 'business']):
+        subject = 'a small green sprout growing out of an old bronze coin, next to a vintage brass compass'
+        setting = 'on a weathered wooden table over an ancient map with floating dust particles'
+    elif any(k in category for k in ['chữa lành', 'healing', 'tâm lý', 'cảm xúc']):
+        subject = 'a warm cup of tea with soft steam beside a glowing candle'
+        setting = 'near a rainy window in a quiet dim room with gentle reflections'
     elif any(k in category for k in ['triết', 'philosophy', 'cổ nhân']):
-        motif = 'classical paper texture, subtle ink brush traces, contemplative museum-like lighting'
+        subject = 'a stone path leading to a distant archway under moonlight'
+        setting = 'in a misty courtyard with subtle falling leaves and dramatic light rays'
     elif any(k in category for k in ['kỹ năng', 'phát triển', 'self-help']):
-        motif = 'upward dynamic gradients, roadmap-like abstract paths, optimistic disciplined tone'
+        subject = 'a paper airplane rising above layered geometric steps'
+        setting = 'in a clean studio-like abstract space with directional light and depth'
     else:
-        motif = 'editorial abstract composition with subtle symbolic shapes related to learning and books'
+        subject = 'a lone silhouette standing on a hill facing a glowing horizon'
+        setting = 'in an abstract cinematic landscape with layered fog and soft light beams'
 
+    # Step 2 + Step 3: explicit setting + mandatory artistic modifiers
     return (
-        f"Create a premium, consistent 1:1 abstract thematic background for Vietnamese book content about '{title}'. "
-        f"Style base: cinematic scene with soft depth, elegant color grading, clean center safe-area for headline text. "
-        f"Visual direction: landscape elements or human silhouette/figure in artistic abstract style, emotionally evocative. "
-        f"Add subtle thematic motif: {motif}. "
-        f"Strict exclusions: no book, no bookshelf, no readable text, no letters, no logo, no watermark, no clutter."
+        f"{subject}, {setting}, clean center area reserved for text overlay, no clutter. "
+        f"Theme inspired by '{title}'. "
+        f"hyperrealistic, highly detailed, cinematic lighting, 8k resolution, professional photography, "
+        f"masterpiece, trending on artstation, depth of field"
     )
 
 
 def build_image_negative_prompt() -> str:
-    return 'text, letters, words, typography, watermark, logo, signature, gibberish, artifacts, book, books, bookshelf, book cover, magazine, newspaper'
+    # Step 4: absolute negative prompt block
+    return 'text, letters, words, font, typography, watermark, signature, people faces, messy, chaotic'

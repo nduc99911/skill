@@ -16,11 +16,12 @@ Lưu ý: hệ thống tự gọi /me/accounts và loop qua toàn bộ page lấy
 2) Morning pipeline:
 python3 skills/affiliate-book-marketing-director/scripts/run_morning_pipeline.py
 
-Luồng tạo ảnh production hiện tại:
-- Cloudflare AI chỉ render background
+Luồng tạo ảnh production hiện tại (đã nghiệm thu):
+- Cloudflare AI render background theo visual metaphor prompt (4 bước: metaphor + setting + style modifiers + negative prompt)
 - Pillow render text tiếng Việt lên ảnh (Unicode-safe)
-- Có dark overlay + drop shadow để tăng readability
+- Có dark overlay + drop shadow + text wrap để tăng readability
 - Nếu Cloudflare Images upload fail, Facebook sẽ fallback sang upload file local trực tiếp
+- Trạng thái: approved for production rollout
 
 3) Continuous triage (run by cron every 10-15 min):
 python3 skills/affiliate-book-marketing-director/scripts/run_comment_triage.py
