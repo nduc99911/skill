@@ -2,6 +2,10 @@
 from __future__ import annotations
 from typing import Dict, List
 
+# Reserved for LLM-based generation mode (if enabled later).
+# Keep high token budget to avoid truncation of long-form AIDA captions.
+LLM_MAX_TOKENS = 1500
+
 
 def pick_trend_for_book(book: Dict[str, str], trends: List[str]) -> str:
     title = (book.get('title') or '').lower()
@@ -46,27 +50,28 @@ def _word_count(text: str) -> int:
     return len([w for w in text.replace('\n', ' ').split(' ') if w.strip()])
 
 
-def _enforce_caption_length(caption: str, min_words: int = 250, max_words: int = 400) -> str:
+def _enforce_caption_length(caption: str, min_words: int = 250, max_words: int = 450) -> str:
+    # Preserve paragraph formatting. Never collapse newlines.
     wc = _word_count(caption)
     if wc >= min_words:
-        if wc <= max_words:
-            return caption
-        # soft trim when too long
-        words = caption.split()
-        return ' '.join(words[:max_words])
+        return caption
 
-    filler = (
-        "\n\nNhìn rộng hơn, điểm giá trị của cuốn sách không nằm ở vài mẹo giao tiếp ngắn hạn, "
-        "mà ở cách nó giúp bạn thay đổi hệ điều hành tư duy khi làm việc với con người. "
-        "Khi bạn đọc chậm và áp dụng từng nguyên tắc vào bối cảnh thật như công việc, gia đình, "
-        "đàm phán hay quản trị đội nhóm, bạn sẽ thấy hiệu quả bền hơn nhiều so với việc phản ứng theo cảm xúc tức thời."
-    )
+    filler_blocks = [
+        (
+            "Nhìn rộng hơn, giá trị của cuốn sách không nằm ở vài mẹo giao tiếp ngắn hạn, "
+            "mà ở việc giúp bạn đổi cách tư duy khi làm việc với con người trong bối cảnh áp lực cao."
+        ),
+        (
+            "Khi áp dụng đều đặn từng nguyên tắc vào công việc và cuộc sống, bạn sẽ thấy các cuộc đối thoại "
+            "bớt căng thẳng, hiệu quả hợp tác tăng lên và quyết định trở nên sáng suốt hơn."
+        ),
+    ]
     out = caption
+    i = 0
     while _word_count(out) < min_words:
-        out += filler
-    if _word_count(out) > max_words:
-        words = out.split()
-        out = ' '.join(words[:max_words])
+        out += "\n\n" + filler_blocks[i % len(filler_blocks)]
+        i += 1
+    # Do not hard-trim by words to avoid cutting CTA/hashtags.
     return out
 
 

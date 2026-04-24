@@ -42,12 +42,16 @@ class MetaClient:
             params={'fields': 'id,message,created_time', 'limit': limit},
         )
 
+    def _as_is(self, text: str) -> str:
+        # Keep original paragraph breaks (\n\n). Never normalize whitespace here.
+        return '' if text is None else str(text)
+
     def create_photo_post(self, page_id: str, page_access_token: str, caption: str, image_url: str) -> Dict[str, Any]:
         return self._req(
             'POST',
             f'{page_id}/photos',
             access_token=page_access_token,
-            data={'caption': caption, 'url': image_url, 'published': 'true'},
+            data={'caption': self._as_is(caption), 'url': image_url, 'published': 'true'},
         )
 
     def create_photo_post_from_file(self, page_id: str, page_access_token: str, caption: str, image_path: str) -> Dict[str, Any]:
@@ -61,15 +65,15 @@ class MetaClient:
                 'POST',
                 f'{page_id}/photos',
                 access_token=page_access_token,
-                data={'caption': caption, 'published': 'true'},
+                data={'caption': self._as_is(caption), 'published': 'true'},
                 files=files,
             )
 
     def create_feed_post(self, page_id: str, page_access_token: str, message: str) -> Dict[str, Any]:
-        return self._req('POST', f'{page_id}/feed', access_token=page_access_token, data={'message': message})
+        return self._req('POST', f'{page_id}/feed', access_token=page_access_token, data={'message': self._as_is(message)})
 
     def create_comment(self, object_id: str, page_access_token: str, message: str) -> Dict[str, Any]:
-        return self._req('POST', f'{object_id}/comments', access_token=page_access_token, data={'message': message})
+        return self._req('POST', f'{object_id}/comments', access_token=page_access_token, data={'message': self._as_is(message)})
 
     def get_post_comments(self, post_id: str, page_access_token: str, limit: int = 50) -> Dict[str, Any]:
         return self._req('GET', f'{post_id}/comments', access_token=page_access_token, params={'fields': 'id,message,from,created_time', 'limit': limit})
