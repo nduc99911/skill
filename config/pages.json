@@ -1,5 +1,5 @@
 {
-  "publish_mode": true,
+  "publish_mode": false,
   "default_language": "vi",
   "default_disclosure": "link affiliate",
   "global_rules": {
@@ -21,7 +21,7 @@
       "internal_page_key": "p1_tram_doc_chua_lanh",
       "page_name": "Trạm đọc chữa lành",
       "facebook_page_id": "1051178364752250",
-      "publish_enabled": true,
+      "publish_enabled": false,
       "persona": "Nhẹ nhàng, đồng cảm, xoa dịu, như một người bạn tâm giao.",
       "audience": "Người đang mệt mỏi, cần chữa lành, tìm sự bình an và thấu hiểu.",
       "time_slots": [
@@ -50,7 +50,7 @@
       "internal_page_key": "p2_moi_ngay_mot_cuon_sach",
       "page_name": "Mỗi ngày một cuốn sách",
       "facebook_page_id": "992938690579642",
-      "publish_enabled": true,
+      "publish_enabled": false,
       "persona": "Chiêm nghiệm, gần gũi, truyền cảm hứng đọc sách mỗi ngày.",
       "audience": "Người thích đọc sách phát triển bản thân, muốn có gợi ý ngắn và dễ áp dụng.",
       "time_slots": [
@@ -80,7 +80,7 @@
       "internal_page_key": "p3_triet_ly_co_nhan",
       "page_name": "Triết Lý Cổ Nhân",
       "facebook_page_id": "1129939793529788",
-      "publish_enabled": true,
+      "publish_enabled": false,
       "persona": "Trầm mặc, sâu, ngôn từ thuần Việt, thiên về đạo lý Á Đông.",
       "audience": "Người thích chiêm nghiệm từ lời dạy xưa, nhân sinh quan, cách giữ mình.",
       "time_slots": [
@@ -109,7 +109,7 @@
       "internal_page_key": "p4_su_that_la",
       "page_name": "Sự Thật Là",
       "facebook_page_id": "1124354747418012",
-      "publish_enabled": true,
+      "publish_enabled": false,
       "persona": "Sắc, thẳng, lột tả tâm lý và sự thật đời sống nhưng không chợ búa.",
       "audience": "Người thích góc nhìn thực tế, tỉnh táo, không màu mè.",
       "time_slots": [
@@ -138,7 +138,7 @@
       "internal_page_key": "p5_tu_sach_thay_doi_tu_duy",
       "page_name": "Tủ Sách Thay Đổi Tư Duy",
       "facebook_page_id": "1077631882095947",
-      "publish_enabled": true,
+      "publish_enabled": false,
       "persona": "Khích lệ, thực tế, giúp người đọc muốn thay đổi bản thân từng ngày.",
       "audience": "Người trẻ muốn phát triển tư duy, kỷ luật và thói quen tốt.",
       "time_slots": [
