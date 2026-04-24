@@ -42,10 +42,11 @@
   - quét comment mới từ các bài gần nhất trên từng page
   - phân loại intent: `buy_intent` vs `casual`
 
-### 5.1 Quy tắc xử lý
+### 5.1 Quy tắc xử lý (đã chuyển sang public-only)
 - Buy intent:
-  - gửi private reply (nếu quyền cho phép)
-  - đồng thời public reply xác nhận đã inbox
+  - KHÔNG dùng private reply/inbox
+  - reply công khai trực tiếp dưới bài với link affiliate:
+    - `Dạ sách đang có ưu đãi, bạn đặt mua chính hãng tại link này nhé: [Link Aff]`
 - Casual:
   - reply cảm ơn thân thiện
 
@@ -80,3 +81,5 @@ Cron hiện tại:
 - `state/affiliate_marketing_error.log`
 - `state/affiliate_publish_queue.json`
 - `state/comment_triage_state.json`
+
+Lưu ý: Triage hiện tại chạy theo chiến lược `public_reply_only` để tránh lỗi permission của Meta Messaging.

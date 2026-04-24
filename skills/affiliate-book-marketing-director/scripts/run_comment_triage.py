@@ -105,19 +105,10 @@ def main():
                 intent = classify(msg)
                 try:
                     if intent == 'buy_intent' and affiliate_link:
-                        try:
-                            if cfg.dry_run:
-                                private_ok = True
-                            else:
-                                meta.private_reply_to_comment(cid, page_token, f"Chào bạn, link đặt mua ưu đãi mình gửi bạn ở đây nhé: {affiliate_link}")
-                                private_ok = True
-                        except Exception:
-                            private_ok = False
-
-                        public_text = 'Mình đã inbox link ưu đãi cho bạn rồi nhé, bạn check tin nhắn chờ nha!'
+                        public_text = f'Dạ sách đang có ưu đãi, bạn đặt mua chính hãng tại link này nhé: {affiliate_link}'
                         if not cfg.dry_run:
                             meta.create_comment(post_id, page_token, public_text)
-                        log('triage_buy_intent_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, private_reply=private_ok, mode='dry_run' if cfg.dry_run else 'live')
+                        log('triage_buy_intent_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, private_reply=False, mode='dry_run' if cfg.dry_run else 'live', strategy='public_reply_only')
 
                     elif intent == 'casual':
                         if not cfg.dry_run:
