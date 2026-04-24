@@ -16,9 +16,9 @@ class MetaClient:
             raise MetaApiError('META_ACCESS_TOKEN is missing')
         self.access_token = access_token
 
-    def _req(self, method: str, path: str, **kwargs) -> Dict[str, Any]:
+    def _req(self, method: str, path: str, access_token: str | None = None, **kwargs) -> Dict[str, Any]:
         params = kwargs.pop('params', {}) or {}
-        params['access_token'] = self.access_token
+        params['access_token'] = access_token or self.access_token
         r = requests.request(method, f'{GRAPH_BASE}/{path.lstrip("/")}', params=params, timeout=30, **kwargs)
         try:
             data = r.json()
@@ -28,26 +28,39 @@ class MetaClient:
             raise MetaApiError(f'Meta API {r.status_code}: {data}')
         return data
 
-    def create_photo_post(self, page_id: str, caption: str, image_url: str) -> Dict[str, Any]:
+    def list_pages(self) -> list[Dict[str, Any]]:
+        data = self._req('GET', 'me/accounts', params={'fields': 'id,name,access_token,category', 'limit': 200})
+        return data.get('data', [])
+
+    def list_page_posts(self, page_id: str, page_access_token: str, limit: int = 10) -> Dict[str, Any]:
+        return self._req(
+            'GET',
+            f'{page_id}/posts',
+            access_token=page_access_token,
+            params={'fields': 'id,message,created_time', 'limit': limit},
+        )
+
+    def create_photo_post(self, page_id: str, page_access_token: str, caption: str, image_url: str) -> Dict[str, Any]:
         # Uses URL upload to /photos
         return self._req(
             'POST',
             f'{page_id}/photos',
+            access_token=page_access_token,
             data={'caption': caption, 'url': image_url, 'published': 'true'},
         )
 
-    def create_feed_post(self, page_id: str, message: str) -> Dict[str, Any]:
-        return self._req('POST', f'{page_id}/feed', data={'message': message})
+    def create_feed_post(self, page_id: str, page_access_token: str, message: str) -> Dict[str, Any]:
+        return self._req('POST', f'{page_id}/feed', access_token=page_access_token, data={'message': message})
 
-    def create_comment(self, object_id: str, message: str) -> Dict[str, Any]:
-        return self._req('POST', f'{object_id}/comments', data={'message': message})
+    def create_comment(self, object_id: str, page_access_token: str, message: str) -> Dict[str, Any]:
+        return self._req('POST', f'{object_id}/comments', access_token=page_access_token, data={'message': message})
 
-    def get_post_comments(self, post_id: str, limit: int = 50) -> Dict[str, Any]:
-        return self._req('GET', f'{post_id}/comments', params={'fields': 'id,message,from,created_time', 'limit': limit})
+    def get_post_comments(self, post_id: str, page_access_token: str, limit: int = 50) -> Dict[str, Any]:
+        return self._req('GET', f'{post_id}/comments', access_token=page_access_token, params={'fields': 'id,message,from,created_time', 'limit': limit})
 
-    def private_reply_to_comment(self, comment_id: str, message: str) -> Dict[str, Any]:
+    def private_reply_to_comment(self, comment_id: str, page_access_token: str, message: str) -> Dict[str, Any]:
         # Requires proper app/page permissions and feature support.
-        return self._req('POST', f'{comment_id}/private_replies', data={'message': message})
+        return self._req('POST', f'{comment_id}/private_replies', access_token=page_access_token, data={'message': message})
 
     def publish_instagram_media(self, ig_business_id: str, image_url: str, caption: str) -> Dict[str, Any]:
         # Step 1: create container
