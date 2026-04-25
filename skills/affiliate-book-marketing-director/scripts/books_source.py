@@ -87,7 +87,7 @@ def load_books(csv_path: str, csv_url: str = '') -> List[Dict[str, str]]:
     if not p.exists():
         raise FileNotFoundError(f'Books source not found: {csv_path}')
     with p.open('r', encoding='utf-8') as f:
-        books = list(csv.DictReader(f))
+        books = [_normalize_row(r) for r in csv.DictReader(f)]
     if not books:
         raise RuntimeError(f'Books CSV is empty: {csv_path}')
     return books

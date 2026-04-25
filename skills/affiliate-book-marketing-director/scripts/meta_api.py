@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import mimetypes
+import os
 import requests
 from pathlib import Path
 from typing import Any, Dict
@@ -17,8 +18,13 @@ class MetaClient:
         if not access_token:
             raise MetaApiError('META_ACCESS_TOKEN is missing')
         self.access_token = access_token
+        self.dry_run = os.getenv('DRY_RUN', '1') == '1'
 
     def _req(self, method: str, path: str, access_token: str | None = None, **kwargs) -> Dict[str, Any]:
+        # Global dry-run switch: absolutely block mutating HTTP calls to Meta Graph.
+        if self.dry_run and method.upper() in {'POST', 'DELETE', 'PUT', 'PATCH'}:
+            return {'id': f'dryrun_{path.strip("/").replace("/", "_")}', 'post_id': f'dryrun_{path.strip("/").replace("/", "_")}', 'success': True, 'dry_run': True}
+
         params = kwargs.pop('params', {}) or {}
         params['access_token'] = access_token or self.access_token
         r = requests.request(method, f'{GRAPH_BASE}/{path.lstrip("/")}', params=params, timeout=30, **kwargs)

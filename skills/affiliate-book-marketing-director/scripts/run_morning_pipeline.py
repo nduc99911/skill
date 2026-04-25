@@ -120,19 +120,32 @@ def _get_runtime_tz(cfg) -> ZoneInfo:
 
 
 def resolve_pages(meta: MetaClient | None, cfg, dryrun=False):
-    if meta:
-        pages = meta.list_pages()
-        if cfg.test_page_id:
-            pages = [p for p in pages if str(p.get('id')) == str(cfg.test_page_id)]
-        elif cfg.fb_page_id:
-            pages = [p for p in pages if str(p.get('id')) == str(cfg.fb_page_id)]
-    elif dryrun:
-        pages = [{'id': 'dryrun_page_1', 'name': 'Dry Run Page 1', 'access_token': 'dryrun_page_token'}]
-    else:
-        raise SystemExit('META_ACCESS_TOKEN missing for live mode')
+    """Load allowed book pages from local token map only (no /me/accounts scan)."""
+    scope_ids = [x.strip() for x in (cfg.books_scope_page_ids or '').split(',') if x.strip()]
+    token_map_path = ROOT / 'config' / 'page-tokens.json'
+    if not token_map_path.exists():
+        raise SystemExit('Missing config/page-tokens.json')
+
+    doc = json.loads(token_map_path.read_text(encoding='utf-8'))
+    pages_doc = doc.get('pages', {}) if isinstance(doc, dict) else {}
+    pages = []
+    for pid in scope_ids:
+        row = pages_doc.get(pid) or {}
+        if not row:
+            continue
+        pages.append({
+            'id': pid,
+            'name': row.get('page_name', ''),
+            'access_token': row.get('page_access_token', ''),
+        })
+
+    if cfg.test_page_id:
+        pages = [p for p in pages if str(p.get('id')) == str(cfg.test_page_id)]
+    elif cfg.fb_page_id:
+        pages = [p for p in pages if str(p.get('id')) == str(cfg.fb_page_id)]
 
     if not pages:
-        raise SystemExit('No page available from /me/accounts with current token/filter')
+        raise SystemExit('No page available from BOOK_SCOPE_PAGE_IDS in config/page-tokens.json')
     return pages
 
 
@@ -193,13 +206,13 @@ def build_daily_queue(cfg):
     for book in books:
         row_page_id = str((book.get('page_id') or '').strip())
 
-        if row_page_id:
-            if row_page_id not in page_map:
-                log_error('queue_row_skipped', 'sheet_page_id_not_accessible_or_filtered', row_page_id=row_page_id, row=book)
-                continue
-            target_pages = [page_map[row_page_id]]
-        else:
-            target_pages = pages
+        if not row_page_id:
+            log_error('queue_row_skipped', 'missing_page_id_in_row', row=book)
+            continue
+        if row_page_id not in page_map:
+            log_error('queue_row_skipped', 'sheet_page_id_not_in_book_scope', row_page_id=row_page_id, row=book)
+            continue
+        target_pages = [page_map[row_page_id]]
 
         for page in target_pages:
             page_id = str(page.get('id'))
@@ -325,6 +338,7 @@ def dispatch_due(cfg):
                 fb_post_id = f"dryrun_{page_id}_{book.get('id','book')}"
                 ig_id = f"dryrun_ig_{page_id}_{book.get('id','book')}"
                 mode_note = 'dry_run_no_api_publish'
+                final_status = 'published_dry_run'
             else:
                 if not meta:
                     raise MetaApiError('META_ACCESS_TOKEN missing for live publish')
@@ -350,8 +364,9 @@ def dispatch_due(cfg):
                     ig_resp = meta.publish_instagram_media(ig_business_id, image_url, caption)
                     ig_id = ig_resp.get('id', '')
                 mode_note = f'published:{publish_path}'
+                final_status = 'published'
 
-            finalize_item(queue_id, 'published', {
+            finalize_item(queue_id, final_status, {
                 'published_at': datetime.now(tz).isoformat(),
                 'fb_post_id': fb_post_id,
                 'ig_media_id': ig_id,
@@ -366,11 +381,13 @@ def dispatch_due(cfg):
                 image_url=image_url, fb_post_id=fb_post_id, ig_media_id=ig_id,
                 friday_mode=is_friday, mode=mode_note)
 
-            if not cfg.dry_run and fb_post_id:
-                try:
+            try:
+                if cfg.dry_run:
+                    notifier.send('[DRY RUN - TEST HỆ THỐNG]\n\n' + format_post_success(book.get('title', ''), page_name, fb_post_id))
+                elif fb_post_id:
                     notifier.send(format_post_success(book.get('title', ''), page_name, fb_post_id))
-                except Exception as ne:
-                    log_error('telegram_notify_failed', str(ne), queue_id=queue_id, page_id=page_id, page_name=page_name)
+            except Exception as ne:
+                log_error('telegram_notify_failed', str(ne), queue_id=queue_id, page_id=page_id, page_name=page_name)
 
         except (MetaApiError, CloudflareApiError, Exception) as e:
             finalize_item(queue_id, 'failed', {'error': str(e)})
@@ -385,8 +402,9 @@ def dispatch_due(cfg):
     queued_left = sum(1 for x in items if x.get('status') == 'queued')
     processing = sum(1 for x in items if x.get('status') == 'processing')
     published = sum(1 for x in items if x.get('status') == 'published')
+    published_dry_run = sum(1 for x in items if x.get('status') == 'published_dry_run')
     failed = sum(1 for x in items if x.get('status') == 'failed')
-    log('morning_pipeline_dispatch_done', queued_left=queued_left, processing=processing, published=published, failed=failed, dry_run=cfg.dry_run)
+    log('morning_pipeline_dispatch_done', queued_left=queued_left, processing=processing, published=published, published_dry_run=published_dry_run, failed=failed, dry_run=cfg.dry_run)
 
 
 def schedule_day(cfg):

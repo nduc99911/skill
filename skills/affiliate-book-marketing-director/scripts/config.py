@@ -4,6 +4,9 @@ import os
 from dataclasses import dataclass
 
 
+BOOK_SCOPE_DEFAULT = '1051178364752250,1129939793529788,1124354747418012,1077631882095947'
+
+
 @dataclass
 class Settings:
     timezone: str = os.getenv('AFF_TIMEZONE', 'Asia/Ho_Chi_Minh')
@@ -24,6 +27,7 @@ class Settings:
     books_csv_url: str = os.getenv('BOOKS_CSV_URL', '')
     test_page_id: str = os.getenv('TEST_PAGE_ID', '')
     dry_run: bool = os.getenv('DRY_RUN', '1') == '1'
+    books_scope_page_ids: str = os.getenv('BOOK_SCOPE_PAGE_IDS', BOOK_SCOPE_DEFAULT)
 
     # Operational rules
     min_publish_interval_minutes: int = int(os.getenv('MIN_PUBLISH_INTERVAL_MINUTES', '60'))
