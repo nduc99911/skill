@@ -14,6 +14,7 @@ from trend_scanner import scan_trends
 from content_engine import pick_trend_for_book, build_caption, build_image_text, build_image_prompt, build_image_negative_prompt
 from cloudflare_api import CloudflareClient, CloudflareApiError
 from meta_api import MetaClient, MetaApiError
+from notifier import TelegramNotifier, format_post_success, format_post_error
 
 ROOT = Path('/root/.openclaw/workspace')
 STATE_FILE = ROOT / 'state' / 'affiliate_pipeline_state.json'
@@ -156,6 +157,7 @@ def build_daily_queue(cfg):
 
 
 def dispatch_due(cfg):
+    notifier = TelegramNotifier(cfg.telegram_bot_token, cfg.telegram_chat_id)
     tz = ZoneInfo(cfg.timezone)
     now = datetime.now(tz)
 
@@ -291,11 +293,21 @@ def dispatch_due(cfg):
                 image_url=image_url, fb_post_id=fb_post_id, ig_media_id=ig_id,
                 friday_mode=is_friday, mode=mode_note)
 
+            if not cfg.dry_run and fb_post_id:
+                try:
+                    notifier.send(format_post_success(book.get('title', ''), page_name, fb_post_id))
+                except Exception as ne:
+                    log_error('telegram_notify_failed', str(ne), queue_id=item.get('queue_id'), page_id=page_id, page_name=page_name)
+
         except (MetaApiError, CloudflareApiError, Exception) as e:
             item['status'] = 'failed'
             item['error'] = str(e)
             changed = True
             log_error('morning_pipeline_dispatch_failed', str(e), queue_id=item.get('queue_id'), page_id=page_id, page_name=page_name)
+            try:
+                notifier.send(format_post_error((item.get('book', {}) or {}).get('title', ''), page_name, str(e)))
+            except Exception as ne:
+                log_error('telegram_notify_failed', str(ne), queue_id=item.get('queue_id'), page_id=page_id, page_name=page_name)
             continue
 
     if changed:

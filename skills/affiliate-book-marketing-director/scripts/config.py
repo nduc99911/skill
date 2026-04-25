@@ -28,6 +28,10 @@ class Settings:
     # Operational rules
     min_publish_interval_minutes: int = int(os.getenv('MIN_PUBLISH_INTERVAL_MINUTES', '60'))
 
+    # Telegram notifier (optional)
+    telegram_bot_token: str = os.getenv('TELEGRAM_BOT_TOKEN', '')
+    telegram_chat_id: str = os.getenv('TELEGRAM_CHAT_ID', '')
+
 
 def get_settings() -> Settings:
     return Settings()
