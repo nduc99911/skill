@@ -2,7 +2,13 @@
 set -euo pipefail
 cd /root/.openclaw/workspace
 
+if [ -f /root/.openclaw/workspace/.env ]; then
+  set -a
+  source /root/.openclaw/workspace/.env
+  set +a
+fi
+
 export DRY_RUN="${DRY_RUN:-1}"
 export BOOKS_CSV_PATH="${BOOKS_CSV_PATH:-/root/.openclaw/workspace/data/books_today.sample.csv}"
 
-python3 /root/.openclaw/workspace/skills/affiliate-book-marketing-director/scripts/run_morning_pipeline.py >> /root/.openclaw/workspace/state/affiliate_marketing_cron.log 2>&1
+/root/.openclaw/workspace/.venv_aff/bin/python /root/.openclaw/workspace/skills/affiliate-book-marketing-director/scripts/run_morning_pipeline.py >> /root/.openclaw/workspace/state/affiliate_marketing_cron.log 2>&1
