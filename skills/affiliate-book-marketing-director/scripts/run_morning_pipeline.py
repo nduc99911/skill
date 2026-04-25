@@ -28,6 +28,11 @@ TMP_IMG_DIR.mkdir(parents=True, exist_ok=True)
 PIPELINE_MODE = os.getenv('PIPELINE_MODE', 'build_queue').strip().lower()
 
 
+def is_blank_link(link: str) -> bool:
+    x = (link or '').strip()
+    return (not x) or (x.lower() == 'none')
+
+
 def load_state():
     if not STATE_FILE.exists():
         return {'last_publish_ts': 0}
@@ -261,7 +266,7 @@ def dispatch_due(cfg):
 
                 fb_post_id = fb_resp.get('post_id') or fb_resp.get('id', '')
 
-                if (not is_friday) and affiliate_link and fb_post_id:
+                if (not is_friday) and (not is_blank_link(affiliate_link)) and fb_post_id:
                     meta.create_comment(fb_post_id, page_token, f"Link ưu đãi mình để bên dưới 👇\n{affiliate_link}")
 
                 ig_id = ''

@@ -85,6 +85,9 @@ class MetaClient:
     def get_post_comments(self, post_id: str, page_access_token: str, limit: int = 50) -> Dict[str, Any]:
         return self._req('GET', f'{post_id}/comments', access_token=page_access_token, params={'fields': 'id,message,from,created_time', 'limit': limit})
 
+    def delete_object(self, object_id: str, page_access_token: str) -> Dict[str, Any]:
+        return self._req('DELETE', f'{object_id}', access_token=page_access_token)
+
     def private_reply_to_comment(self, comment_id: str, page_access_token: str, message: str) -> Dict[str, Any]:
         # Requires proper app/page permissions and feature support.
         return self._req('POST', f'{comment_id}/private_replies', access_token=page_access_token, data={'message': message})
