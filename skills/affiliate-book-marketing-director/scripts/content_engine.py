@@ -2,6 +2,8 @@
 from __future__ import annotations
 from typing import Dict, List, Tuple
 import random
+import json
+from pathlib import Path
 
 # Reserved for LLM-based generation mode (if enabled later).
 # Keep high token budget to avoid truncation of long-form AIDA captions.
@@ -83,6 +85,9 @@ CONTENT_FRAMEWORKS = [
     'trend_jacking',
 ]
 
+STATE_DIR = Path('/root/.openclaw/workspace/state')
+FRAMEWORK_STATE_PATH = STATE_DIR / 'framework_state.json'
+
 # Prompt chuẩn hóa để LLM (nếu bật ở bước sau) luôn bám framework đã chọn.
 FRAMEWORK_SYSTEM_PROMPT = (
     "Bạn là copywriter tiếng Việt cho fanpage sách. "
@@ -92,8 +97,51 @@ FRAMEWORK_SYSTEM_PROMPT = (
 )
 
 
-def _pick_framework() -> str:
-    return random.choice(CONTENT_FRAMEWORKS)
+def _extract_page_id(book: Dict[str, str]) -> str:
+    page_id = (
+        book.get('page_id')
+        or book.get('id page')
+        or book.get('ID Page')
+        or ''
+    )
+    return str(page_id).strip()
+
+
+def _load_framework_state() -> Dict[str, str]:
+    try:
+        if FRAMEWORK_STATE_PATH.exists():
+            data = json.loads(FRAMEWORK_STATE_PATH.read_text(encoding='utf-8'))
+            if isinstance(data, dict):
+                return {str(k): str(v) for k, v in data.items()}
+    except Exception:
+        pass
+    return {}
+
+
+def _save_framework_state(state: Dict[str, str]) -> None:
+    try:
+        STATE_DIR.mkdir(parents=True, exist_ok=True)
+        FRAMEWORK_STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding='utf-8')
+    except Exception:
+        # Fail-safe: content generation must not crash because of state I/O.
+        pass
+
+
+def _pick_framework(page_id: str) -> str:
+    if not page_id:
+        return random.choice(CONTENT_FRAMEWORKS)
+
+    state = _load_framework_state()
+    last = state.get(page_id, '').strip()
+
+    candidates = [f for f in CONTENT_FRAMEWORKS if f != last] if last else CONTENT_FRAMEWORKS[:]
+    if not candidates:
+        candidates = CONTENT_FRAMEWORKS[:]
+
+    chosen = random.choice(candidates)
+    state[page_id] = chosen
+    _save_framework_state(state)
+    return chosen
 
 
 def _framework_storytelling(book: Dict[str, str], trend: str) -> str:
@@ -170,7 +218,8 @@ def _framework_trend_jacking(book: Dict[str, str], trend: str) -> str:
 
 
 def build_caption(book: Dict[str, str], trend: str) -> str:
-    framework = _pick_framework()
+    page_id = _extract_page_id(book)
+    framework = _pick_framework(page_id)
     if framework == 'storytelling':
         caption = _framework_storytelling(book, trend)
     elif framework == 'quote_reflection':
