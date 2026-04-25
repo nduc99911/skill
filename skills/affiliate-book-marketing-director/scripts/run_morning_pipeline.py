@@ -216,24 +216,28 @@ def dispatch_due(cfg):
 
             tmp_file = TMP_IMG_DIR / f"{page_id}_{book.get('id','book')}_{int(time.time())}.png"
             image_url = ''
+            image_bytes = b''
+            image_disabled = False
             if cfg.dry_run and not cf:
                 image_bytes = b'dryrun-image-bytes'
                 tmp_file.write_bytes(image_bytes)
                 image_url = 'https://example.com/dryrun-image.png'
             else:
                 if not cf:
-                    raise CloudflareApiError('Cloudflare credentials missing in live mode')
-                bg_bytes = cf.render_image(prompt, negative_prompt=build_image_negative_prompt())
-                image_bytes = cf.render_text_overlay(bg_bytes, image_text)
-                tmp_file.write_bytes(image_bytes)
+                    # Live fallback mode when Cloudflare credentials are absent: publish text-only feed post.
+                    image_disabled = True
+                else:
+                    bg_bytes = cf.render_image(prompt, negative_prompt=build_image_negative_prompt())
+                    image_bytes = cf.render_text_overlay(bg_bytes, image_text)
+                    tmp_file.write_bytes(image_bytes)
 
-                # Try Cloudflare Images public URL first; if fails, fallback to FB file upload.
-                try:
-                    upload = cf.upload_image_public(image_bytes)
-                    variants = upload.get('variants', [])
-                    image_url = variants[0] if variants else ''
-                except Exception:
-                    image_url = ''
+                    # Try Cloudflare Images public URL first; if fails, fallback to FB file upload.
+                    try:
+                        upload = cf.upload_image_public(image_bytes)
+                        variants = upload.get('variants', [])
+                        image_url = variants[0] if variants else ''
+                    except Exception:
+                        image_url = ''
 
             affiliate_link = (book.get('affiliate_link') or '').strip()
 
@@ -245,7 +249,10 @@ def dispatch_due(cfg):
                 if not meta:
                     raise MetaApiError('META_ACCESS_TOKEN missing for live publish')
 
-                if image_url:
+                if image_disabled:
+                    fb_resp = meta.create_feed_post(page_id, page_token, caption)
+                    publish_path = 'fb_feed_text_fallback_no_cf_credentials'
+                elif image_url:
                     fb_resp = meta.create_photo_post(page_id, page_token, caption, image_url)
                     publish_path = 'fb_photo_by_url'
                 else:
