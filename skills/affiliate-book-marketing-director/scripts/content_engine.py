@@ -132,7 +132,9 @@ FRAMEWORK_SYSTEM_PROMPT = (
     "Bạn là copywriter tiếng Việt cho fanpage sách. "
     "Bắt buộc viết theo đúng framework được truyền vào, không tự đổi framework. "
     "Giữ giọng tự nhiên, tránh sáo rỗng, không viết kiểu máy. "
-    "Nếu framework là ads_conversion thì phải viết theo PAS (Problem-Agitate-Solution), tone năng lượng cao, chốt sale rõ và CTA bắt buộc click/comment. "
+    "Nếu framework là ads_conversion thì phải viết theo PAS (Problem-Agitate-Solution), tone năng lượng cao. "
+    "Nếu post type là Ads Cold/Quảng cáo Cold thì CTA phải là phễu nhẹ: tạo tò mò, mời nhắn tin, mời xin bản đọc thử hoặc tư vấn; không ép mua gắt. "
+    "Nếu post type là Ads Re/Retargeting thì CTA phải chốt sale mạnh: khan hiếm, ưu đãi giờ vàng, freeship hoặc giục click link mua ngay. "
     "LUẬT HASHTAG: Bắt buộc có 2 đến tối đa 3 hashtag ở dòng cuối cùng; "
     "hashtag 1 là tên cuốn sách; hashtag 2 là tên fanpage hoặc thể loại; "
     "không tạo chuỗi hashtag dài ngoằng hoặc vượt quá 4 hashtag."
@@ -259,7 +261,7 @@ def _framework_trend_jacking(book: Dict[str, str], trend: str) -> str:
     return f"🔥 [BẺ LÁI LINH HOẠT] Từ chuyện '{trend}' nhìn về {title}\n\n{body}\n\n{cta}\n\n{_hashtags(book, trend)}"
 
 
-def _is_ads_post_type(book: Dict[str, str]) -> bool:
+def _get_post_type_normalized(book: Dict[str, str]) -> str:
     raw = (
         book.get('post_type')
         or book.get('loại bài')
@@ -267,8 +269,22 @@ def _is_ads_post_type(book: Dict[str, str]) -> bool:
         or book.get('post type')
         or ''
     )
-    normalized = str(raw).strip().lower()
-    return normalized in {'quảng cáo', 'quang cao', 'ads', 'advertisement'}
+    return str(raw).strip().lower()
+
+
+def _ads_mode(book: Dict[str, str]) -> str:
+    normalized = _get_post_type_normalized(book)
+    if normalized in {'ads cold', 'quảng cáo cold', 'quang cao cold'}:
+        return 'ads_cold'
+    if normalized in {'ads re', 'retargeting', 'ads retargeting', 'quảng cáo re', 'quang cao re'}:
+        return 'ads_re'
+    if normalized in {'quảng cáo', 'quang cao', 'ads', 'advertisement'}:
+        return 'ads_general'
+    return 'organic'
+
+
+def _is_ads_post_type(book: Dict[str, str]) -> bool:
+    return _ads_mode(book) != 'organic'
 
 
 def _framework_ads_conversion(book: Dict[str, str], trend: str) -> str:
@@ -285,10 +301,17 @@ def _framework_ads_conversion(book: Dict[str, str], trend: str) -> str:
         f"- Giảm sai lầm lặp lại trong công việc/cuộc sống: {ideas[1]}\n"
         f"- Tạo đà tăng trưởng bền vững mỗi ngày: {ideas[2]}"
     )
-    cta = (
-        "⚡ Ưu đãi đang có hạn trong hôm nay. Nhấn vào link bên dưới để sở hữu ngay trước khi hết suất tốt.\n"
-        "Hoặc comment 'MÌNH MUỐN' để nhận hướng dẫn chi tiết ngay!"
-    )
+    mode = _ads_mode(book)
+    if mode == 'ads_cold':
+        cta = (
+            "📩 Nếu bạn muốn xem bản đọc thử hoặc cần tư vấn cuốn này có hợp với mình không, hãy nhắn tin ngay cho page.\n"
+            "Hoặc comment 'ĐỌC THỬ' để mình gửi thông tin chi tiết cho bạn nhé!"
+        )
+    else:
+        cta = (
+            "⚡ Ưu đãi đang có hạn trong hôm nay. Nhấn vào link bên dưới để sở hữu ngay trước khi hết suất tốt.\n"
+            "Freeship/giá tốt có thể kết thúc bất cứ lúc nào — click mua ngay hoặc comment 'MÌNH MUỐN' để chốt nhanh!"
+        )
     return f"{hook}\n\n{body}\n\n{cta}\n\n{_hashtags(book, trend)}"
 
 

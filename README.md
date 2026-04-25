@@ -102,9 +102,27 @@ File chính:
 Nhiệm vụ:
 - đọc dữ liệu từ Google Sheets CSV
 - route từng dòng theo `ID Page`
-- sinh caption theo phong cách AIDA
+- sinh caption theo content frameworks (organic + ads)
 - build queue theo `Ngày đăng` + `Giờ đăng`
 - dispatch bài đến hạn lên Facebook
+
+### Quy ước cột `Loại bài` cho nhánh Ads
+Khi điền dữ liệu trên Google Sheets/CSV, dùng các giá trị sau để điều khiển CTA:
+
+- `Ads Cold` hoặc `Quảng cáo Cold`:
+  - ép dùng khung ads_conversion + CTA phễu nhẹ
+  - mục tiêu: tạo tò mò, mời nhắn tin, mời xin bản đọc thử/tư vấn
+  - không chốt mua quá gắt
+
+- `Ads Re`, `Retargeting`, hoặc `Ads Retargeting`:
+  - ép dùng khung ads_conversion + CTA chốt mạnh
+  - mục tiêu: khan hiếm, ưu đãi giờ vàng/freeship, giục click link mua ngay
+
+- `Ads` / `Quảng cáo`:
+  - dùng khung ads_conversion mặc định (chốt mạnh theo hướng performance)
+
+- `Affiliate` / `Chia sẻ`:
+  - đi nhánh organic, random 4 framework + anti-repetition theo từng page
 
 An toàn vận hành:
 - `DRY_RUN=1` mặc định
