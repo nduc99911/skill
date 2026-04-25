@@ -74,7 +74,7 @@ def resolve_pages(meta: MetaClient | None, cfg, dryrun=False):
 
 
 def parse_publish_hhmm(book: dict, now: datetime) -> datetime:
-    # Respect both publish_date and publish_time from sheet.
+    # Respect both publish_date and publish_time from sheet and always return full datetime.
     raw_date = (book.get('Ngày đăng') or book.get('ngày đăng') or book.get('publish_date') or '').strip()
     raw_time = (book.get('Giờ đăng') or book.get('gio_dang') or book.get('publish_time') or '').strip()
 
@@ -87,7 +87,7 @@ def parse_publish_hhmm(book: dict, now: datetime) -> datetime:
             pass
 
     if not raw_time:
-        return target
+        return target.replace(second=0, microsecond=0)
 
     try:
         hh, mm = raw_time.split(':', 1)
@@ -95,7 +95,18 @@ def parse_publish_hhmm(book: dict, now: datetime) -> datetime:
         mm_i = int(mm)
         return target.replace(hour=hh_i, minute=mm_i, second=0, microsecond=0)
     except Exception:
-        return target
+        return target.replace(second=0, microsecond=0)
+
+
+def parse_queue_datetime(value: str, fallback: datetime) -> datetime:
+    """Parse queue publish_at into a timezone-aware full datetime object."""
+    try:
+        dt = datetime.fromisoformat((value or '').strip())
+        if dt.tzinfo is None and fallback.tzinfo is not None:
+            dt = dt.replace(tzinfo=fallback.tzinfo)
+        return dt.replace(microsecond=0)
+    except Exception:
+        return fallback.replace(microsecond=0)
 
 
 def build_daily_queue(cfg):
@@ -168,7 +179,7 @@ def build_daily_queue(cfg):
 def dispatch_due(cfg):
     notifier = TelegramNotifier(cfg.telegram_bot_token, cfg.telegram_chat_id)
     tz = ZoneInfo(cfg.timezone)
-    now = datetime.now(tz)
+    now = datetime.now(tz).replace(microsecond=0)
 
     queue_doc = load_queue()
     items = queue_doc.get('items', [])
@@ -195,12 +206,11 @@ def dispatch_due(cfg):
         if item.get('status') != 'queued':
             continue
 
-        try:
-            due_at = datetime.fromisoformat(item.get('publish_at'))
-        except Exception:
-            due_at = now
+        due_at = parse_queue_datetime(item.get('publish_at', ''), now)
 
+        # Steel rule: never dispatch if publish_at is still in the future.
         if due_at > now:
+            log('morning_pipeline_skip_future_item', queue_id=item.get('queue_id'), page_id=item.get('page_id'), publish_at=due_at.isoformat(), current_time=now.isoformat())
             continue
 
         page_id = str(item.get('page_id', ''))
