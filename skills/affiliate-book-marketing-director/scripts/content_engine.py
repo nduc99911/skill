@@ -122,6 +122,8 @@ CONTENT_FRAMEWORKS = [
     'trend_jacking',
 ]
 
+ADS_FRAMEWORK = 'ads_conversion'
+
 STATE_DIR = Path('/root/.openclaw/workspace/state')
 FRAMEWORK_STATE_PATH = STATE_DIR / 'framework_state.json'
 
@@ -130,7 +132,7 @@ FRAMEWORK_SYSTEM_PROMPT = (
     "Bạn là copywriter tiếng Việt cho fanpage sách. "
     "Bắt buộc viết theo đúng framework được truyền vào, không tự đổi framework. "
     "Giữ giọng tự nhiên, tránh sáo rỗng, không viết kiểu máy. "
-    "Luôn có CTA mềm ở cuối. "
+    "Nếu framework là ads_conversion thì phải viết theo PAS (Problem-Agitate-Solution), tone năng lượng cao, chốt sale rõ và CTA bắt buộc click/comment. "
     "LUẬT HASHTAG: Bắt buộc có 2 đến tối đa 3 hashtag ở dòng cuối cùng; "
     "hashtag 1 là tên cuốn sách; hashtag 2 là tên fanpage hoặc thể loại; "
     "không tạo chuỗi hashtag dài ngoằng hoặc vượt quá 4 hashtag."
@@ -257,7 +259,45 @@ def _framework_trend_jacking(book: Dict[str, str], trend: str) -> str:
     return f"🔥 [BẺ LÁI LINH HOẠT] Từ chuyện '{trend}' nhìn về {title}\n\n{body}\n\n{cta}\n\n{_hashtags(book, trend)}"
 
 
+def _is_ads_post_type(book: Dict[str, str]) -> bool:
+    raw = (
+        book.get('post_type')
+        or book.get('loại bài')
+        or book.get('Loại bài')
+        or book.get('post type')
+        or ''
+    )
+    normalized = str(raw).strip().lower()
+    return normalized in {'quảng cáo', 'quang cao', 'ads', 'advertisement'}
+
+
+def _framework_ads_conversion(book: Dict[str, str], trend: str) -> str:
+    title = book.get('title', 'Cuốn sách này')
+    ideas = _split_core_ideas(book)
+    pain = trend or 'bạn đang nỗ lực rất nhiều nhưng kết quả vẫn chưa bứt phá'
+
+    hook = f"🚨 [CẢNH BÁO] ĐỪNG ĐỂ {pain.upper()} KÉO LÙI BẠN THÊM 6 THÁNG NỮA!"
+    body = (
+        f"Bạn không thiếu cố gắng — bạn đang thiếu đúng tư duy và phương pháp để đi nhanh hơn. "
+        f"{title} là cuốn sách giúp bạn tháo nút thắt này theo cách thực tế, dễ áp dụng ngay.\n\n"
+        f"🎯 3 lợi ích thực tế bạn nhận được:\n"
+        f"- Biết cách xử lý gốc rễ vấn đề: {ideas[0]}\n"
+        f"- Giảm sai lầm lặp lại trong công việc/cuộc sống: {ideas[1]}\n"
+        f"- Tạo đà tăng trưởng bền vững mỗi ngày: {ideas[2]}"
+    )
+    cta = (
+        "⚡ Ưu đãi đang có hạn trong hôm nay. Nhấn vào link bên dưới để sở hữu ngay trước khi hết suất tốt.\n"
+        "Hoặc comment 'MÌNH MUỐN' để nhận hướng dẫn chi tiết ngay!"
+    )
+    return f"{hook}\n\n{body}\n\n{cta}\n\n{_hashtags(book, trend)}"
+
+
 def build_caption(book: Dict[str, str], trend: str) -> str:
+    # Hard mapping for paid-ads content: no random, no anti-repetition.
+    if _is_ads_post_type(book):
+        caption = _framework_ads_conversion(book, trend)
+        return _enforce_caption_length(caption, min_words=150, max_words=260)
+
     page_id = _extract_page_id(book)
     framework = _pick_framework(page_id)
     if framework == 'storytelling':
@@ -269,7 +309,7 @@ def build_caption(book: Dict[str, str], trend: str) -> str:
     else:
         caption = _framework_trend_jacking(book, trend)
 
-    # Keep caption length healthy while preserving structure.
+    # Organic flow keeps diversity with anti-repetition.
     return _enforce_caption_length(caption, min_words=170, max_words=420)
 
 
