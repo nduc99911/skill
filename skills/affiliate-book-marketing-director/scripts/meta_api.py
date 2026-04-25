@@ -5,6 +5,7 @@ import os
 import requests
 from pathlib import Path
 from typing import Any, Dict
+from logger import log
 
 GRAPH_BASE = 'https://graph.facebook.com/v19.0'
 
@@ -23,6 +24,7 @@ class MetaClient:
     def _req(self, method: str, path: str, access_token: str | None = None, **kwargs) -> Dict[str, Any]:
         # Global dry-run switch: absolutely block mutating HTTP calls to Meta Graph.
         if self.dry_run and method.upper() in {'POST', 'DELETE', 'PUT', 'PATCH'}:
+            log('meta_api_write_blocked_dry_run', method=method.upper(), path=path)
             return {'id': f'dryrun_{path.strip("/").replace("/", "_")}', 'post_id': f'dryrun_{path.strip("/").replace("/", "_")}', 'success': True, 'dry_run': True}
 
         params = kwargs.pop('params', {}) or {}
