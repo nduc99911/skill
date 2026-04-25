@@ -3,6 +3,8 @@ from __future__ import annotations
 from typing import Dict, List, Tuple
 import random
 import json
+import re
+import unicodedata
 from pathlib import Path
 
 # Reserved for LLM-based generation mode (if enabled later).
@@ -41,17 +43,35 @@ def _split_core_ideas(book: Dict[str, str]) -> List[str]:
     ]
 
 
-def _sanitize_hashtag_token(text: str, fallback: str) -> str:
-    token = ''.join(ch for ch in (text or '') if ch.isalnum())
-    return token or fallback
+def _normalize_hashtag_token(text: str, fallback: str) -> str:
+    """Normalize Vietnamese text to ASCII PascalCase token for hashtags."""
+    raw = (text or '').strip()
+    if not raw:
+        raw = fallback
+
+    # Vietnamese-specific handling before unicode fold
+    raw = raw.replace('đ', 'd').replace('Đ', 'D')
+
+    # Remove accents
+    folded = unicodedata.normalize('NFD', raw)
+    folded = ''.join(ch for ch in folded if unicodedata.category(ch) != 'Mn')
+
+    # Keep only alnum chunks, then PascalCase
+    parts = re.findall(r'[A-Za-z0-9]+', folded)
+    token = ''.join(p[:1].upper() + p[1:] for p in parts if p)
+
+    if not token:
+        fb = re.findall(r'[A-Za-z0-9]+', fallback or 'Tag')
+        token = ''.join(p[:1].upper() + p[1:] for p in fb if p) or 'Tag'
+    return token
 
 
 def _hashtags(book: Dict[str, str], trend: str) -> str:
     """Return 2-3 concise hashtags only (anti-spam)."""
-    title = _sanitize_hashtag_token(book.get('title') or '', 'SachHay')
-    page = _sanitize_hashtag_token(book.get('page_name') or book.get('tên page') or '', '')
-    topic = _sanitize_hashtag_token(book.get('category') or '', 'SachPhatTrienBanThan')
-    trend_kw = _sanitize_hashtag_token(trend or '', '')
+    title = _normalize_hashtag_token(book.get('title') or '', 'SachHay')
+    page = _normalize_hashtag_token(book.get('page_name') or book.get('tên page') or '', '')
+    topic = _normalize_hashtag_token(book.get('category') or '', 'SachPhatTrienBanThan')
+    trend_kw = _normalize_hashtag_token(trend or '', '')
 
     tags = [f'#{title}']
     if page:
