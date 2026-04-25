@@ -29,6 +29,7 @@ QUEUE_FILE = ROOT / 'state' / 'affiliate_publish_queue.json'
 TMP_IMG_DIR = ROOT / 'data' / 'cloudflare_generated'
 TMP_IMG_DIR.mkdir(parents=True, exist_ok=True)
 QUEUE_LOCK_FILE = ROOT / 'state' / 'affiliate_publish_queue.lock'
+DEFAULT_TIMEZONE = 'Asia/Ho_Chi_Minh'
 
 
 # PIPELINE_MODE:
@@ -110,6 +111,14 @@ def finalize_item(queue_id: str, status: str, payload: dict):
         save_queue(q)
 
 
+def _get_runtime_tz(cfg) -> ZoneInfo:
+    tz_name = (getattr(cfg, 'timezone', '') or DEFAULT_TIMEZONE).strip() or DEFAULT_TIMEZONE
+    try:
+        return ZoneInfo(tz_name)
+    except Exception:
+        return ZoneInfo(DEFAULT_TIMEZONE)
+
+
 def resolve_pages(meta: MetaClient | None, cfg, dryrun=False):
     if meta:
         pages = meta.list_pages()
@@ -164,7 +173,7 @@ def parse_queue_datetime(value: str, fallback: datetime) -> datetime:
 
 
 def build_daily_queue(cfg):
-    tz = ZoneInfo(cfg.timezone)
+    tz = _get_runtime_tz(cfg)
     now = datetime.now(tz)
     day_key = now.strftime('%Y-%m-%d')
     weekday = now.weekday()
@@ -232,7 +241,7 @@ def build_daily_queue(cfg):
 
 def dispatch_due(cfg):
     notifier = TelegramNotifier(cfg.telegram_bot_token, cfg.telegram_chat_id)
-    tz = ZoneInfo(cfg.timezone)
+    tz = _get_runtime_tz(cfg)
 
     queue_doc = load_queue()
     if not queue_doc.get('items'):
@@ -387,12 +396,12 @@ def schedule_day(cfg):
 
     build_daily_queue(cfg)
 
-    tz = ZoneInfo(cfg.timezone)
+    tz = _get_runtime_tz(cfg)
     now = datetime.now(tz).replace(microsecond=0)
     q = load_queue()
     items = q.get('items', [])
 
-    scheduler = BlockingScheduler(timezone=cfg.timezone)
+    scheduler = BlockingScheduler(timezone=tz)
     scheduled = 0
     for item in items:
         if item.get('status') != 'queued':
