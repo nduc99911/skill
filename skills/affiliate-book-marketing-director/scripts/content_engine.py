@@ -41,12 +41,29 @@ def _split_core_ideas(book: Dict[str, str]) -> List[str]:
     ]
 
 
+def _sanitize_hashtag_token(text: str, fallback: str) -> str:
+    token = ''.join(ch for ch in (text or '') if ch.isalnum())
+    return token or fallback
+
+
 def _hashtags(book: Dict[str, str], trend: str) -> str:
-    title = (book.get('title') or 'SachHay').replace(' ', '')
-    author = (book.get('author') or 'TacGia').replace(' ', '')
-    topic = (book.get('category') or 'PhatTrienBanThan').replace(' ', '')
-    trend_kw = ''.join(ch for ch in (trend or 'TrendHomNay') if ch.isalnum()) or 'TrendHomNay'
-    return f"#{title} #{author} #{topic} #{trend_kw}"
+    """Return 2-3 concise hashtags only (anti-spam)."""
+    title = _sanitize_hashtag_token(book.get('title') or '', 'SachHay')
+    page = _sanitize_hashtag_token(book.get('page_name') or book.get('tên page') or '', '')
+    topic = _sanitize_hashtag_token(book.get('category') or '', 'SachPhatTrienBanThan')
+    trend_kw = _sanitize_hashtag_token(trend or '', '')
+
+    tags = [f'#{title}']
+    if page:
+        tags.append(f'#{page}')
+    else:
+        tags.append(f'#{topic}')
+
+    # Optional 3rd hashtag: only when trend keyword is meaningful and distinct
+    if trend_kw and trend_kw.lower() not in {title.lower(), topic.lower(), page.lower() if page else ''}:
+        tags.append(f'#{trend_kw}')
+
+    return ' '.join(tags[:3])
 
 
 def _word_count(text: str) -> int:
@@ -93,7 +110,10 @@ FRAMEWORK_SYSTEM_PROMPT = (
     "Bạn là copywriter tiếng Việt cho fanpage sách. "
     "Bắt buộc viết theo đúng framework được truyền vào, không tự đổi framework. "
     "Giữ giọng tự nhiên, tránh sáo rỗng, không viết kiểu máy. "
-    "Luôn có CTA mềm ở cuối và không spam hashtag."
+    "Luôn có CTA mềm ở cuối. "
+    "LUẬT HASHTAG: Bắt buộc có 2 đến tối đa 3 hashtag ở dòng cuối cùng; "
+    "hashtag 1 là tên cuốn sách; hashtag 2 là tên fanpage hoặc thể loại; "
+    "không tạo chuỗi hashtag dài ngoằng hoặc vượt quá 4 hashtag."
 )
 
 
