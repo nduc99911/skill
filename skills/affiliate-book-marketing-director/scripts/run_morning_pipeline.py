@@ -74,19 +74,28 @@ def resolve_pages(meta: MetaClient | None, cfg, dryrun=False):
 
 
 def parse_publish_hhmm(book: dict, now: datetime) -> datetime:
-    # Accept Vietnamese and ASCII column names
-    raw = (book.get('Giờ đăng') or book.get('gio_dang') or book.get('publish_time') or '').strip()
-    if not raw:
-        # default immediate at scan time
-        return now
+    # Respect both publish_date and publish_time from sheet.
+    raw_date = (book.get('Ngày đăng') or book.get('ngày đăng') or book.get('publish_date') or '').strip()
+    raw_time = (book.get('Giờ đăng') or book.get('gio_dang') or book.get('publish_time') or '').strip()
+
+    target = now
+    if raw_date:
+        try:
+            yyyy, mm, dd = raw_date.split('-', 2)
+            target = target.replace(year=int(yyyy), month=int(mm), day=int(dd))
+        except Exception:
+            pass
+
+    if not raw_time:
+        return target
+
     try:
-        hh, mm = raw.split(':', 1)
+        hh, mm = raw_time.split(':', 1)
         hh_i = int(hh)
         mm_i = int(mm)
-        return now.replace(hour=hh_i, minute=mm_i, second=0, microsecond=0)
+        return target.replace(hour=hh_i, minute=mm_i, second=0, microsecond=0)
     except Exception:
-        # fallback now + log in queue note
-        return now
+        return target
 
 
 def build_daily_queue(cfg):
