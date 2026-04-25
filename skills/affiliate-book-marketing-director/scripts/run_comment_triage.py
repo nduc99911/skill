@@ -14,6 +14,7 @@ from meta_api import MetaClient, MetaApiError
 ROOT = Path('/root/.openclaw/workspace')
 TRACK_FILE = ROOT / 'state' / 'comment_triage_state.json'
 POSTS_FILE = ROOT / 'state' / 'recent_posts.json'  # expected to store recent fb post ids
+QUEUE_FILE = ROOT / 'state' / 'affiliate_publish_queue.json'
 
 BUY_INTENTS = ['mua', 'xin link', 'giá', 'gia', 'đặt', 'đặt mua', 'chốt', 'ib', 'inbox', 'link shop', 'link mua']
 NEGATIVE_INTENTS = ['lừa', 'xạo', 'rác', 'spam', 'đểu', 'ngu', 'dở', 'tệ', 'nhảm', 'xàm', 'chửi', 'khốn nạn', 'óc chó']
@@ -140,6 +141,28 @@ def dynamic_reply(comment_text: str) -> str:
     return _dynamic_reply_heuristic(comment_text)
 
 
+def is_blank_link(link: str) -> bool:
+    x = (link or '').strip()
+    if not x:
+        return True
+    return x.lower() == 'none'
+
+
+def resolve_affiliate_link_for_post(post_id: str, fallback_link: str) -> str:
+    """Prefer per-post link from queue history; fallback to default link if valid."""
+    q = load_json(QUEUE_FILE, {'items': []})
+    for item in q.get('items', []):
+        if str(item.get('fb_post_id', '')).strip() == str(post_id).strip():
+            b = item.get('book', {}) or {}
+            link = (b.get('affiliate_link') or b.get('Link Aff') or b.get('link aff') or '').strip()
+            if not is_blank_link(link):
+                return link
+            return ''
+    if not is_blank_link(fallback_link):
+        return fallback_link.strip()
+    return ''
+
+
 def main():
     cfg = get_settings()
     meta = MetaClient(cfg.meta_access_token) if cfg.meta_access_token else None
@@ -148,14 +171,15 @@ def main():
     seen = set(state.get('seen_comment_ids', []))
 
     affiliate_link = ''
-    # Optional single link fallback for triage reply
+    # Optional fallback link (legacy behavior). Per-post link from queue is preferred.
     books_f = Path(cfg.books_csv_path)
     if books_f.exists():
         import csv
         with books_f.open('r', encoding='utf-8') as f:
             rows = list(csv.DictReader(f))
             if rows:
-                affiliate_link = rows[0].get('affiliate_link', '').strip()
+                r0 = rows[0]
+                affiliate_link = (r0.get('affiliate_link') or r0.get('Link Aff') or r0.get('link aff') or '').strip()
 
     if meta:
         pages = meta.list_pages()
@@ -209,11 +233,20 @@ def main():
 
                 intent = classify(msg)
                 try:
-                    if intent == 'buy_intent' and affiliate_link:
-                        public_text = f'Dạ sách đang có ưu đãi, bạn đặt mua chính hãng tại link này nhé: {affiliate_link}'
+                    resolved_link = resolve_affiliate_link_for_post(post_id, affiliate_link)
+
+                    if intent == 'buy_intent' and resolved_link:
+                        public_text = f'Dạ sách đang có ưu đãi, bạn đặt mua chính hãng tại link này nhé: {resolved_link}'
                         if not cfg.dry_run:
                             meta.create_comment(cid, page_token, public_text)
                         log('triage_buy_intent_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, private_reply=False, mode='dry_run' if cfg.dry_run else 'live', strategy='public_reply_only_threaded')
+
+                    elif intent == 'buy_intent' and not resolved_link:
+                        # Link trống/NONE -> tuyệt đối không chốt đơn bằng link lỗi; chuyển sang tư vấn casual.
+                        reply_text = 'Cảm ơn bạn quan tâm nha. Bài này mình đang cập nhật link đặt mua, mình sẽ gửi thông tin phù hợp sớm cho bạn nhé 🙏'
+                        if not cfg.dry_run:
+                            meta.create_comment(cid, page_token, reply_text)
+                        log('triage_buy_intent_downgraded_to_casual', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, mode='dry_run' if cfg.dry_run else 'live', reason='blank_or_none_affiliate_link')
 
                     elif intent == 'casual':
                         reply_text = dynamic_reply(msg)
