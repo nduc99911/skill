@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-21T13:16:42.065Z",
+  "updatedAt": "2026-04-25T00:00:57.716Z",
   "entries": {
     "memory:memory/2026-04-19.md:1:31": {
       "key": "memory:memory/2026-04-19.md:1:31",
@@ -43,19 +43,21 @@
       "endLine": 23,
       "source": "memory",
       "snippet": "# Memory Flush - 2026-04-17 - **User Information:** - Name: Đức Nguyễn (duck020201) - Projects: Facebook Affiliate Marketing (mainly books). - Credentials Stored (Session-based): Cloudflare Workers AI Token, Cloudflare Account ID (ebb062841f91f8fdb5af21b812e9cbd0), Facebook User Access Tokens (rotating). - **Skills Created/Updated:** - `book-affiliate-fb`: A specialized skill for creating and posting book content to Facebook. - **Mode AFF**: Value-first sales posts with affiliate links in comments. - **Mode VIRAL**: High-engagement, non-sales posts (Quote, Listicle, Storytelling formats). - **Visuals**: Integrates Cloudflare Workers AI for image generation when primary",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9486725389957427,
+      "totalScore": 1.4055853873491286,
       "maxScore": 0.49609475731849667,
       "firstRecalledAt": "2026-04-20T12:33:43.592Z",
-      "lastRecalledAt": "2026-04-20T12:50:56.635Z",
+      "lastRecalledAt": "2026-04-23T14:00:57.664Z",
       "queryHashes": [
         "27fbf968d84f",
-        "447b58f5e14e"
+        "447b58f5e14e",
+        "9f63ad8c7352"
       ],
       "recallDays": [
-        "2026-04-20"
+        "2026-04-20",
+        "2026-04-23"
       ],
       "conceptTags": [
         "session-based",
@@ -75,21 +77,23 @@
       "endLine": 69,
       "source": "memory",
       "snippet": "- **20:00 task**: `at` job still in queue at 20:00 due to timezone mismatch. Posted manually at 20:04 HN time. ### Page Mappings 1. `1135415682984698` - Triết lý người xưa 2. `1099385626592219` - Triết Lý Cổ Nhân 3. `1077631882095947` - Tủ Sách Thay Đổi Tư Duy 4. `1124935547358731` - Trạm Đọc Chữa Lành 5-10. Additional commerce/music pages available ### Content Modes - **AFF**: Book affiliate posts, link in first comment - **VIRAL**: High engagement, non-sales tone - **ENGAGE**: Pure share/comment bait, no selling ## Page 4 Strategy (Trạm Đọc Chữa Lành) ### Positioning - Healing + reflection + light self-growth - \"Reading to calm down\" not \"teaching life\" - Safe, warm, intimate vibe ###",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.481026220321655,
+      "totalScore": 1.9695502519607542,
       "maxScore": 0.5038657754659652,
       "firstRecalledAt": "2026-04-20T12:33:43.592Z",
-      "lastRecalledAt": "2026-04-21T13:16:42.065Z",
+      "lastRecalledAt": "2026-04-25T00:00:57.716Z",
       "queryHashes": [
         "27fbf968d84f",
         "447b58f5e14e",
-        "277f22b14393"
+        "277f22b14393",
+        "72d1ac736c54"
       ],
       "recallDays": [
         "2026-04-20",
-        "2026-04-21"
+        "2026-04-21",
+        "2026-04-25"
       ],
       "conceptTags": [
         "5-10",
@@ -109,18 +113,20 @@
       "endLine": 73,
       "source": "memory",
       "snippet": "- Evening: 20:00-22:00 (strongest for healing content) ## Image Generation Improvements Updated prompt logic in executor script: - **Generic**: Calm inspirational social media illustration - **Philosophy/Ancient wisdom**: Scholar silhouette, bamboo scrolls, dawn, serene - **Healing**: Soft warm light, calm water, lotus, peaceful - **Book-specific prompts**: Added detailed prompts for popular titles (Đắc nhân tâm, Không diệt không sinh, Muôn kiếp nhân sinh, etc.) Goal: Images now more SEO-friendly and contextually relevant to book topics.",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.48078864514827724,
+      "totalScore": 0.9374769806861877,
       "maxScore": 0.48078864514827724,
       "firstRecalledAt": "2026-04-21T13:16:42.065Z",
-      "lastRecalledAt": "2026-04-21T13:16:42.065Z",
+      "lastRecalledAt": "2026-04-23T14:00:57.664Z",
       "queryHashes": [
-        "277f22b14393"
+        "277f22b14393",
+        "9f63ad8c7352"
       ],
       "recallDays": [
-        "2026-04-21"
+        "2026-04-21",
+        "2026-04-23"
       ],
       "conceptTags": [
         "00-22",
@@ -131,6 +137,39 @@
         "strongest",
         "healing",
         "content"
+      ]
+    },
+    "memory:memory/2026-04-22.md:1:12": {
+      "key": "memory:memory/2026-04-22.md:1:12",
+      "path": "memory/2026-04-22.md",
+      "startLine": 1,
+      "endLine": 12,
+      "source": "memory",
+      "snippet": "- User is building a Facebook affiliate-book automation system and insists on planner-first safety: keep `publish_mode=false`, no Facebook API publish calls, and no `publisher.py` until explicit approval. - User selected the 5 real pages to use going forward (from refreshed page list): 1) Trạm đọc chữa lành (`1051178364752250`) 2) Mỗi ngày một cuốn sách (`992938690579642`) 3) Triết Lý Cổ Nhân (`1129939793529788`) 4) Sự Thật Là (`1124354747418012`) 5) Tủ Sách Thay Đổi Tư Duy (`1077631882095947`) - `config/pages.json` was updated to those 5 pages with fields: `internal_page_key`, `page_name`, `facebook_page_id`, `publish_enabled`, `persona`, `audience`, `time_slots`, `categories`, `h",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.9311969637870788,
+      "maxScore": 0.4878417730331421,
+      "firstRecalledAt": "2026-04-23T14:00:57.664Z",
+      "lastRecalledAt": "2026-04-25T00:00:57.716Z",
+      "queryHashes": [
+        "9f63ad8c7352",
+        "72d1ac736c54"
+      ],
+      "recallDays": [
+        "2026-04-23",
+        "2026-04-25"
+      ],
+      "conceptTags": [
+        "affiliate-book",
+        "planner-first",
+        "publish-mode",
+        "publisher.py",
+        "config/pages.json",
+        "internal-page-key",
+        "page-name",
+        "facebook-page-id"
       ]
     }
   }

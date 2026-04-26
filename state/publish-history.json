@@ -117,6 +117,51 @@
       "product_title": "Muôn Kiếp Nhân Sinh",
       "image_type": "quote_image",
       "image_source": "/root/.openclaw/workspace/data/cloudflare_generated/1051178364752250_BK105_cf.png"
+    },
+    {
+      "post_key": "992938690579642|2026-04-24 08:30|BK102",
+      "page_name": "Mỗi ngày một cuốn sách",
+      "facebook_page_id": "992938690579642",
+      "scheduled_time": "2026-04-24 08:30",
+      "actual_publish_time": "2026-04-24T09:46:42.126777+07:00",
+      "publish_status": "success",
+      "post_id": "992938690579642_122095630802483066",
+      "error_reason": null,
+      "link_placement": "caption",
+      "product_id": "BK102",
+      "product_title": "Đắc Nhân Tâm",
+      "image_type": "quote_image",
+      "image_source": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png"
+    },
+    {
+      "post_key": "1077631882095947|2026-04-24 08:45|BK107",
+      "page_name": "Tủ Sách Thay Đổi Tư Duy",
+      "facebook_page_id": "1077631882095947",
+      "scheduled_time": "2026-04-24 08:45",
+      "actual_publish_time": "2026-04-24T09:46:42.126777+07:00",
+      "publish_status": "success",
+      "post_id": "1077631882095947_122106366044736441",
+      "error_reason": null,
+      "link_placement": "caption",
+      "product_id": "BK107",
+      "product_title": "Càng Kỷ Luật Càng Tự Do",
+      "image_type": "quote_image",
+      "image_source": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png"
+    },
+    {
+      "post_key": "1129939793529788|2026-04-24 09:00|BK101",
+      "page_name": "Triết Lý Cổ Nhân",
+      "facebook_page_id": "1129939793529788",
+      "scheduled_time": "2026-04-24 09:00",
+      "actual_publish_time": "2026-04-24T09:46:42.126777+07:00",
+      "publish_status": "success",
+      "post_id": "1129939793529788_122096728178555812",
+      "error_reason": null,
+      "link_placement": "caption",
+      "product_id": "BK101",
+      "product_title": "Hiểu Về Trái Tim",
+      "image_type": "quote_image",
+      "image_source": "/root/.openclaw/workspace/data/quote_images_cf/hieu-ve-trai-tim-cf.png"
     }
   ]
 }

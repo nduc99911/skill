@@ -1,11 +1,11 @@
---- PLAN SUMMARY: 2026-04-23 ---
-- Trạm đọc chữa lành | 10:15 | Dám Bị Ghét | soft | caption
-- Trạm đọc chữa lành | 21:00 | Muôn Kiếp Nhân Sinh | direct | comment
-- Mỗi ngày một cuốn sách | 08:30 | Càng Kỷ Luật Càng Tự Do | listicle | caption
-- Mỗi ngày một cuốn sách | 20:00 | Dám Bị Ghét | soft | comment
-- Triết Lý Cổ Nhân | 09:00 | Sức Mạnh Của Hiện Tại | direct | caption
-- Triết Lý Cổ Nhân | 19:45 | Quẳng Gánh Lo Đi Và Vui Sống | soft | comment
-- Sự Thật Là | 14:00 | 7 Thói Quen Hiệu Quả | direct | caption
-- Sự Thật Là | 20:30 | Càng Kỷ Luật Càng Tự Do | soft | comment
-- Tủ Sách Thay Đổi Tư Duy | 08:45 | Càng Kỷ Luật Càng Tự Do | soft | caption
-- Tủ Sách Thay Đổi Tư Duy | 20:15 | 7 Thói Quen Hiệu Quả | listicle | comment
+--- PLAN SUMMARY: 2026-04-24 ---
+- Trạm đọc chữa lành | 10:15 | Hiểu Về Trái Tim | soft | caption
+- Trạm đọc chữa lành | 21:00 | Sức Mạnh Của Hiện Tại | direct | comment
+- Mỗi ngày một cuốn sách | 08:30 | Đắc Nhân Tâm | listicle | caption
+- Mỗi ngày một cuốn sách | 20:00 | Atomic Habits | direct | comment
+- Triết Lý Cổ Nhân | 09:00 | Hiểu Về Trái Tim | soft | caption
+- Triết Lý Cổ Nhân | 19:45 | Quẳng Gánh Lo Đi Và Vui Sống | direct | comment
+- Sự Thật Là | 14:00 | Hiểu Về Trái Tim | soft | caption
+- Sự Thật Là | 20:30 | Dám Bị Ghét | direct | comment
+- Tủ Sách Thay Đổi Tư Duy | 08:45 | Càng Kỷ Luật Càng Tự Do | listicle | caption
+- Tủ Sách Thay Đổi Tư Duy | 20:15 | Nghĩ Giàu Làm Giàu | soft | comment
