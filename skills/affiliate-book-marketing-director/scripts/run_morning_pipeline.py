@@ -293,6 +293,18 @@ def dispatch_due(cfg):
         queue_id = item.get('queue_id', '')
         page_id = str(item.get('page_id', ''))
         page_name = item.get('page_name', '')
+        due_at = parse_queue_datetime(item.get('publish_at', ''), now)
+        overdue_seconds = (now - due_at).total_seconds()
+
+        if overdue_seconds > 300:
+            finalize_item(queue_id, 'skipped_overdue', {
+                'skipped_at': now.isoformat(),
+                'publish_at': due_at.isoformat(),
+                'overdue_seconds': int(overdue_seconds),
+            })
+            log('morning_pipeline_skip_overdue_item', queue_id=queue_id, page_id=page_id, page_name=page_name,
+                publish_at=due_at.isoformat(), current_time=now.isoformat(), overdue_seconds=int(overdue_seconds))
+            continue
 
         page_token = page_token_map.get(page_id, '')
         if not cfg.dry_run and not page_token:
@@ -404,7 +416,8 @@ def dispatch_due(cfg):
     published = sum(1 for x in items if x.get('status') == 'published')
     published_dry_run = sum(1 for x in items if x.get('status') == 'published_dry_run')
     failed = sum(1 for x in items if x.get('status') == 'failed')
-    log('morning_pipeline_dispatch_done', queued_left=queued_left, processing=processing, published=published, published_dry_run=published_dry_run, failed=failed, dry_run=cfg.dry_run)
+    skipped_overdue = sum(1 for x in items if x.get('status') == 'skipped_overdue')
+    log('morning_pipeline_dispatch_done', queued_left=queued_left, processing=processing, published=published, published_dry_run=published_dry_run, failed=failed, skipped_overdue=skipped_overdue, dry_run=cfg.dry_run)
 
 
 def schedule_day(cfg):
