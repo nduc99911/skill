@@ -336,13 +336,75 @@ def build_caption(book: Dict[str, str], trend: str) -> str:
     return _enforce_caption_length(caption, min_words=170, max_words=420)
 
 
+PAGE_TEXT_POOLS = {
+    'sharp': {
+        'with_title': [
+            '{title}\nSự thật giới tinh hoa luôn giấu kín',
+            '{title}\nĐọc xong hối hận vì không biết sớm hơn',
+            '{title}\nCuốn sách định hình lại tư duy của bạn',
+            '{title}\nBạn sẽ hối tiếc nếu bỏ qua cuốn này',
+        ],
+        'insight': [
+            '99% mọi người đang hiểu sai về vấn đề này',
+            'Bí mật đằng sau những quyết định thành công',
+        ],
+    },
+    'healing': {
+        'with_title': [
+            '{title}\nCái ôm ấm áp cho những ngày chông chênh',
+            '{title}\nĐọc để buông bỏ và bình yên hơn',
+            '{title}\nBạn không cô đơn trên hành trình này',
+            '{title}\nChữa lành những tổn thương giấu kín',
+        ],
+        'insight': [
+            'Đừng quá khắt khe với chính mình nữa!',
+            'Bạn đang mang vác những nỗi buồn không đáng có?',
+        ],
+    },
+    'philosophy': {
+        'with_title': [
+            '{title}\nTuyệt kỹ nhìn thấu tâm can con người',
+            '{title}\nĐạo lý sinh tồn của người xưa',
+            '{title}\nMưu lược đỉnh cao không phải ai cũng biết',
+            '{title}\nĐừng để cái bẫy danh vọng đánh lừa',
+        ],
+        'insight': [
+            'Người thông minh biết thu mình đúng lúc',
+            'Họa hay phúc đều từ miệng mà ra!',
+        ],
+    },
+}
+
+
+def _page_text_group(book: Dict[str, str]) -> str:
+    page_name = (book.get('page_name') or book.get('tên page') or '').strip().lower()
+    page_id = str(book.get('page_id') or '').strip()
+
+    if any(k in page_name for k in ['chữa lành', 'tiệm của nàng', 'tiem cua nang']):
+        return 'healing'
+    if any(k in page_name for k in ['triết lý', 'co nhan', 'cổ nhân']):
+        return 'philosophy'
+    if any(k in page_name for k in ['sự thật', 'tu duy', 'mỗi ngày một cuốn sách', 'mot ngay mot cuon sach']):
+        return 'sharp'
+
+    if page_id in {'1129939793529788'}:
+        return 'philosophy'
+    if page_id in {'1119389201250497', '1051178364752250'}:
+        return 'healing'
+    if page_id in {'1124354747418012', '1077631882095947', '1055755737627000', '992938690579642'}:
+        return 'sharp'
+    return 'sharp'
+
+
 def build_image_text(book: Dict[str, str]) -> str:
-    title = book.get('title', '').strip()
-    if not title:
-        return 'Đọc để hiểu mình\nvà sống sâu hơn'
-    if len(title) > 30:
-        return 'Một cuốn sách hay\nđổi góc nhìn sống'
-    return f"{title}\nđáng đọc hôm nay"
+    title = (book.get('title') or '').strip() or 'Cuốn sách này'
+    pool = PAGE_TEXT_POOLS[_page_text_group(book)]
+
+    # 70% có title, 30% insight/hook không title
+    use_title = random.random() < 0.70
+    choices = pool['with_title'] if use_title else pool['insight']
+    selected = random.choice(choices)
+    return selected.format(title=title)
 
 
 def build_image_prompt(book: Dict[str, str], image_text: str) -> str:
