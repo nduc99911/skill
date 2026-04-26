@@ -368,10 +368,11 @@ def build_image_prompt(book: Dict[str, str], image_text: str) -> str:
 
     # Step 2 + Step 3: explicit setting + mandatory artistic modifiers
     return (
-        f"{subject}, {setting}, clean center area reserved for text overlay, no clutter. "
+        f"{subject}, {setting}, elegant muted colors, negative space in the center for typography, "
+        f"clean center area reserved for text overlay, no clutter. "
         f"Theme inspired by '{title}'. "
-        f"hyperrealistic, highly detailed, cinematic lighting, 8k resolution, professional photography, "
-        f"masterpiece, trending on artstation, depth of field"
+        f"cinematic lighting, hyper-realistic, 8k resolution, elegant masterpiece, muted colors, "
+        f"negative space in the center for typography, professional photography, highly detailed, depth of field"
     )
 
 

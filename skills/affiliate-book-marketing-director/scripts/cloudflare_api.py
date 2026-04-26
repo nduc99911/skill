@@ -4,7 +4,7 @@ import io
 import textwrap
 from pathlib import Path
 import requests
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from typing import Dict, Any
 
 
@@ -22,20 +22,37 @@ class CloudflareClient:
         self.font_dir.mkdir(parents=True, exist_ok=True)
 
     def _ensure_vn_font(self) -> Path | None:
-        font_path = self.font_dir / 'NotoSansVN.ttf'
-        if font_path.exists():
-            return font_path
-        url = 'https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans%5Bwdth,wght%5D.ttf'
-        last_err = None
-        for _ in range(3):
+        preferred = [
+            self.font_dir / 'PlayfairDisplay-Regular.ttf',
+            self.font_dir / 'Merriweather-Regular.ttf',
+            self.font_dir / 'Lora-Regular.ttf',
+            Path('/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf'),
+        ]
+        for p in preferred:
+            if p.exists():
+                return p
+
+        download_targets = [
+            (
+                self.font_dir / 'PlayfairDisplay-Regular.ttf',
+                'https://raw.githubusercontent.com/google/fonts/main/ofl/playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf',
+            ),
+            (
+                self.font_dir / 'Merriweather-Regular.ttf',
+                'https://raw.githubusercontent.com/google/fonts/main/ofl/merriweather/Merriweather-Regular.ttf',
+            ),
+            (
+                self.font_dir / 'Lora-Regular.ttf',
+                'https://raw.githubusercontent.com/google/fonts/main/ofl/lora/Lora%5Bwght%5D.ttf',
+            ),
+        ]
+        for font_path, url in download_targets:
             try:
                 r = requests.get(url, timeout=30)
                 if r.status_code < 400 and r.content:
                     font_path.write_bytes(r.content)
                     return font_path
-                last_err = f'font_http_{r.status_code}'
-            except Exception as e:
-                last_err = str(e)
+            except Exception:
                 continue
         return None
 
@@ -70,9 +87,17 @@ class CloudflareClient:
 
         bg = bg.resize((out_size, out_size), Image.Resampling.LANCZOS)
 
-        # dark overlay for readability
-        overlay = Image.new('RGBA', bg.size, (0, 0, 0, 85))
+        # darker cinematic overlay + subtle vignette for depth
+        overlay = Image.new('RGBA', bg.size, (8, 8, 12, 105))
         img = Image.alpha_composite(bg, overlay)
+        vignette = Image.new('L', bg.size, 0)
+        vdraw = ImageDraw.Draw(vignette)
+        margin = int(out_size * 0.08)
+        vdraw.ellipse((margin, margin, out_size - margin, out_size - margin), fill=150)
+        vignette = vignette.filter(ImageFilter.GaussianBlur(radius=int(out_size * 0.12)))
+        vignette_rgba = Image.new('RGBA', bg.size, (0, 0, 0, 0))
+        vignette_rgba.putalpha(Image.eval(vignette, lambda px: max(0, 170 - px)))
+        img = Image.alpha_composite(img, vignette_rgba)
         draw = ImageDraw.Draw(img)
 
         font_path = self._ensure_vn_font()
@@ -117,22 +142,31 @@ class CloudflareClient:
         x = (out_size - tw) // 2
         y = (out_size - th) // 2
 
-        # drop shadow
-        shadow_offset = max(2, int(font_size * 0.08))
-        draw.multiline_text(
+        spacing = int(font_size * 0.42)
+
+        # blurred drop shadow layer for depth
+        shadow_offset = max(4, int(font_size * 0.10))
+        shadow_layer = Image.new('RGBA', img.size, (0, 0, 0, 0))
+        shadow_draw = ImageDraw.Draw(shadow_layer)
+        shadow_draw.multiline_text(
             (x + shadow_offset, y + shadow_offset),
             wrapped,
             font=font,
-            fill=(0, 0, 0, 180),
-            spacing=int(font_size * 0.35),
+            fill=(18, 18, 20, 210),
+            spacing=spacing,
             align='center',
         )
+        shadow_layer = shadow_layer.filter(ImageFilter.GaussianBlur(radius=max(3, int(font_size * 0.08))))
+        img = Image.alpha_composite(img, shadow_layer)
+        draw = ImageDraw.Draw(img)
+
+        # main serif text with warmer premium tone
         draw.multiline_text(
             (x, y),
             wrapped,
             font=font,
-            fill=(255, 255, 255, 245),
-            spacing=int(font_size * 0.35),
+            fill=(247, 244, 233, 248),
+            spacing=spacing,
             align='center',
         )
 
