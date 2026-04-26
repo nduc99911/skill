@@ -419,7 +419,14 @@ def schedule_day(cfg):
     q = load_queue()
     items = q.get('items', [])
 
-    scheduler = BlockingScheduler(timezone=tz)
+    scheduler = BlockingScheduler(
+        timezone=tz,
+        job_defaults={
+            'coalesce': True,
+            'max_instances': 1,
+            'misfire_grace_time': 30,
+        },
+    )
     scheduled = 0
     for item in items:
         if item.get('status') != 'queued':
@@ -435,7 +442,7 @@ def schedule_day(cfg):
             kwargs={'cfg': cfg},
             id=f"dispatch_{item.get('queue_id')}",
             replace_existing=True,
-            misfire_grace_time=300,
+            misfire_grace_time=30,
             coalesce=True,
             max_instances=1,
         )
