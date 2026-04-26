@@ -126,6 +126,8 @@ ADS_FRAMEWORK = 'ads_conversion'
 
 STATE_DIR = Path('/root/.openclaw/workspace/state')
 FRAMEWORK_STATE_PATH = STATE_DIR / 'framework_state.json'
+RECENT_HOOKS_PATH = STATE_DIR / 'recent_hooks.json'
+RECENT_HOOKS_LIMIT = 3
 
 # Prompt chuẩn hóa để LLM (nếu bật ở bước sau) luôn bám framework đã chọn.
 FRAMEWORK_SYSTEM_PROMPT = (
@@ -336,6 +338,21 @@ def build_caption(book: Dict[str, str], trend: str) -> str:
     return _enforce_caption_length(caption, min_words=170, max_words=420)
 
 
+def _load_recent_hooks() -> Dict[str, List[str]]:
+    if not RECENT_HOOKS_PATH.exists():
+        return {}
+    try:
+        data = json.loads(RECENT_HOOKS_PATH.read_text(encoding='utf-8'))
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def _save_recent_hooks(data: Dict[str, List[str]]):
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    RECENT_HOOKS_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+
+
 PAGE_TEXT_POOLS = {
     'sharp': {
         'with_title': [
@@ -399,12 +416,31 @@ def _page_text_group(book: Dict[str, str]) -> str:
 def build_image_text(book: Dict[str, str]) -> str:
     title = (book.get('title') or '').strip() or 'Cuốn sách này'
     pool = PAGE_TEXT_POOLS[_page_text_group(book)]
+    page_id = str(book.get('page_id') or book.get('id page') or '').strip() or 'default'
+    recent_map = _load_recent_hooks()
+    recent = recent_map.get(page_id, [])[-RECENT_HOOKS_LIMIT:]
 
     # 70% có title, 30% insight/hook không title
     use_title = random.random() < 0.70
-    choices = pool['with_title'] if use_title else pool['insight']
-    selected = random.choice(choices)
-    return selected.format(title=title)
+    primary = pool['with_title'] if use_title else pool['insight']
+    secondary = pool['insight'] if use_title else pool['with_title']
+    candidates = primary + [x for x in secondary if x not in primary]
+
+    selected = None
+    random.shuffle(candidates)
+    for template in candidates:
+        text = template.format(title=title)
+        if text not in recent:
+            selected = text
+            break
+
+    if not selected:
+        selected = random.choice(candidates).format(title=title)
+
+    updated = [x for x in recent if x != selected] + [selected]
+    recent_map[page_id] = updated[-RECENT_HOOKS_LIMIT:]
+    _save_recent_hooks(recent_map)
+    return selected
 
 
 def build_image_prompt(book: Dict[str, str], image_text: str) -> str:
