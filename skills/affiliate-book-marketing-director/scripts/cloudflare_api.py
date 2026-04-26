@@ -8,6 +8,24 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from typing import Dict, Any
 
 
+STYLE_PRESETS = {
+    'cinematic_dark': {
+        'overlay_rgba': (8, 8, 12, 118),
+        'vignette_strength': 185,
+        'text_fill': (232, 205, 132, 250),
+        'shadow_fill': (10, 10, 12, 220),
+        'accent_glow': (214, 173, 84, 42),
+    },
+    'minimal_light': {
+        'overlay_rgba': (245, 241, 232, 72),
+        'vignette_strength': 70,
+        'text_fill': (181, 142, 58, 248),
+        'shadow_fill': (90, 74, 42, 140),
+        'accent_glow': (255, 247, 220, 52),
+    },
+}
+
+
 class CloudflareApiError(RuntimeError):
     pass
 
@@ -79,7 +97,7 @@ class CloudflareClient:
                 continue
         raise CloudflareApiError(f'Cloudflare render failed after retries: {last_err}')
 
-    def render_text_overlay(self, background_bytes: bytes, text: str, out_size: int = 1080) -> bytes:
+    def render_text_overlay(self, background_bytes: bytes, text: str, out_size: int = 1080, style: str = 'cinematic_dark') -> bytes:
         try:
             bg = Image.open(io.BytesIO(background_bytes)).convert('RGBA')
         except Exception as e:
@@ -87,8 +105,10 @@ class CloudflareClient:
 
         bg = bg.resize((out_size, out_size), Image.Resampling.LANCZOS)
 
-        # darker cinematic overlay + subtle vignette for depth
-        overlay = Image.new('RGBA', bg.size, (8, 8, 12, 105))
+        preset = STYLE_PRESETS.get(style, STYLE_PRESETS['cinematic_dark'])
+
+        # cinematic / minimal overlay + subtle vignette for depth
+        overlay = Image.new('RGBA', bg.size, preset['overlay_rgba'])
         img = Image.alpha_composite(bg, overlay)
         vignette = Image.new('L', bg.size, 0)
         vdraw = ImageDraw.Draw(vignette)
@@ -96,8 +116,19 @@ class CloudflareClient:
         vdraw.ellipse((margin, margin, out_size - margin, out_size - margin), fill=150)
         vignette = vignette.filter(ImageFilter.GaussianBlur(radius=int(out_size * 0.12)))
         vignette_rgba = Image.new('RGBA', bg.size, (0, 0, 0, 0))
-        vignette_rgba.putalpha(Image.eval(vignette, lambda px: max(0, 170 - px)))
+        vignette_rgba.putalpha(Image.eval(vignette, lambda px: max(0, preset['vignette_strength'] - px)))
         img = Image.alpha_composite(img, vignette_rgba)
+
+        # soft center glow to lift typography area
+        glow = Image.new('RGBA', bg.size, (0, 0, 0, 0))
+        gdraw = ImageDraw.Draw(glow)
+        box_w = int(out_size * 0.62)
+        box_h = int(out_size * 0.30)
+        gx0 = (out_size - box_w) // 2
+        gy0 = (out_size - box_h) // 2
+        gdraw.rounded_rectangle((gx0, gy0, gx0 + box_w, gy0 + box_h), radius=int(out_size * 0.035), fill=preset['accent_glow'])
+        glow = glow.filter(ImageFilter.GaussianBlur(radius=int(out_size * 0.035)))
+        img = Image.alpha_composite(img, glow)
         draw = ImageDraw.Draw(img)
 
         font_path = self._ensure_vn_font()
@@ -152,7 +183,7 @@ class CloudflareClient:
             (x + shadow_offset, y + shadow_offset),
             wrapped,
             font=font,
-            fill=(18, 18, 20, 210),
+            fill=preset['shadow_fill'],
             spacing=spacing,
             align='center',
         )
@@ -165,7 +196,7 @@ class CloudflareClient:
             (x, y),
             wrapped,
             font=font,
-            fill=(247, 244, 233, 248),
+            fill=preset['text_fill'],
             spacing=spacing,
             align='center',
         )
