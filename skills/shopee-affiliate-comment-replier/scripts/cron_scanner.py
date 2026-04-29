@@ -57,11 +57,13 @@ def process_posts(posts: List[Dict[str, Any]]):
                     comment_id = str(comment.get('id') or '')
                     customer_comment = str(comment.get('message') or '')
                     from_info = comment.get('from') or {}
-                    customer_id = str(from_info.get('id') or '')
+                    customer_id = str(from_info.get('id') or '') or comment_id
 
-                    if not comment_id or not customer_id:
-                        log_event('skip_comment_missing_fields', post_id=post_id, comment_id=comment_id, customer_id=customer_id)
+                    if not comment_id:
+                        log_event('skip_comment_missing_fields', post_id=post_id, comment_id=comment_id, customer_id=customer_id, customer_comment=customer_comment, from_info=from_info)
                         continue
+                    if not (from_info.get('id') or ''):
+                        log_event('customer_id_fallback_to_comment_id', post_id=post_id, comment_id=comment_id, customer_comment=customer_comment)
 
                     if customer_id == str(page['page_id']):
                         log_event('skip_page_authored_comment', post_id=post_id, comment_id=comment_id)
