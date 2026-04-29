@@ -14,8 +14,9 @@ NO_LINK_REPLY = "Dạ bạn đợi chút xíu, mình đang kiểm tra lại link
 SKIP_ALREADY_REPLIED = "__SKIP_ALREADY_REPLIED__"
 SEND_OK = "__SEND_OK__"
 
-LINK_RE = re.compile(r"(https?://(?:s\.shopee\.vn|shopee\.vn|shp\.ee|shpe\.ee)/[^\s)]+)", re.IGNORECASE)
+LINK_RE = re.compile(r'https?://(?:s\.shopee\.vn|shopee\.vn|shope\.ee|shp\.ee|shpe\.ee)/[^\s\]\[\)\(\}"\'<>]+', re.IGNORECASE)
 PHONE_RE = re.compile(r"(?:\+?84|0)(?:\d[ .-]?){8,10}")
+TRAILING_LINK_PUNCT = '.,;:!?)]}"\''
 STATE_PATH = Path(__file__).resolve().parent.parent / 'replied_customers.json'
 LOCK_PATH = Path(__file__).resolve().parent.parent / 'replied_customers.lock'
 
@@ -102,8 +103,12 @@ def mark_replied(post_id: str, customer_id: str, state: dict):
 
 
 def extract_link(post_content: str) -> str:
-    m = LINK_RE.search(post_content or "")
-    return m.group(1).strip() if m else ""
+    text = post_content or ""
+    for match in LINK_RE.finditer(text):
+        link = match.group(0).strip().rstrip(TRAILING_LINK_PUNCT)
+        if any(host in link.lower() for host in ['s.shopee.vn', 'shopee.vn', 'shope.ee', 'shp.ee', 'shpe.ee']):
+            return link
+    return ""
 
 
 def classify(comment: str) -> str:

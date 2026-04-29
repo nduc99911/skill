@@ -10,9 +10,13 @@ pycache/
 
 # Logs
 *.log
+skills/shopee-affiliate-comment-replier/scanner.log
 
 # Runtime state (queues, history, triage state, reports)
 state/
+skills/shopee-affiliate-comment-replier/replied_customers.json
+skills/shopee-affiliate-comment-replier/replied_customers.lock
+skills/shopee-affiliate-comment-replier/config/config.json
 
 # Virtual env
 .venv_aff/

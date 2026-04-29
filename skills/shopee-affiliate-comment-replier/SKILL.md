@@ -37,7 +37,10 @@ Use this skill when the user wants customer-comment replies for Shopee affiliate
 ## Deterministic generation
 Use these scripts for production:
 - `scripts/page_selector.py` — pick Meta Page interactively and save `page_id` + `page_access_token`
+- `scripts/facebook_api.py` — send threaded replies through Meta Graph API
 - `scripts/reply_builder.py` — build customer reply text
+- `scripts/cron_scanner.py` — polling scanner for recent posts/comments
+- `scripts/run_scanner.sh` — cron entry wrapper with log redirection
 
 Example:
 ```bash
@@ -48,9 +51,14 @@ python3 skills/shopee-affiliate-comment-replier/scripts/reply_builder.py \
 
 The reply script prints only final reply text.
 
-Before wiring webhook/live replies, run page selection once:
+Before live replies, run page selection once:
 ```bash
 python3 skills/shopee-affiliate-comment-replier/scripts/page_selector.py
 ```
 This fetches `/me/accounts`, shows a numbered page menu, and saves the chosen Page into:
 - `skills/shopee-affiliate-comment-replier/config/config.json`
+
+Production flow:
+1. Run `page_selector.py` once to store target Page config.
+2. Run `run_scanner.sh` on cron to poll posts/comments.
+3. `cron_scanner.py` calls `reply_builder.py` + `facebook_api.py` and relies on `replied_customers.json` to prevent duplicate replies in the same post.
