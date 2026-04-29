@@ -166,6 +166,7 @@ def resolve_affiliate_link_for_post(post_id: str, fallback_link: str) -> str:
 def main():
     cfg = get_settings()
     meta = MetaClient(cfg.meta_access_token) if cfg.meta_access_token else None
+    triage_dry_run = bool(cfg.dry_run or cfg.triage_dry_run)
 
     state = load_json(TRACK_FILE, {'seen_comment_ids': []})
     seen = set(state.get('seen_comment_ids', []))
@@ -181,89 +182,113 @@ def main():
                 r0 = rows[0]
                 affiliate_link = (r0.get('affiliate_link') or r0.get('Link Aff') or r0.get('link aff') or '').strip()
 
-    if meta:
-        pages = meta.list_pages()
-        if cfg.test_page_id:
-            pages = [p for p in pages if str(p.get('id')) == str(cfg.test_page_id)]
-        elif cfg.fb_page_id:
-            pages = [p for p in pages if str(p.get('id')) == str(cfg.fb_page_id)]
-    elif cfg.dry_run:
-        pages = [{'id': 'dryrun_page_1', 'name': 'Dry Run Page 1', 'access_token': 'dryrun_page_token'}]
-    else:
-        raise SystemExit('META_ACCESS_TOKEN missing for live mode')
+    comment_scope_ids = [x.strip() for x in (cfg.comment_scope_page_ids or '').split(',') if x.strip()]
+    if not comment_scope_ids:
+        raise SystemExit('COMMENT_SCOPE_PAGE_IDS is required for triage scope restriction')
+
+    token_map_path = ROOT / 'config' / 'page-tokens.json'
+    token_map = load_json(token_map_path, {'pages': {}}).get('pages', {})
+    pages = []
+    for pid in comment_scope_ids:
+        p = token_map.get(pid, {})
+        ptoken = (p.get('page_access_token') or '').strip()
+        if not ptoken:
+            log_error('triage_page_skip', 'missing_page_token_in_local_map', page_id=pid)
+            continue
+        pages.append({'id': pid, 'name': p.get('page_name', ''), 'access_token': ptoken})
+
+    if not pages:
+        raise SystemExit('No scoped pages available from local page-tokens.json')
 
     for page in pages:
         page_id = str(page.get('id', ''))
         page_name = page.get('name', '')
         page_token = (page.get('access_token') or '').strip()
+        log('triage_scanning_page', page_id=page_id, page_name=page_name)
         if not page_id or not page_token:
             log_error('triage_page_skip', 'missing_page_id_or_token', page=page)
             continue
 
         try:
-            if cfg.dry_run and not meta:
-                posts = [{'id': f'{page_id}_post_1'}]
-            else:
-                posts = meta.list_page_posts(page_id, page_token, limit=10).get('data', [])
-        except MetaApiError as e:
-            log_error('triage_posts_fetch_failed', str(e), page_id=page_id, page_name=page_name)
-            continue
-
-        for p in posts:
-            post_id = p.get('id', '')
-            if not post_id:
-                continue
             try:
-                if cfg.dry_run and not meta:
-                    comments = [
-                        {'id': f'{post_id}_c1', 'message': 'Xin link giúp mình'},
-                        {'id': f'{post_id}_c2', 'message': 'Bài hay quá'},
-                    ]
+                if triage_dry_run and not meta:
+                    posts = [{'id': f'{page_id}_post_1'}]
                 else:
-                    comments = meta.get_post_comments(post_id, page_token, limit=100).get('data', [])
+                    posts = meta.list_page_posts(page_id, page_token, limit=10).get('data', [])
             except MetaApiError as e:
-                log_error('triage_comments_fetch_failed', str(e), page_id=page_id, page_name=page_name, post_id=post_id)
+                log_error('triage_posts_fetch_failed', str(e), page_id=page_id, page_name=page_name)
                 continue
 
-            for c in comments:
-                cid = c.get('id', '')
-                msg = c.get('message', '')
-                if not cid or cid in seen:
+            for p in posts:
+                post_id = p.get('id', '')
+                if not post_id:
+                    continue
+                try:
+                    if triage_dry_run and not meta:
+                        comments = [
+                            {'id': f'{post_id}_c1', 'message': 'Xin link giúp mình', 'from': {'name': 'DryRun User 1'}},
+                            {'id': f'{post_id}_c2', 'message': 'Bài hay quá', 'from': {'name': 'DryRun User 2'}},
+                        ]
+                    else:
+                        comments = meta.get_post_comments(post_id, page_token, limit=100).get('data', [])
+                except MetaApiError as e:
+                    log_error('triage_comments_fetch_failed', str(e), page_id=page_id, page_name=page_name, post_id=post_id)
                     continue
 
-                intent = classify(msg)
-                try:
-                    resolved_link = resolve_affiliate_link_for_post(post_id, affiliate_link)
+                for c in comments:
+                    cid = c.get('id', '')
+                    msg = c.get('message', '')
+                    from_info = c.get('from') or {}
+                    commenter_name = from_info.get('name', '')
+                    commenter_id = str(from_info.get('id', '') or '')
+                    if not cid or cid in seen:
+                        continue
+                    if commenter_id == page_id or (commenter_name and commenter_name.strip().lower() == page_name.strip().lower()):
+                        log('triage_skipped', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, reason='page_authored_comment')
+                        seen.add(cid)
+                        continue
 
-                    if intent == 'buy_intent' and resolved_link:
-                        public_text = f'Dạ sách đang có ưu đãi, bạn đặt mua chính hãng tại link này nhé: {resolved_link}'
-                        if not cfg.dry_run:
-                            meta.create_comment(cid, page_token, public_text)
-                        log('triage_buy_intent_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, private_reply=False, mode='dry_run' if cfg.dry_run else 'live', strategy='public_reply_only_threaded')
+                    intent = classify(msg)
+                    try:
+                        resolved_link = resolve_affiliate_link_for_post(post_id, affiliate_link)
 
-                    elif intent == 'buy_intent' and not resolved_link:
-                        # Link trống/NONE -> tuyệt đối không chốt đơn bằng link lỗi; chuyển sang tư vấn casual.
-                        reply_text = 'Cảm ơn bạn quan tâm nha. Bài này mình đang cập nhật link đặt mua, mình sẽ gửi thông tin phù hợp sớm cho bạn nhé 🙏'
-                        if not cfg.dry_run:
-                            meta.create_comment(cid, page_token, reply_text)
-                        log('triage_buy_intent_downgraded_to_casual', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, mode='dry_run' if cfg.dry_run else 'live', reason='blank_or_none_affiliate_link')
+                        if intent == 'buy_intent' and resolved_link:
+                            public_text = f'Dạ sách đang có ưu đãi, bạn đặt mua chính hãng tại link này nhé: {resolved_link}'
+                            if triage_dry_run:
+                                log('triage_read_only_preview', page_id=page_id, page_name=page_name, post_id=post_id, comment_id=cid, commenter_name=commenter_name, comment_text=msg, reply_preview=public_text, intent=intent)
+                            else:
+                                meta.create_comment(cid, page_token, public_text)
+                            log('triage_buy_intent_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, private_reply=False, mode='dry_run' if triage_dry_run else 'live', strategy='public_reply_only_threaded')
 
-                    elif intent == 'casual':
-                        reply_text = dynamic_reply(msg)
-                        if not cfg.dry_run:
-                            meta.create_comment(cid, page_token, reply_text)
-                        log('triage_casual_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, mode='dry_run' if cfg.dry_run else 'live', reply_preview=reply_text[:180], strategy='threaded_reply')
+                        elif intent == 'buy_intent' and not resolved_link:
+                            reply_text = 'Cảm ơn bạn quan tâm nha. Bài này mình đang cập nhật link đặt mua, mình sẽ gửi thông tin phù hợp sớm cho bạn nhé 🙏'
+                            if triage_dry_run:
+                                log('triage_read_only_preview', page_id=page_id, page_name=page_name, post_id=post_id, comment_id=cid, commenter_name=commenter_name, comment_text=msg, reply_preview=reply_text, intent='casual_downgraded')
+                            else:
+                                meta.create_comment(cid, page_token, reply_text)
+                            log('triage_buy_intent_downgraded_to_casual', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, mode='dry_run' if triage_dry_run else 'live', reason='blank_or_none_affiliate_link')
 
-                    elif intent == 'negative_or_spam':
-                        log('triage_skipped', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, reason='negative_or_spam')
+                        elif intent == 'casual':
+                            reply_text = dynamic_reply(msg)
+                            if triage_dry_run:
+                                log('triage_read_only_preview', page_id=page_id, page_name=page_name, post_id=post_id, comment_id=cid, commenter_name=commenter_name, comment_text=msg, reply_preview=reply_text, intent=intent)
+                            else:
+                                meta.create_comment(cid, page_token, reply_text)
+                            log('triage_casual_handled', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, mode='dry_run' if triage_dry_run else 'live', reply_preview=reply_text[:180], strategy='threaded_reply')
 
-                    else:
-                        log('triage_skipped', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, reason=intent)
+                        elif intent == 'negative_or_spam':
+                            log('triage_skipped', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, reason='negative_or_spam')
 
-                except Exception as e:
-                    log_error('triage_comment_handle_failed', str(e), page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id)
+                        else:
+                            log('triage_skipped', page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id, reason=intent)
 
-                seen.add(cid)
+                    except Exception as e:
+                        log_error('triage_comment_handle_failed', str(e), page_id=page_id, page_name=page_name, comment_id=cid, post_id=post_id)
+
+                    seen.add(cid)
+        except Exception as e:
+            log_error('triage_page_error', str(e), page_id=page_id, page_name=page_name)
+            continue
 
     save_json(TRACK_FILE, {'seen_comment_ids': list(seen)})
     log('triage_done', tracked_comments=len(seen))

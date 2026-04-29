@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-25T00:00:57.716Z",
+  "updatedAt": "2026-04-28T00:22:06.487Z",
   "entries": {
     "memory:memory/2026-04-19.md:1:31": {
       "key": "memory:memory/2026-04-19.md:1:31",
@@ -9,21 +9,23 @@
       "endLine": 31,
       "source": "memory",
       "snippet": "# 2026-04-19 - Facebook Automation & Strategy ## Facebook Auto-Posting Workflow ### Setup Complete - **Scheduler**: `/root/.openclaw/workspace/scripts/dang-facebook-tu-dong.sh` - **Executor**: `/root/.openclaw/workspace/scripts/thuc-thi-dang-bai.sh` - **Google Sheet**: `1fCY0TLJnNDoTyfitNkiGHS44AwEHY2e4Rtnx7Gz4IBg` - **Cron**: Runs daily at 07:00 Asia/Ho_Chi_Minh to queue jobs via `at` ### Key Fixes Applied 1. **Timezone bug**: `at` runs in UTC, but schedule is in Hanoi time. Fixed by converting Hanoi → UTC before passing to `at -t`. 2. **CSV parsing**: Switched to Python `csv.DictReader` to handle quoted fields correctly (e.g., `\"1,2\"` for multiple pages). 3. **Follow redirect**: Added `",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.4890486314892768,
+      "totalScore": 1.9840169236063956,
       "maxScore": 0.5259823635220527,
       "firstRecalledAt": "2026-04-20T12:33:43.592Z",
-      "lastRecalledAt": "2026-04-21T13:16:42.065Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
       "queryHashes": [
         "27fbf968d84f",
         "447b58f5e14e",
-        "277f22b14393"
+        "277f22b14393",
+        "15a763701378"
       ],
       "recallDays": [
         "2026-04-20",
-        "2026-04-21"
+        "2026-04-21",
+        "2026-04-28"
       ],
       "conceptTags": [
         "auto-posting",
@@ -43,21 +45,25 @@
       "endLine": 23,
       "source": "memory",
       "snippet": "# Memory Flush - 2026-04-17 - **User Information:** - Name: Đức Nguyễn (duck020201) - Projects: Facebook Affiliate Marketing (mainly books). - Credentials Stored (Session-based): Cloudflare Workers AI Token, Cloudflare Account ID (ebb062841f91f8fdb5af21b812e9cbd0), Facebook User Access Tokens (rotating). - **Skills Created/Updated:** - `book-affiliate-fb`: A specialized skill for creating and posting book content to Facebook. - **Mode AFF**: Value-first sales posts with affiliate links in comments. - **Mode VIRAL**: High-engagement, non-sales posts (Quote, Listicle, Storytelling formats). - **Visuals**: Integrates Cloudflare Workers AI for image generation when primary",
-      "recallCount": 3,
+      "recallCount": 5,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.4055853873491286,
+      "totalScore": 2.3640773266553876,
       "maxScore": 0.49609475731849667,
       "firstRecalledAt": "2026-04-20T12:33:43.592Z",
-      "lastRecalledAt": "2026-04-23T14:00:57.664Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
       "queryHashes": [
         "27fbf968d84f",
         "447b58f5e14e",
-        "9f63ad8c7352"
+        "9f63ad8c7352",
+        "89badd17027c",
+        "15a763701378"
       ],
       "recallDays": [
         "2026-04-20",
-        "2026-04-23"
+        "2026-04-23",
+        "2026-04-27",
+        "2026-04-28"
       ],
       "conceptTags": [
         "session-based",
@@ -77,23 +83,25 @@
       "endLine": 69,
       "source": "memory",
       "snippet": "- **20:00 task**: `at` job still in queue at 20:00 due to timezone mismatch. Posted manually at 20:04 HN time. ### Page Mappings 1. `1135415682984698` - Triết lý người xưa 2. `1099385626592219` - Triết Lý Cổ Nhân 3. `1077631882095947` - Tủ Sách Thay Đổi Tư Duy 4. `1124935547358731` - Trạm Đọc Chữa Lành 5-10. Additional commerce/music pages available ### Content Modes - **AFF**: Book affiliate posts, link in first comment - **VIRAL**: High engagement, non-sales tone - **ENGAGE**: Pure share/comment bait, no selling ## Page 4 Strategy (Trạm Đọc Chữa Lành) ### Positioning - Healing + reflection + light self-growth - \"Reading to calm down\" not \"teaching life\" - Safe, warm, intimate vibe ###",
-      "recallCount": 4,
+      "recallCount": 5,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.9695502519607542,
+      "totalScore": 2.441504707932472,
       "maxScore": 0.5038657754659652,
       "firstRecalledAt": "2026-04-20T12:33:43.592Z",
-      "lastRecalledAt": "2026-04-25T00:00:57.716Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
       "queryHashes": [
         "27fbf968d84f",
         "447b58f5e14e",
         "277f22b14393",
-        "72d1ac736c54"
+        "72d1ac736c54",
+        "15a763701378"
       ],
       "recallDays": [
         "2026-04-20",
         "2026-04-21",
-        "2026-04-25"
+        "2026-04-25",
+        "2026-04-28"
       ],
       "conceptTags": [
         "5-10",
@@ -113,20 +121,22 @@
       "endLine": 73,
       "source": "memory",
       "snippet": "- Evening: 20:00-22:00 (strongest for healing content) ## Image Generation Improvements Updated prompt logic in executor script: - **Generic**: Calm inspirational social media illustration - **Philosophy/Ancient wisdom**: Scholar silhouette, bamboo scrolls, dawn, serene - **Healing**: Soft warm light, calm water, lotus, peaceful - **Book-specific prompts**: Added detailed prompts for popular titles (Đắc nhân tâm, Không diệt không sinh, Muôn kiếp nhân sinh, etc.) Goal: Images now more SEO-friendly and contextually relevant to book topics.",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9374769806861877,
+      "totalScore": 1.3983729809522627,
       "maxScore": 0.48078864514827724,
       "firstRecalledAt": "2026-04-21T13:16:42.065Z",
-      "lastRecalledAt": "2026-04-23T14:00:57.664Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
       "queryHashes": [
         "277f22b14393",
-        "9f63ad8c7352"
+        "9f63ad8c7352",
+        "15a763701378"
       ],
       "recallDays": [
         "2026-04-21",
-        "2026-04-23"
+        "2026-04-23",
+        "2026-04-28"
       ],
       "conceptTags": [
         "00-22",
@@ -146,20 +156,22 @@
       "endLine": 12,
       "source": "memory",
       "snippet": "- User is building a Facebook affiliate-book automation system and insists on planner-first safety: keep `publish_mode=false`, no Facebook API publish calls, and no `publisher.py` until explicit approval. - User selected the 5 real pages to use going forward (from refreshed page list): 1) Trạm đọc chữa lành (`1051178364752250`) 2) Mỗi ngày một cuốn sách (`992938690579642`) 3) Triết Lý Cổ Nhân (`1129939793529788`) 4) Sự Thật Là (`1124354747418012`) 5) Tủ Sách Thay Đổi Tư Duy (`1077631882095947`) - `config/pages.json` was updated to those 5 pages with fields: `internal_page_key`, `page_name`, `facebook_page_id`, `publish_enabled`, `persona`, `audience`, `time_slots`, `categories`, `h",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9311969637870788,
+      "totalScore": 1.4041166871786117,
       "maxScore": 0.4878417730331421,
       "firstRecalledAt": "2026-04-23T14:00:57.664Z",
-      "lastRecalledAt": "2026-04-25T00:00:57.716Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
       "queryHashes": [
         "9f63ad8c7352",
-        "72d1ac736c54"
+        "72d1ac736c54",
+        "15a763701378"
       ],
       "recallDays": [
         "2026-04-23",
-        "2026-04-25"
+        "2026-04-25",
+        "2026-04-28"
       ],
       "conceptTags": [
         "affiliate-book",
@@ -170,6 +182,165 @@
         "internal-page-key",
         "page-name",
         "facebook-page-id"
+      ]
+    },
+    "memory:memory/2026-04-24.md:1:10": {
+      "key": "memory:memory/2026-04-24.md:1:10",
+      "path": "memory/2026-04-24.md",
+      "startLine": 1,
+      "endLine": 10,
+      "source": "memory",
+      "snippet": "- User requested to abandon current Facebook affiliate automation skill/cron after poor image quality incidents and rebuild from scratch. - New skill created: `skills/affiliate-book-marketing-director/SKILL.md` with role as AI Marketing Director for multi-platform Affiliate Books (Facebook + Instagram), including morning trend posting, continuous comment/inbox CRO handling, Friday minigame mode, and Sunday weekly report. - Implemented executable scripts under `skills/affiliate-book-marketing-director/scripts/`: - `config.py`, `logger.py`, `meta_api.py`, `cloudflare_api.py`, `books_source.py`, `trend_scanner.py`, `content_engine.py` - runners: `run_morning_pipeline.py`, `run_comment_triag",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.9610220789909363,
+      "maxScore": 0.49730629622936245,
+      "firstRecalledAt": "2026-04-27T01:47:54.205Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
+      "queryHashes": [
+        "89badd17027c",
+        "15a763701378"
+      ],
+      "recallDays": [
+        "2026-04-27",
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "skill/cron",
+        "multi-platform",
+        "comment/inbox",
+        "config.py",
+        "logger.py",
+        "meta-api.py",
+        "cloudflare-api.py",
+        "books-source.py"
+      ]
+    },
+    "memory:memory/2026-04-24.md:9:17": {
+      "key": "memory:memory/2026-04-24.md:9:17",
+      "path": "memory/2026-04-24.md",
+      "startLine": 9,
+      "endLine": 17,
+      "source": "memory",
+      "snippet": "- Safety/ops preference remains: keep robust logging for troubleshooting (`state/affiliate_marketing.log`, `state/affiliate_marketing_error.log`) and avoid hardcoded tokens; use runtime/session env vars. - User requested to abandon current Facebook affiliate automation skill/cron after poor image quality incidents and rebuild from scratch. - New skill created: `skills/affiliate-book-marketing-director/SKILL.md` with role as AI Marketing Director for multi-platform Affiliate Books (Facebook + Instagram), including morning trend posting, continuous comment/inbox CRO handling, Friday minigame mode, and Sunday weekly report. - Implemented executable scripts under `skills/affiliate-book-marketing",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.9609360456466673,
+      "maxScore": 0.4966239750385284,
+      "firstRecalledAt": "2026-04-27T01:47:54.205Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
+      "queryHashes": [
+        "89badd17027c",
+        "15a763701378"
+      ],
+      "recallDays": [
+        "2026-04-27",
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "safety/ops",
+        "state/affiliate-marketing.log",
+        "runtime/session",
+        "skill/cron",
+        "multi-platform",
+        "comment/inbox",
+        "skills/affiliate-book-marketing",
+        "safety"
+      ]
+    },
+    "memory:memory/2026-04-26.md:1:4": {
+      "key": "memory:memory/2026-04-26.md:1:4",
+      "path": "memory/2026-04-26.md",
+      "startLine": 1,
+      "endLine": 4,
+      "source": "memory",
+      "snippet": "- Implemented smart randomized image-text engine anti-repeat memory for affiliate-book-marketing-director: added persistent state file `state/recent_hooks.json`, per-page memory of recent 3 hooks, 70/30 title-vs-insight selection, and anti-repeat redraw/update flow in `scripts/content_engine.py`. Committed/pushed as `7afe955` (`feat: add smart anti-repeat memory for randomized text engine`). - Incident on 2026-04-26 around 12:01 ICT: system incorrectly published overdue book post despite intended schedule only at 09:00, 10:30, 15:00, 20:00. Affected item: `Binh Pháp Tôn Tử`, queue_id `2026-04-26_1129939793529788_7_3`, post_id `1129939793529788_122097088658555812`, originally scheduled for `2",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4845226466655731,
+      "maxScore": 0.4845226466655731,
+      "firstRecalledAt": "2026-04-28T00:22:06.487Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
+      "queryHashes": [
+        "15a763701378"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "image-text",
+        "anti-repeat",
+        "state/recent-hooks.json",
+        "per-page",
+        "70/30",
+        "title-vs-insight",
+        "redraw/update",
+        "scripts/content-engine.py"
+      ]
+    },
+    "memory:memory/2026-04-23.md:1:31": {
+      "key": "memory:memory/2026-04-23.md:1:31",
+      "path": "memory/2026-04-23.md",
+      "startLine": 1,
+      "endLine": 31,
+      "source": "memory",
+      "snippet": "# Memory - 2026-04-23 ## Facebook affiliate automation updates (durable decisions) - User enforced mandatory caption style mix across system outputs: - STYLE 1 review cá nhân: 60% - STYLE 2 direct sell: 25% - STYLE 3 list/viral: 15% - Caption constraints reinforced: - Hook must vary between posts; avoid single-template repetition. - Forbidden machine phrases include: \"Gợi ý nhanh…\", \"Cuốn sách này giúp…\". - Each caption must include: 1 concrete problem, 1 concrete benefit/insight, and 1 clear target audience. - STYLE 1 must use mình/bạn voice with personal experience. - STYLE 2 must be direct on benefits and target segment. - STYLE 3 must include clear list structure and h",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.47569187879562375,
+      "maxScore": 0.47569187879562375,
+      "firstRecalledAt": "2026-04-28T00:22:06.487Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
+      "queryHashes": [
+        "15a763701378"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "list/viral",
+        "single-template",
+        "benefit/insight",
+        "mình/bạn",
+        "facebook",
+        "affiliate",
+        "automation",
+        "updates"
+      ]
+    },
+    "memory:memory/2026-04-25.md:1:22": {
+      "key": "memory:memory/2026-04-25.md:1:22",
+      "path": "memory/2026-04-25.md",
+      "startLine": 1,
+      "endLine": 22,
+      "source": "memory",
+      "snippet": "# 2026-04-25 - Built and operationalized `skills/affiliate-book-marketing-director` with live-tested comment triage improvements: - Removed private reply flow due to repeated Meta permission/API failures (`/private_replies`, code 100 subcode 33). - Enforced public threaded replies via comment endpoint (`/{comment_id}/comments`). - Added intent routing: `buy_intent` (link reply), `casual` (context reply), `negative_or_spam` (skip). - Added affiliate-link safety: if link is blank/`NONE`, downgrade buy-intent to casual (no broken-link posting). - Dispatch robustness and observability improved: - Added graceful fallback publish mode when Cloudflare creds are missing. - Added Telegr",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4621590673923492,
+      "maxScore": 0.4621590673923492,
+      "firstRecalledAt": "2026-04-28T00:22:06.487Z",
+      "lastRecalledAt": "2026-04-28T00:22:06.487Z",
+      "queryHashes": [
+        "15a763701378"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "live-tested",
+        "permission/api",
+        "private-replies",
+        "comment-id",
+        "buy-intent",
+        "negative-or-spam",
+        "affiliate-link",
+        "broken-link"
       ]
     }
   }

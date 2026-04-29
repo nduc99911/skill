@@ -28,6 +28,8 @@ class Settings:
     test_page_id: str = os.getenv('TEST_PAGE_ID', '')
     dry_run: bool = os.getenv('DRY_RUN', '1') == '1'
     books_scope_page_ids: str = os.getenv('BOOK_SCOPE_PAGE_IDS', BOOK_SCOPE_DEFAULT)
+    comment_scope_page_ids: str = os.getenv('COMMENT_SCOPE_PAGE_IDS', '')
+    triage_dry_run: bool = os.getenv('TRIAGE_DRY_RUN', '0') == '1'
 
     # Operational rules
     min_publish_interval_minutes: int = int(os.getenv('MIN_PUBLISH_INTERVAL_MINUTES', '60'))
